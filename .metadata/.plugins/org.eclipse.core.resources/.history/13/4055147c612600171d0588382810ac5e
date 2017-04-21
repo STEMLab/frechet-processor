@@ -1,6 +1,0 @@
-package goLA.model;
-
-public class Trajectory {
-	public String id;
-	public List<Coord<Double, Double>> coords;
-}

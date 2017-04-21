@@ -1,8 +1,0 @@
-package goLA.model;
-
-import java.util.HashMap;
-
-public class TrajectoriesImpl implements Trajectories{
-
-	private HashMap<Int, List<Int, Int>> t_map;
-}

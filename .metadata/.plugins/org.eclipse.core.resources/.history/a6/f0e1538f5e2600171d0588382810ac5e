@@ -1,5 +1,0 @@
-package goLA.model;
-
-public interface Trajectories {
-	public void addTrajectory(String a, List<Coord<Double,Double>> coord_list);
-}

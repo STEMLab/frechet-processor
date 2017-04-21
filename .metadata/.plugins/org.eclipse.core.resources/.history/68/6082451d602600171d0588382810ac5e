@@ -1,7 +1,0 @@
-package goLA.test;
-
-import goLA.io.DataExporter;
-
-public class DataExporterImpl implements DataExporter {
-
-}

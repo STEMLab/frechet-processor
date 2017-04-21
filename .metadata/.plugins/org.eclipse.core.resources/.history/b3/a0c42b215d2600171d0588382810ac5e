@@ -1,5 +1,0 @@
-package goLA.model;
-
-public interface Trajectories {
-	public void addTrajectory(int a, Coord<Integer,Integer> coord);
-}
