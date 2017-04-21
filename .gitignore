@@ -1,3 +1,5 @@
 *.pdf
 files/
+.metadata/
+.recommenders/
 
