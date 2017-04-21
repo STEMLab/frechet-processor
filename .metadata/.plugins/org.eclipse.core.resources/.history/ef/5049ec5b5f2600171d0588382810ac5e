@@ -1,0 +1,21 @@
+package goLA.test;
+
+import java.io.*;
+
+import goLA.io.*;
+import goLA.manage.*;
+
+public class demo {
+
+	public static void main(String[] args) {
+		
+		String src_path = "../files/dataset.txt";
+		
+		Manager manager = new ManagerImpl();
+		DataImporter dii = new DataImporterImpl();
+		
+		
+
+	}
+
+}

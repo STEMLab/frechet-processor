@@ -1,0 +1,10 @@
+package goLA.manage;
+
+import goLA.io.DataImporter;
+
+public interface Manager {
+	
+	public void setImporter(DataImporter dti);
+	
+	
+}

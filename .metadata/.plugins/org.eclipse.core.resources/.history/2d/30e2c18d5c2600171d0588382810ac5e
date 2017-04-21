@@ -1,0 +1,23 @@
+package goLA.model;
+
+import java.util.HashMap;
+import java.util.List;
+
+public class TrajectoriesImpl implements Trajectories{
+	
+	public class Coord<X,Y> {
+	    private X l;
+	    private Y r;
+	    public Coord(X l, Y r){
+	        this.l = l;
+	        this.r = r;
+	    }
+	    public X getL(){ return l; }
+	    public Y getR(){ return r; }
+	    public void setL(X l){ this.l = l; }
+	    public void setR(Y r){ this.r = r; }
+	}
+	
+
+	private HashMap<Integer, List<Coord<Integer, Integer>>> t_map;
+}

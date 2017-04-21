@@ -1,0 +1,7 @@
+package goLA.io;
+
+public class DataImporterImpl implements DataImporter {
+
+	
+	
+}

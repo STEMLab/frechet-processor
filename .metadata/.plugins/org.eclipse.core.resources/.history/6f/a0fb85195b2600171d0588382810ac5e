@@ -1,0 +1,25 @@
+package goLA.manage;
+
+import goLA.io.*;
+
+public class ManagerImpl implements Manager{
+	private DataImporter dataimporter;
+	
+	public ManagerImpl(){
+		
+	}
+	
+	@Override
+	public void setImporter(DataImporter dti){
+		dataimporter = dti;
+	}
+
+	@Override
+	public void makeStructure() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+		
+}

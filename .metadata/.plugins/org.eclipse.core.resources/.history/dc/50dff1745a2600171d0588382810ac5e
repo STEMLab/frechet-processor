@@ -1,0 +1,16 @@
+package goLA.manage;
+
+import goLA.io.*;
+
+public class ManagerImpl {
+	private DataImporter dataimporter;
+	
+	public ManagerImpl(){
+		
+	}
+	
+	public void setImporter(DataImporter dti){
+		dataimporter = dti;
+	}
+		
+}

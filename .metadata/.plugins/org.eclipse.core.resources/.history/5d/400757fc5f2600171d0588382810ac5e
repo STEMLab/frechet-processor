@@ -1,0 +1,14 @@
+package goLA.manage;
+
+import java.util.List;
+
+import goLA.io.DataImporter;
+
+public interface Manager {
+	
+	public void setImporter(DataImporter dti);
+	
+	public void makeStructure(String src_path);
+	
+	public List<String> findResult(String query_path);
+}

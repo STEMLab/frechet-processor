@@ -1,0 +1,7 @@
+package goLA.model;
+
+import java.util.List;
+
+public interface Trajectories {
+	public void addTrajectory(String a, Trajectory coords);
+}

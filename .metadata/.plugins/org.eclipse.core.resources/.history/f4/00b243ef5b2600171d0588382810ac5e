@@ -1,0 +1,6 @@
+package goLA.model;
+
+public class TrajectoriesImpl implements Trajectories{
+
+	private Map<int, List<int, int>> t_map;
+}

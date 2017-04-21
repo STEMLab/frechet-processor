@@ -1,0 +1,17 @@
+package goLA.model;
+
+import java.util.HashMap;
+
+public class TrajectoriesImpl implements Trajectories{
+	
+	private HashMap<Integer, Trajectory> t_map;
+
+	@Override
+	public void addTrajectory(String a, Trajectory coords) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+	
+}
