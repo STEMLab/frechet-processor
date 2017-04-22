@@ -2,4 +2,7 @@
 files/
 .metadata/
 .recommenders/
-
+.idea/
+goLA/.classpath
+goLA/.project
+goLA/.settings
