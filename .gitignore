@@ -1,8 +1,16 @@
-*.pdf
+# all data of trajectories must be hold on PC hard drive, in order to avoid huge size of project
 files/
+
 .metadata/
+
 .recommenders/
+
+# ignore intellij IDEA files
 .idea/
+output
+
+#ignore Eclipse files
 goLA/.classpath
 goLA/.project
 goLA/.settings
+
