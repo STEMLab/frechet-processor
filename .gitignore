@@ -4,6 +4,9 @@ files/
 # ignore compiled classes
 bin/
 
+# ignore compiled classes
+target/
+
 .metadata/
 
 .recommenders/
