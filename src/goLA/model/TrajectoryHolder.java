@@ -9,4 +9,8 @@ public class TrajectoryHolder {
     public void addTrajectory(String a, Trajectory coords) {
         trajectories.put(a, coords);
     }
+
+    public int size() {
+        return trajectories.size();
+    }
 }

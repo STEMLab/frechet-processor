@@ -18,6 +18,7 @@ public class demo {
 
         //get all data trajectories
         TrajectoryHolder trajectories = manager.getTrajectoryHolder();
+        System.out.println("Loaded trajectories: " + trajectories.size());
         //List<List<String>> result = manager.findResult(query_path);
 
         //manager.printResult(dx, result);
