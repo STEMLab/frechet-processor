@@ -15,12 +15,26 @@ public class TrajectoryHolder {
 
     private HashMap<String, Trajectory> trajectories = new HashMap<>();
 
-    public void addTrajectory(String a, Trajectory coords) {
+    public HashMap<String, Trajectory> getTrajectories() {
+		return trajectories;
+	}
+
+	public void setTrajectories(HashMap<String, Trajectory> trajectories) {
+		this.trajectories = trajectories;
+	}
+
+	public void addTrajectory(String a, Trajectory coords) {
         trajectories.put(a, coords);
     }
 
     public int size() {
         return trajectories.size();
+    }
+    
+    public void printAllTrajectory(){
+    	for (String key : trajectories.keySet()){
+    		System.out.println(key);
+    	}
     }
 
     public List<TrajectoryQuery> getQueryTrajectory(String query_path) {
@@ -34,7 +48,7 @@ public class TrajectoryHolder {
     			double dist = Double.parseDouble(lines[1]);
     			
     			if (q_tr == null){
-    				new CustomException("Error");
+    				new CustomException("getQueryTrajectory : " + lines[0] + " does not exist");
     			}
     			
     			TrajectoryQuery temp = new TrajectoryQuery(q_tr, dist);
