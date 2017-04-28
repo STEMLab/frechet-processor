@@ -9,7 +9,7 @@ public interface Manager {
 
     void makeStructure(String path);
 
-    List<List<String>> findResult(String query_path);
+    List<TrajectoryHolder> findResult(String query_path);
 
     void printResult(DataExporter dx, List<List<String>> result);
 

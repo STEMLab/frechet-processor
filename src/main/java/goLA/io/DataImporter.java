@@ -20,7 +20,6 @@ public class DataImporter {
 
         try (Stream<String> stream = Files.lines(Paths.get(src))) {
             stream.forEach(e -> {
-            			System.out.println(e);
                         Trajectory trajectory = new Trajectory();
                         trajectory.setCoordinates(getCoordList(e));
                         trajectoryHolder.addTrajectory(e, trajectory);
