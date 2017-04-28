@@ -2,14 +2,13 @@ package goLA.manage;
 
 import goLA.io.DataExporter;
 import goLA.io.DataImporter;
-import goLA.io.DataImporterImpl;
 import goLA.model.TrajectoryHolder;
 
 import java.util.List;
 
 public class ManagerImpl implements Manager {
 
-    private DataImporter di = new DataImporterImpl();
+    private DataImporter di = new DataImporter();
     private TrajectoryHolder trajectoryHolder = new TrajectoryHolder();
 
     @Override

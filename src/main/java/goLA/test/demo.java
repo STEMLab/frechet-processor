@@ -12,13 +12,13 @@ public class demo {
         String query_path = "files/queries.txt";
 
         Manager manager = new ManagerImpl();
-        //DataExporter dx = new DataExporterImpl();
 
         manager.makeStructure(src_path);
 
         //get all data trajectories
         TrajectoryHolder trajectories = manager.getTrajectoryHolder();
         System.out.println("Loaded trajectories: " + trajectories.size());
+        
         //List<List<String>> result = manager.findResult(query_path);
 
         //manager.printResult(dx, result);
