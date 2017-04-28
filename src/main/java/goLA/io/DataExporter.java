@@ -1,5 +1,5 @@
 package goLA.io;
 
-public interface DataExporter {
+public class DataExporter {
 
 }
