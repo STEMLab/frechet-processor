@@ -11,7 +11,5 @@ public interface Manager {
 
     List<TrajectoryHolder> findResult(String query_path);
 
-    void printResult(DataExporter dx, List<List<String>> result);
-
     TrajectoryHolder getTrajectoryHolder();
 }

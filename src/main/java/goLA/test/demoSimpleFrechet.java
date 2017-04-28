@@ -24,7 +24,10 @@ public class demoSimpleFrechet {
         
         List<TrajectoryHolder> result = manager.findResult(query_path);
 
-        //manager.printResult(dx, result);
+        for (int index = 0 ; index < result.size() ; index++){
+        	System.out.println("---- " + index + " ------");
+        	result.get(index).printAllTrajectory();
+        }
     }
 
 }

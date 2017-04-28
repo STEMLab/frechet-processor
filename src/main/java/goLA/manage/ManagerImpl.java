@@ -17,6 +17,7 @@ public class ManagerImpl implements Manager {
     private TrajectoryHolder trajectoryHolder = new TrajectoryHolder();
     private QueryProcessor q_processor;
     
+    //Determine How to calculate Query by using constructor parameter
     public ManagerImpl(QueryProcessor qp_impl){
     	q_processor = qp_impl;
     	di = new DataImporter();
@@ -38,12 +39,6 @@ public class ManagerImpl implements Manager {
     	}
 
         return result;
-    }
-
-    @Override
-    public void printResult(DataExporter dx, List<List<String>> result) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
