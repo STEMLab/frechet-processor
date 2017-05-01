@@ -33,10 +33,10 @@ public class ManagerImpl implements Manager {
     public List<TrajectoryHolder> findResult(String query_path) {
     	List<TrajectoryHolder> result = new ArrayList<>();
     	List<TrajectoryQuery> query = trajectoryHolder.getQueryTrajectory(query_path);
-    	
-    	for (int i = 0 ; i < query.size() ; i++){
-    		result.add(q_processor.findTrajectoriesFrom(query.get(i) , trajectoryHolder));
-    	}
+
+        query.forEach(q -> {
+            result.add(q_processor.findTrajectoriesFrom(q , trajectoryHolder));
+        });
 
         return result;
     }

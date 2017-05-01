@@ -1,5 +1,7 @@
 package goLA.test;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 
 import goLA.compute.*;
@@ -10,6 +12,8 @@ import goLA.model.TrajectoryHolder;
 public class demoSimpleFrechet {
 
     public static void main(String[] args) {
+
+        Instant start = Instant.now();
 
         String src_path = "files/dataset.txt";
         String query_path = "files/queries.txt";
@@ -28,6 +32,10 @@ public class demoSimpleFrechet {
         	System.out.println("---- " + index + " ------");
         	result.get(index).printAllTrajectory();
         }
+
+        Instant end = Instant.now();
+
+        System.out.println("\nProgram execution time : "+ Duration.between(start, end));
     }
 
 }

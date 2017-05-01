@@ -14,6 +14,7 @@ target/
 # ignore intellij IDEA files
 .idea/
 output
+goLA.iml
 
 #ignore Eclipse files
 goLA/.classpath

@@ -15,12 +15,10 @@ public class SimpleFrechet implements QueryProcessor {
 		TrajectoryHolder result = new TrajectoryHolder();
 		
 		HashMap<String, Trajectory> trajectories = trh.getTrajectories();
-		
-		for (String key : trajectories.keySet() ){
-			Trajectory target = trajectories.get(key);
-			boolean is_shorter = decideIn_FDist(query.q_tr, target, query.dist);
-			if(is_shorter) result.addTrajectory(key, target);
-		}
+
+		trajectories.forEach((key,value)->{
+			if(decideIn_FDist(query.q_tr, value, query.dist)) result.addTrajectory(key, value);
+		});
 		
 		return result;
 	}
