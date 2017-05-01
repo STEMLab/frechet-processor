@@ -37,7 +37,7 @@ public class DataImporter {
     private List<Coordinates<Double, Double>> getCoordList(String s) {
 
         //TODO: remove in future
-        String temp = "files/" + s;
+        String temp = s;
         List<Coordinates<Double, Double>> list = new ArrayList<>();
 
         try (Stream<String> stream = Files.lines(Paths.get(temp)).skip(1)) {

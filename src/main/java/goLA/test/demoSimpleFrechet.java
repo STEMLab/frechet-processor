@@ -14,9 +14,10 @@ public class demoSimpleFrechet {
     public static void main(String[] args) {
 
         Instant start = Instant.now();
-
-        String src_path = "files/dataset.txt";
-        String query_path = "files/queries.txt";
+        System.out.println("start");
+        
+        String src_path = "dataset.txt";
+        String query_path = "queries.txt";
 
         Manager manager = new ManagerImpl(new SimpleFrechet());
 
