@@ -20,7 +20,7 @@ public class DataExporter {
                 entry.getKey())
                 .collect(Collectors.joining("\n"));
 
-        Path path = Paths.get("result-" + number + ".txt");
+        Path path = Paths.get(String.format("result-%04d.txt", number));
         try (BufferedWriter writer = Files.newBufferedWriter(path)) {
             writer.write(output);
         }
