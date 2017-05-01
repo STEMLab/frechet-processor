@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import goLA.exceptions.CustomException;
+import goLA.io.DataExporter;
 
 public class TrajectoryHolder {
 
@@ -36,6 +37,10 @@ public class TrajectoryHolder {
     		System.out.println(key);
     	}
     }
+
+    public void printAllTrajectory(DataExporter de, int number) throws IOException {
+		de.export(this.trajectories, number);
+	}
 
     public List<TrajectoryQuery> getQueryTrajectory(String query_path) {
     	List<TrajectoryQuery> list = new ArrayList<>();
