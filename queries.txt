@@ -1,2 +1,10 @@
-files/file-015108.dat 3230.4
-files/file-013410.dat  4260.1
+files/file-004805.dat	100.4
+files/file-004728.dat	100.1
+files/file-010679.dat	500
+files/file-012341.dat	10
+files/file-008309.dat	1000
+files/file-009481.dat	30
+files/file-006369.dat	42
+files/file-005876.dat	1232
+files/file-002565.dat	102
+files/file-012702.dat	33

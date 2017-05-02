@@ -5,6 +5,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 
+import de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.rstar.RStarTree;
 import goLA.compute.*;
 import goLA.io.DataExporter;
 import goLA.manage.Manager;
@@ -42,6 +43,8 @@ public class demoSimpleFrechet {
         Instant end = Instant.now();
         System.out.println("\nQuery Processing : "+ Duration.between(middle, end));
         System.out.println("\nProgram execution time : "+ Duration.between(start, end));
+
+
     }
 
 }
