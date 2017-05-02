@@ -9,14 +9,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Stream;
 
+import com.github.davidmoten.rtree.Entry;
+import com.github.davidmoten.rtree.geometry.Point;
 import goLA.exceptions.CustomException;
 import goLA.io.DataExporter;
+import rx.Observable;
 
 public class TrajectoryHolder {
 
     private HashMap<String, Trajectory> trajectories = new HashMap<>();
 
-    public HashMap<String, Trajectory> getTrajectories() {
+
+	public HashMap<String, Trajectory> getTrajectories() {
 		return trajectories;
 	}
 
@@ -71,4 +75,17 @@ public class TrajectoryHolder {
     	}
     	return list;
     }
+
+    public void addHolderNotDuplicate(TrajectoryHolder add_holder){
+		HashMap<String, Trajectory> add_holderTrajectories = add_holder.getTrajectories();
+		for (String key : add_holderTrajectories.keySet()){
+			if (this.trajectories.get(key) == null){
+				this.addTrajectory(key, add_holderTrajectories.get(key));
+			}
+		}
+	}
+
+	public void joinObservable(Observable<Entry<String, Point>> s_results, Observable<Entry<String, Point>> e_results) {
+
+	}
 }
