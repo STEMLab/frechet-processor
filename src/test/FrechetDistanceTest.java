@@ -1,17 +1,14 @@
-import java.io.IOException;
-import java.time.Duration;
-import java.time.Instant;
-import java.util.List;
-
-import goLA.compute.*;
-import goLA.io.DataExporter;
+import goLA.compute.SimpleFrechet;
+import goLA.data.Start_End_Rtree;
 import goLA.manage.Manager;
 import goLA.manage.ManagerImpl;
-import goLA.model.Trajectory;
 import goLA.model.TrajectoryHolder;
 
+import java.io.IOException;
+import java.util.List;
+
 /**
- * Just simple test class. If algorithm changed, we can run it to check result validity.
+ * Just simple test class. If algorithm changed, just run it to check result validity.
  */
 public class FrechetDistanceTest {
 
@@ -24,7 +21,7 @@ public class FrechetDistanceTest {
 
         int passed = 0, failed = 0, count = 0;
 
-        Manager manager = new ManagerImpl(new SimpleFrechet());
+        Manager manager = new ManagerImpl(new SimpleFrechet(), new Start_End_Rtree());
         manager.makeStructure(TEST_DATA_SET_PATH);
         List<TrajectoryHolder> result = manager.findResult(TEST_QUERY_PATH);
 
