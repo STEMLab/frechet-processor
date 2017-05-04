@@ -19,8 +19,14 @@ import java.util.Map;
  * UPPER LEFT is (0,0)
  */
 public class Start_End_Rtree implements Tree {
-    public RTree<String, Point> start_tree;
+    public RTree<Trajectory, Point> start_tree;
     public RTree<String, Point> end_tree;
+
+    private int size;
+
+    public int size(){
+        return this.size;
+    }
 
     public Start_End_Rtree(){
         start_tree = RTree.star().create();
@@ -32,10 +38,12 @@ public class Start_End_Rtree implements Tree {
         List<Coordinates<Double,Double>> list = tr.getCoordinates();
 
         Coordinates<Double,Double> start = list.get(0);
-        start_tree = start_tree.add(id, Geometries.point(start.getPointX(), start.getPointY()));
+        start_tree = start_tree.add(tr, Geometries.point(start.getPointX(), start.getPointY()));
 
         Coordinates<Double,Double> end = list.get(list.size()-1);
         end_tree = end_tree.add(id, Geometries.point(end.getPointX(), end.getPointY()));
+
+        size++;
     }
 
     @Override
@@ -44,26 +52,26 @@ public class Start_End_Rtree implements Tree {
         Coordinates<Double, Double> q_end = query.getTrajectory().getCoordinates().get(query.getTrajectory().getCoordinates().size() - 1);
         double dist = query.dist;
 
-        Observable<Entry<String, Point>> s_results = start_tree.search(Geometries.point(q_start.getPointX(),q_start.getPointY()), dist);
+        Observable<Entry<Trajectory, Point>> s_results = start_tree.search(Geometries.point(q_start.getPointX(),q_start.getPointY()), dist);
         Observable<Entry<String, Point>> e_results = end_tree.search(Geometries.point(q_end.getPointX(),q_end.getPointY()), dist);
 
-        Map<String, Integer> count = new HashMap<String, Integer>();
+        Map<String, Boolean> count = new HashMap<String, Boolean>();
 
         TrajectoryHolder poss = new TrajectoryHolder();
 
+        e_results.forEach(e->{
+            count.put(e.value(), true);
+        });
+
         s_results.forEach(
                 e->{
-                    count.put(e.value(),1);
+                    if (count.get(e.value().getName()) != null && count.get(e.value().getName())){
+                        poss.addTrajectory(e.value().getName(), e.value());
+                    }else{
+
+                    }
                 }
         );
-
-        e_results.forEach(e->{
-            count.put(e.value(),1);
-        });
-
-        count.forEach((e,v)->{
-            poss.addTrajectory(e,origin.getTrajectories().get(e));
-        });
 
         return poss;
     }
