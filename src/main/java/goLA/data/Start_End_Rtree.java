@@ -1,9 +1,8 @@
-package goLA.start_end;
+package goLA.data;
 
 import com.github.davidmoten.rtree.Entry;
 import com.github.davidmoten.rtree.RTree;
 import com.github.davidmoten.rtree.geometry.Geometries;
-import com.github.davidmoten.rtree.geometry.Geometry;
 import com.github.davidmoten.rtree.geometry.Point;
 import goLA.model.Coordinates;
 import goLA.model.Trajectory;
@@ -11,8 +10,6 @@ import goLA.model.TrajectoryHolder;
 import goLA.model.TrajectoryQuery;
 import rx.Observable;
 
-import java.awt.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +18,7 @@ import java.util.Map;
  * Created by stem_dong on 2017-05-02.
  * UPPER LEFT is (0,0)
  */
-public class Start_End_Rtree implements Start_End {
+public class Start_End_Rtree implements Tree {
     public RTree<String, Point> start_tree;
     public RTree<String, Point> end_tree;
 
@@ -42,7 +39,7 @@ public class Start_End_Rtree implements Start_End {
     }
 
     @Override
-    public TrajectoryHolder getPossible(TrajectoryQuery query, TrajectoryHolder org) {
+    public TrajectoryHolder getPossible(TrajectoryQuery query, TrajectoryHolder origin) {
         Coordinates<Double, Double> q_start = query.getTrajectory().getCoordinates().get(0);
         Coordinates<Double, Double> q_end = query.getTrajectory().getCoordinates().get(query.getTrajectory().getCoordinates().size() - 1);
         double dist = query.dist;
@@ -65,7 +62,7 @@ public class Start_End_Rtree implements Start_End {
         });
 
         count.forEach((e,v)->{
-            poss.addTrajectory(e,org.getTrajectories().get(e));
+            poss.addTrajectory(e,origin.getTrajectories().get(e));
         });
 
         return poss;

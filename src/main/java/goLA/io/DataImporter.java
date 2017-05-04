@@ -4,7 +4,7 @@ import goLA.exceptions.CustomException;
 import goLA.model.Coordinates;
 import goLA.model.Trajectory;
 import goLA.model.TrajectoryHolder;
-import goLA.start_end.Start_End;
+import goLA.data.Tree;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -36,7 +36,7 @@ public class DataImporter {
     }
 
 
-    public void loadFiles(String src, TrajectoryHolder trajectoryHolder, Start_End tree) {
+    public void loadFiles(String src, TrajectoryHolder trajectoryHolder, Tree tree) {
 
         try (Stream<String> stream = Files.lines(Paths.get(src))) {
             stream.forEach(e -> {

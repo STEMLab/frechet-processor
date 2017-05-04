@@ -1,7 +1,6 @@
-package goLA.start_end;
+package goLA.data;
 
 import goLA.model.Coordinates;
-import goLA.model.Trajectory;
 import goLA.model.TrajectoryHolder;
 
 /**
