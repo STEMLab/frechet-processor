@@ -4,10 +4,9 @@ import goLA.compute.QueryProcessor;
 import goLA.io.DataImporter;
 import goLA.model.TrajectoryHolder;
 import goLA.model.TrajectoryQuery;
-import goLA.start_end.Start_End_Rtree;
-import goLA.start_end.Start_End;
+import goLA.data.Start_End_Rtree;
+import goLA.data.Tree;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,14 +15,14 @@ public class ManagerImpl implements Manager {
     private DataImporter di = new DataImporter();
     private TrajectoryHolder trajectoryHolder = new TrajectoryHolder();
     private QueryProcessor q_processor;
-    private Start_End tree;
+    private Tree tree;
     
     //Determine How to calculate Query by using constructor parameter
-    public ManagerImpl(QueryProcessor qp_impl){
+    public ManagerImpl(QueryProcessor qp_impl, Tree trs){
     	q_processor = qp_impl;
     	di = new DataImporter();
     	trajectoryHolder = new TrajectoryHolder();
-    	tree = new Start_End_Rtree();
+    	tree = trs;
     }
     
     @Override
