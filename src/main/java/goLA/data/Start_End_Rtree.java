@@ -39,7 +39,7 @@ public class Start_End_Rtree implements Tree {
     }
 
     @Override
-    public TrajectoryHolder getPossible(TrajectoryQuery query, TrajectoryHolder origin) {
+    public TrajectoryHolder getPossible(TrajectoryQuery query) {
         Coordinates<Double, Double> q_start = query.getTrajectory().getCoordinates().get(0);
         Coordinates<Double, Double> q_end = query.getTrajectory().getCoordinates().get(query.getTrajectory().getCoordinates().size() - 1);
         double dist = query.dist;

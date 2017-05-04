@@ -5,6 +5,7 @@ import goLA.model.Coordinates;
 import goLA.model.Trajectory;
 import goLA.model.TrajectoryHolder;
 import goLA.data.Tree;
+import goLA.model.TrajectoryQuery;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -17,32 +18,13 @@ import java.util.stream.Stream;
 
 public class DataImporter {
 
-    public void loadFiles(String src, TrajectoryHolder trajectoryHolder) {
+    public void loadFiles(String src, Tree tree) {
 
         try (Stream<String> stream = Files.lines(Paths.get(src))) {
             stream.forEach(e -> {
                         Trajectory trajectory = new Trajectory();
                         trajectory.setCoordinates(getCoordList(e));
-                        trajectoryHolder.addTrajectory(e, trajectory);
-                    }
-            );
-
-        }catch (NoSuchFileException e){
-            new CustomException("Dataset not found");
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    public void loadFiles(String src, TrajectoryHolder trajectoryHolder, Tree tree) {
-
-        try (Stream<String> stream = Files.lines(Paths.get(src))) {
-            stream.forEach(e -> {
-                        Trajectory trajectory = new Trajectory();
-                        trajectory.setCoordinates(getCoordList(e));
-                        trajectoryHolder.addTrajectory(e, trajectory);
+                        //trajectoryHolder.addTrajectory(e, trajectory);
                         tree.addTrajectory(e, trajectory);
                     }
             );
@@ -55,6 +37,32 @@ public class DataImporter {
         }
     }
 
+    public List<TrajectoryQuery> getQueries(String path){
+        List<TrajectoryQuery> list = new ArrayList<>();
+        try (Stream<String> stream = Files.lines(Paths.get(path))) {
+            stream.forEach(e -> {
+                        String lines[] = e.split("\\s+");
+                        if (lines.length != 2)
+                            new CustomException("Query Line doesn't have two properties");
+
+                        Trajectory q_tr = new Trajectory();
+                        q_tr.setCoordinates(getCoordList(e));
+                        double dist = Double.parseDouble(lines[1]);
+
+                        TrajectoryQuery tq = new TrajectoryQuery(q_tr, dist);
+
+                        list.add(tq);
+                    }
+            );
+
+        }catch (NoSuchFileException e){
+            new CustomException("query file not found");
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 
     private List<Coordinates<Double, Double>> getCoordList(String s) {
 
