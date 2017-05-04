@@ -1,14 +1,13 @@
 package goLA.manage;
 
 import goLA.compute.QueryProcessor;
-import goLA.io.DataExporter;
 import goLA.io.DataImporter;
-import goLA.model.Trajectory;
 import goLA.model.TrajectoryHolder;
 import goLA.model.TrajectoryQuery;
+import goLA.data.Start_End_Rtree;
+import goLA.data.Tree;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class ManagerImpl implements Manager {
@@ -16,17 +15,19 @@ public class ManagerImpl implements Manager {
     private DataImporter di = new DataImporter();
     private TrajectoryHolder trajectoryHolder = new TrajectoryHolder();
     private QueryProcessor q_processor;
+    private Tree tree;
     
     //Determine How to calculate Query by using constructor parameter
-    public ManagerImpl(QueryProcessor qp_impl){
+    public ManagerImpl(QueryProcessor qp_impl, Tree trs){
     	q_processor = qp_impl;
     	di = new DataImporter();
     	trajectoryHolder = new TrajectoryHolder();
+    	tree = trs;
     }
     
     @Override
     public void makeStructure(String path) {
-        di.loadFiles(path, trajectoryHolder);
+        di.loadFiles(path, trajectoryHolder, tree);
     }
 
     @Override
@@ -35,7 +36,8 @@ public class ManagerImpl implements Manager {
     	List<TrajectoryQuery> query = trajectoryHolder.getQueryTrajectory(query_path);
 
         query.forEach(q -> {
-            result.add(q_processor.findTrajectoriesFrom(q , trajectoryHolder));
+            TrajectoryHolder possible_trajectoryHolder = tree.getPossible(q, this.trajectoryHolder);
+            result.add(q_processor.findTrajectoriesFrom(q , possible_trajectoryHolder));
         });
 
         return result;

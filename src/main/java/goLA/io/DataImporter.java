@@ -4,6 +4,7 @@ import goLA.exceptions.CustomException;
 import goLA.model.Coordinates;
 import goLA.model.Trajectory;
 import goLA.model.TrajectoryHolder;
+import goLA.data.Tree;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -33,6 +34,27 @@ public class DataImporter {
             e.printStackTrace();
         }
     }
+
+
+    public void loadFiles(String src, TrajectoryHolder trajectoryHolder, Tree tree) {
+
+        try (Stream<String> stream = Files.lines(Paths.get(src))) {
+            stream.forEach(e -> {
+                        Trajectory trajectory = new Trajectory();
+                        trajectory.setCoordinates(getCoordList(e));
+                        trajectoryHolder.addTrajectory(e, trajectory);
+                        tree.addTrajectory(e, trajectory);
+                    }
+            );
+
+        }catch (NoSuchFileException e){
+            new CustomException("Dataset not found");
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private List<Coordinates<Double, Double>> getCoordList(String s) {
 

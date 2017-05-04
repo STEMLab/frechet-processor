@@ -72,7 +72,7 @@ public class SimpleFrechet implements QueryProcessor {
 			}
 		}
 		if (result_left[p][q-1] && result_bottom[p-1][q]){
-			if (EuclideanDistance(p_coordinates.get(p),q_coordinates.get(q)) <= dist)
+			if (EuclideanDistance(p_coordinates.get(p),q_coordinates.get(q)) <= dist && EuclideanDistance(p_coordinates.get(0),q_coordinates.get(0)) <= dist)
 				return true;	
 		}
 		return false;
