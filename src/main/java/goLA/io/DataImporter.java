@@ -24,6 +24,7 @@ public class DataImporter {
             stream.forEach(e -> {
                         Trajectory trajectory = new Trajectory();
                         trajectory.setCoordinates(getCoordList(e));
+                        trajectory.setName(e);
                         //trajectoryHolder.addTrajectory(e, trajectory);
                         tree.addTrajectory(e, trajectory);
                     }

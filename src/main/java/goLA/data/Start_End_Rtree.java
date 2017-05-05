@@ -73,6 +73,18 @@ public class Start_End_Rtree implements Tree {
                 }
         );
 
+//        Map<String, Trajectory> count = new HashMap<String, Trajectory>();
+
+//        s_results.forEach(
+//                e->{
+//                    count.put(e.value().getName(), e.value());
+//                }
+//        );
+//
+//        for (Map.Entry<String, Trajectory> e : count.entrySet()){
+//            poss.addTrajectory(e.getKey(), e.getValue());
+//        }
+//
         return poss;
     }
 }
