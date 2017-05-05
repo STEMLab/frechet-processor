@@ -26,10 +26,10 @@ public class SimpleFrechet implements QueryProcessor {
 	private boolean decideIn_FDist(Trajectory q_tr, Trajectory t_tr, double dist){
 		int p,q;
 		
-		List<Coordinates<Double, Double>> p_coordinates = q_tr.getCoordinates();
+		List<Coordinates> p_coordinates = q_tr.getCoordinates();
 		p = p_coordinates.size() - 1;
 		
-		List<Coordinates<Double, Double>> q_coordinates = t_tr.getCoordinates();
+		List<Coordinates> q_coordinates = t_tr.getCoordinates();
 		q = q_coordinates.size() - 1;
 		
 		boolean[][] bottom = new boolean[p+1][q+1];
@@ -78,7 +78,7 @@ public class SimpleFrechet implements QueryProcessor {
 		return false;
 	}
 	
-	private double calcDistancePointAndLine(Coordinates<Double,Double> point, Coordinates<Double,Double> start, Coordinates<Double,Double> end){
+	private double calcDistancePointAndLine(Coordinates point, Coordinates start, Coordinates end){
 		double lineLen = EuclideanDistance(start, end);
 		if (lineLen == 0) return EuclideanDistance(point, start);
 		
@@ -93,7 +93,7 @@ public class SimpleFrechet implements QueryProcessor {
 		}
 	}
 
-	private double EuclideanDistance(Coordinates<Double, Double> start, Coordinates<Double, Double> end) {
+	private double EuclideanDistance(Coordinates start, Coordinates end) {
 		return Math.sqrt(Math.pow(end.getPointX() - start.getPointX(), 2) + Math.pow(end.getPointY() - start.getPointY(), 2));
 	}
 	

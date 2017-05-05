@@ -4,6 +4,11 @@ import java.util.List;
 
 public class Trajectory {
 
+	private String name;
+
+	private List<Coordinates> coordinates;
+
+
 	public String getName() {
 		return name;
 	}
@@ -12,15 +17,11 @@ public class Trajectory {
 		this.name = name;
 	}
 
-	private String name;
-
-	private List<Coordinates<Double, Double>> coordinates;
-
-	public List<Coordinates<Double, Double>> getCoordinates() {
+	public List<Coordinates> getCoordinates() {
 		return coordinates;
 	}
 
-	public void setCoordinates(List<Coordinates<Double, Double>> coordinates) {
+	public void setCoordinates(List<Coordinates> coordinates) {
 		this.coordinates = coordinates;
 	}
 }

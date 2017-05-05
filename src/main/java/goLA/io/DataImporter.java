@@ -65,18 +65,18 @@ public class DataImporter {
         return list;
     }
 
-    private List<Coordinates<Double, Double>> getCoordList(String s) {
+    private List<Coordinates> getCoordList(String s) {
 
         //TODO: remove in future
         String temp = s;
-        List<Coordinates<Double, Double>> list = new ArrayList<>();
+        List<Coordinates> list = new ArrayList<>();
 
         try (Stream<String> stream = Files.lines(Paths.get(temp)).skip(1)) {
             AtomicInteger index = new AtomicInteger(0);
             stream.forEach(e -> {
                         String lines[] = e.split("\\s+");
                         if (lines.length < 4) new CustomException("One of trajectory properties(x,y,k,tid) not found in file \"" + temp + "\"");
-                        Coordinates<Double, Double> coordinates = new Coordinates<>();
+                        Coordinates coordinates = new Coordinates();
                         coordinates.setPointX(Double.valueOf(lines[0]));
                         coordinates.setPointY(Double.valueOf(lines[1]));
                         coordinates.setOrder(Integer.valueOf(lines[2]));
