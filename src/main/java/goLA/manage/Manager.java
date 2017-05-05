@@ -1,5 +1,6 @@
 package goLA.manage;
 
+import goLA.data.Tree;
 import goLA.io.DataExporter;
 import goLA.model.TrajectoryHolder;
 
@@ -11,5 +12,5 @@ public interface Manager {
 
     List<TrajectoryHolder> findResult(String query_path);
 
-    TrajectoryHolder getTrajectoryHolder();
+    Tree getTree();
 }
