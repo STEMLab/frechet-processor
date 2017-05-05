@@ -1,15 +1,13 @@
 package goLA.model;
 
-import com.vividsolutions.jts.geom.Coordinate;
+public class Coordinates {
 
-public class Coordinates<X, Y> {
-
-    private X pointX;
-    private Y pointY;
+    private double pointX;
+    private double pointY;
     private int order;
     private int id;
 
-    public Coordinates(X mx, Y my){
+    public Coordinates(double mx, double my){
         this.pointY = my;
         this.pointX = mx;
     }
@@ -18,20 +16,25 @@ public class Coordinates<X, Y> {
 
     }
 
-    public X getPointX() {
+    public double getPointX() {
         return pointX;
     }
 
-    public void setPointX(X pointX) {
+    public void setPointX(double pointX) {
         this.pointX = pointX;
     }
 
-    public Y getPointY() {
+    public double getPointY() {
         return pointY;
     }
 
-    public void setPointY(Y pointY) {
+    public void setPointY(double pointY) {
         this.pointY = pointY;
+    }
+
+    public void setPoint(double x, double y){
+        this.pointX = x;
+        this.pointY = y;
     }
 
     public int getOrder() {

@@ -35,12 +35,12 @@ public class Start_End_Rtree implements Tree {
 
     @Override
     public void addTrajectory(String id, Trajectory tr) {
-        List<Coordinates<Double,Double>> list = tr.getCoordinates();
+        List<Coordinates> list = tr.getCoordinates();
 
-        Coordinates<Double,Double> start = list.get(0);
+        Coordinates start = list.get(0);
         start_tree = start_tree.add(tr, Geometries.point(start.getPointX(), start.getPointY()));
 
-        Coordinates<Double,Double> end = list.get(list.size()-1);
+        Coordinates end = list.get(list.size()-1);
         end_tree = end_tree.add(id, Geometries.point(end.getPointX(), end.getPointY()));
 
         size++;
@@ -48,8 +48,8 @@ public class Start_End_Rtree implements Tree {
 
     @Override
     public TrajectoryHolder getPossible(TrajectoryQuery query) {
-        Coordinates<Double, Double> q_start = query.getTrajectory().getCoordinates().get(0);
-        Coordinates<Double, Double> q_end = query.getTrajectory().getCoordinates().get(query.getTrajectory().getCoordinates().size() - 1);
+        Coordinates q_start = query.getTrajectory().getCoordinates().get(0);
+        Coordinates q_end = query.getTrajectory().getCoordinates().get(query.getTrajectory().getCoordinates().size() - 1);
         double dist = query.dist;
 
         Observable<Entry<Trajectory, Point>> s_results = start_tree.search(Geometries.point(q_start.getPointX(),q_start.getPointY()), dist);
