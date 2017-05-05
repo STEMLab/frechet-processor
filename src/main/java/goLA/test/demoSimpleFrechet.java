@@ -27,10 +27,8 @@ public class demoSimpleFrechet {
         manager.makeStructure(src_path);
 
         //get all data trajectories
-        TrajectoryHolder trajectories = manager.getTrajectoryHolder();
-
         Instant middle = Instant.now();
-        System.out.println("\nGet " + trajectories.size() + " data and put into data structure : "+ Duration.between(start, middle));
+        System.out.println("\nGet " + manager.getTree().size() + " data and put into data structure : "+ Duration.between(start, middle));
         
         List<TrajectoryHolder> result = manager.findResult(query_path);
 
