@@ -8,6 +8,7 @@ import java.util.List;
 import goLA.compute.*;
 import goLA.data.Start_End_Rtree;
 import goLA.io.DataExporter;
+import goLA.io.DataImporter;
 import goLA.manage.Manager;
 import goLA.manage.ManagerImpl;
 import goLA.model.TrajectoryHolder;
@@ -22,7 +23,7 @@ public class demoSimpleFrechet {
         String src_path = "dataset.txt";
         String query_path = "queries.txt";
 
-        Manager manager = new ManagerImpl(new SimpleFrechet(), new Start_End_Rtree());
+        Manager manager = new ManagerImpl(new SimpleFrechet(), new Start_End_Rtree(), new DataImporter());
 
         manager.makeStructure(src_path);
 
