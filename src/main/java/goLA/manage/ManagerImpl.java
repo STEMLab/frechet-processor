@@ -12,14 +12,14 @@ import java.util.List;
 
 public class ManagerImpl implements Manager {
 
-    private DataImporter di = new DataImporter();
+    private DataImporter di;
     private QueryProcessor q_processor;
     private Tree tree;
     
     //Determine How to calculate Query by using constructor parameter
-    public ManagerImpl(QueryProcessor qp_impl, Tree trs){
+    public ManagerImpl(QueryProcessor qp_impl, Tree trs, DataImporter pdi){
     	q_processor = qp_impl;
-    	di = new DataImporter();
+    	di = pdi;
     	tree = trs;
     }
     
