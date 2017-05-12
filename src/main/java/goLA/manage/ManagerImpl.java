@@ -4,7 +4,6 @@ import goLA.compute.QueryProcessor;
 import goLA.io.DataImporter;
 import goLA.model.TrajectoryHolder;
 import goLA.model.TrajectoryQuery;
-import goLA.data.Start_End_Rtree;
 import goLA.data.Tree;
 
 import java.util.ArrayList;
