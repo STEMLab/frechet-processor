@@ -40,7 +40,7 @@ public class demoSimpleFrechet {
         }
 
         Instant end = Instant.now();
-        System.out.println("\nQuery Processing : "+ Duration.between(middle, end));
+        System.out.println("\nQuery Processing & File Writer : "+ Duration.between(middle, end));
         System.out.println("\nProgram execution time : "+ Duration.between(start, end));
 
 
