@@ -23,7 +23,7 @@ public class demoSimpleFrechet {
         String src_path = "dataset.txt";
         String query_path = "queries.txt";
 
-        Manager manager = new ManagerImpl(new SimpleFrechet(), new SE_Two_Rtree(), new DataImporter());
+        Manager manager = new ManagerImpl(new SimpleFrechet(), new SE_Manhattan_Rtree(), new DataImporter());
 
         manager.makeStructure(src_path);
 

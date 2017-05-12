@@ -1,3 +1,4 @@
+/*
 package goLA.data;
 
 import com.github.davidmoten.rtree.Entry;
@@ -14,11 +15,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+*/
 /**
  * Created by stem_dong on 2017-05-02.
  * UPPER LEFT is (0,0)
- */
-public class SE_Two_Rtree implements Tree {
+ *//*
+
+public class Start_End_Rtree implements Tree {
     public RTree<Trajectory, Point> start_tree;
     public RTree<String, Point> end_tree;
 
@@ -28,7 +31,7 @@ public class SE_Two_Rtree implements Tree {
         return this.size;
     }
 
-    public SE_Two_Rtree(){
+    public Start_End_Rtree(){
         start_tree = RTree.star().create();
         end_tree = RTree.star().create();
     }
@@ -88,3 +91,4 @@ public class SE_Two_Rtree implements Tree {
         return poss;
     }
 }
+*/
