@@ -34,6 +34,7 @@ public class ManagerImpl implements Manager {
     	List<TrajectoryQuery> query = di.getQueries(query_path);
 
         query.forEach(q -> {
+            System.out.println("----Query processing : " + q.getTrajectory().getName() +", " + q.dist + " -------");
             TrajectoryHolder possible_trajectoryHolder = tree.getPossible(q);
             result.add(q_processor.findTrajectoriesFrom(q , possible_trajectoryHolder));
         });

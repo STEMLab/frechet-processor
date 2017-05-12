@@ -33,9 +33,8 @@ public class demoSimpleFrechet {
         
         List<TrajectoryHolder> result = manager.findResult(query_path);
 
-        DataExporter de = new DataExporter();
+        DataExporter de = new DataExporter("result/");
         for (int index = 0 ; index < result.size() ; index++){
-        	System.out.println("---- " + index + " ------");
         	result.get(index).printAllTrajectory(de, index);
         }
 
