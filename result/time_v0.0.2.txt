@@ -1,5 +1,0 @@
-MAC
-
-Query Processing : PT0.277S
-
-Program execution time : PT13.096S
