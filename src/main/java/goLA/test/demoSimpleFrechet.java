@@ -36,7 +36,6 @@ public class demoSimpleFrechet {
 
         DataExporter de = new DataExporter();
         for (int index = 0 ; index < result.size() ; index++){
-        	System.out.println("---- " + index + " ------");
         	result.get(index).printAllTrajectory(de, index);
         }
 
