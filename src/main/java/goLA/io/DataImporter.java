@@ -47,6 +47,7 @@ public class DataImporter {
                             new CustomException("Query Line doesn't have two properties");
 
                         Trajectory q_tr = new Trajectory();
+                        q_tr.setName(lines[0]);
                         q_tr.setCoordinates(getCoordList(lines[0]));
                         double dist = Double.parseDouble(lines[1]);
 
