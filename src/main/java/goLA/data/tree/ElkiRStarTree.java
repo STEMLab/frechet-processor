@@ -70,11 +70,7 @@ public class ElkiRStarTree {
             d[i][1] = tree.get(i)[1];
         }
 
-        //TODO avoid data copy
-        String[] h = new String[treeLabels.size()];
-        for (int i = 0; i < treeLabels.size(); i++) {
-            h[i] = treeLabels.get(i);
-        }
+        String[] h = treeLabels.parallelStream().toArray(String[]::new);
 
         DatabaseConnection dbc = new ArrayAdapterDatabaseConnection(d, h);
 

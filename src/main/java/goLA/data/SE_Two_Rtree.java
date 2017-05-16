@@ -46,7 +46,6 @@ public class SE_Two_Rtree implements Tree {
 
         size++;
 
-        //TODO avoid data copy
         holder.put(tr.getName(), tr);
     }
 
