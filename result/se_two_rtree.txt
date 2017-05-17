@@ -1,0 +1,6 @@
+Wed May 17 17:09:39 KST 2017Data number : 15000
+Query number : 20
+Query Processing : PT12.354S
+Whole Time : PT24.724S
+
+
