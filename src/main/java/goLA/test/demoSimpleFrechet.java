@@ -50,7 +50,7 @@ public class demoSimpleFrechet {
         System.out.println("\nQuery Processing & File Writer : "+ Duration.between(middle, end));
         System.out.println("\nProgram execution time : "+ Duration.between(start, end));
 
-        writeEvaluation("develop", manager.getTree().size(), result.size(),
+        writeEvaluation("se_two_rtree", manager.getTree().size(), result.size(),
                 Duration.between(middle, end), Duration.between(start, end));
 
     }
