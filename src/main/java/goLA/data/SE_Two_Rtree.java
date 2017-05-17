@@ -10,6 +10,7 @@ import goLA.model.TrajectoryQuery;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by stem_dong on 2017-05-02.
@@ -20,14 +21,14 @@ public class SE_Two_Rtree implements Tree {
 
     private ElkiRStarTree start_tree;
     private ElkiRStarTree end_tree;
-    private HashMap<String, Trajectory> holder;
+    private ConcurrentHashMap<String, Trajectory> holder;
 
     private int size;
 
     public SE_Two_Rtree() {
         this.start_tree = new ElkiRStarTree();
         this.end_tree = new ElkiRStarTree();
-        this.holder = new HashMap<>();
+        this.holder = new ConcurrentHashMap<>();
     }
 
     public int size() {

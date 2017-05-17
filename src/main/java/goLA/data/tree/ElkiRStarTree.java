@@ -16,8 +16,13 @@ import de.lmu.ifi.dbs.elki.distance.distancefunction.minkowski.EuclideanDistance
 import de.lmu.ifi.dbs.elki.index.IndexFactory;
 import de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.AbstractRStarTreeFactory;
 import de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.rstar.RStarTreeFactory;
+import de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.strategies.bulk.FileOrderBulkSplit;
 import de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.strategies.bulk.SortTileRecursiveBulkSplit;
 import de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.strategies.insert.ApproximativeLeastOverlapInsertionStrategy;
+import de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.strategies.split.AngTanLinearSplit;
+import de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.strategies.split.GreeneSplit;
+import de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.strategies.split.RTreeLinearSplit;
+import de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.strategies.split.RTreeQuadraticSplit;
 import de.lmu.ifi.dbs.elki.utilities.ClassGenericsUtil;
 import de.lmu.ifi.dbs.elki.utilities.optionhandling.parameterization.ListParameterization;
 
@@ -38,6 +43,7 @@ public class ElkiRStarTree {
     private Relation<DoubleVector> vectors;
     private DistanceQuery<DoubleVector> euclidean;
     private RangeQuery<DoubleVector> rangeQuery;
+    private Boolean init = false;
 
     public void add(String id, double[] coordinates) {
         this.tree.add(new double[]{coordinates[0], coordinates[1]});
@@ -57,11 +63,14 @@ public class ElkiRStarTree {
 
     private void initialize() {
 
+        if(init) return;
+        init = true;
+
         ListParameterization spatparams = new ListParameterization();
         spatparams.addParameter(INDEX_ID, RStarTreeFactory.class);
         spatparams.addParameter(AbstractRStarTreeFactory.Parameterizer.INSERTION_STRATEGY_ID, ApproximativeLeastOverlapInsertionStrategy.class);
-        spatparams.addParameter(ApproximativeLeastOverlapInsertionStrategy.Parameterizer.INSERTION_CANDIDATES_ID, 1);
-        spatparams.addParameter(RStarTreeFactory.Parameterizer.BULK_SPLIT_ID, SortTileRecursiveBulkSplit.class);
+        spatparams.addParameter(RStarTreeFactory.Parameterizer.SPLIT_STRATEGY_ID, AngTanLinearSplit.class);
+        spatparams.addParameter(RStarTreeFactory.Parameterizer.BULK_SPLIT_ID, FileOrderBulkSplit.class);
 
         //TODO avoid data copy
         double[][] d = new double[tree.size()][2];
