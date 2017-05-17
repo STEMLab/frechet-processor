@@ -3,15 +3,16 @@ package goLA.test;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 
 import goLA.compute.*;
-import goLA.data.*;
+
+import goLA.data.SE_Two_Rtree;
 import goLA.io.DataExporter;
 import goLA.io.DataImporter;
 import goLA.manage.Manager;
@@ -30,6 +31,7 @@ public class demoSimpleFrechet {
 
         Manager manager = new ManagerImpl(new SimpleFrechet(), new SE_Two_Rtree(), new DataImporter());
 
+
         manager.makeStructure(src_path);
 
         //get all data trajectories
@@ -39,6 +41,7 @@ public class demoSimpleFrechet {
         List<TrajectoryHolder> result = manager.findResult(query_path);
 
         DataExporter de = new DataExporter("result/QueryResult/");
+
         for (int index = 0 ; index < result.size() ; index++){
         	result.get(index).printAllTrajectory(de, index);
         }
@@ -55,6 +58,7 @@ public class demoSimpleFrechet {
     private static void writeEvaluation(String branch, int d_num, int q_num, Duration q, Duration whole) throws IOException{
         Path path = Paths.get(String.format("result/" + "%s.txt", branch));
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(path.toString(), true))) {
+            writer.append(new Date().toString());
             writer.append("Data number : " + d_num +"\n");
             writer.append("Query number : " + q_num + "\n");
             writer.append("Query Processing : "+ q + "\n");
