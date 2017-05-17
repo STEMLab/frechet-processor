@@ -1,4 +1,0 @@
-
-Query Processing & file write : PT33.152S
-
-Program execution time : PT44.472S

@@ -1,4 +1,0 @@
-
-Query Processing : PT46.095S
-
-Program execution time : PT55.562S
