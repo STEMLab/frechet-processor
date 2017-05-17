@@ -1,7 +1,0 @@
-MAC
-
-
-Get 15000 data and put into data structure : PT10.77S
-
-
-Cannot execute

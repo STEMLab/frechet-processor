@@ -4,3 +4,9 @@ Query Processing : PT8.362S
 Whole Time : PT19.572S
 
 
+Data number : 15000
+Query number : 20
+Query Processing : PT11.405S
+Whole Time : PT22.12S
+
+
