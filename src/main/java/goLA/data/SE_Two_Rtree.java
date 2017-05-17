@@ -1,36 +1,38 @@
 package goLA.data;
 
-import com.github.davidmoten.rtree.Entry;
-import com.github.davidmoten.rtree.RTree;
-import com.github.davidmoten.rtree.geometry.Geometries;
-import com.github.davidmoten.rtree.geometry.Point;
+import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDList;
+import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDListIter;
+import goLA.data.tree.ElkiRStarTree;
 import goLA.model.Coordinates;
 import goLA.model.Trajectory;
 import goLA.model.TrajectoryHolder;
 import goLA.model.TrajectoryQuery;
-import rx.Observable;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by stem_dong on 2017-05-02.
  * UPPER LEFT is (0,0)
  */
+
 public class SE_Two_Rtree implements Tree {
-    public RTree<Trajectory, Point> start_tree;
-    public RTree<String, Point> end_tree;
+
+    private ElkiRStarTree start_tree;
+    private ElkiRStarTree end_tree;
+    private ConcurrentHashMap<String, Trajectory> holder;
 
     private int size;
 
-    public int size(){
-        return this.size;
+    public SE_Two_Rtree() {
+        this.start_tree = new ElkiRStarTree();
+        this.end_tree = new ElkiRStarTree();
+        this.holder = new ConcurrentHashMap<>();
     }
 
-    public SE_Two_Rtree(){
-        start_tree = RTree.star().create();
-        end_tree = RTree.star().create();
+    public int size() {
+        return this.size;
     }
 
     @Override
@@ -38,53 +40,39 @@ public class SE_Two_Rtree implements Tree {
         List<Coordinates> list = tr.getCoordinates();
 
         Coordinates start = list.get(0);
-        start_tree = start_tree.add(tr, Geometries.point(start.getPointX(), start.getPointY()));
+        start_tree.add(tr.getName(), new double[]{start.getPointX(), start.getPointY()});
 
-        Coordinates end = list.get(list.size()-1);
-        end_tree = end_tree.add(id, Geometries.point(end.getPointX(), end.getPointY()));
+        Coordinates end = list.get(list.size() - 1);
+        end_tree.add(tr.getName(), new double[]{end.getPointX(), end.getPointY()});
 
         size++;
+
+        holder.put(tr.getName(), tr);
     }
 
     @Override
     public TrajectoryHolder getPossible(TrajectoryQuery query) {
+
         Coordinates q_start = query.getTrajectory().getCoordinates().get(0);
         Coordinates q_end = query.getTrajectory().getCoordinates().get(query.getTrajectory().getCoordinates().size() - 1);
         double dist = query.dist;
 
-        Observable<Entry<Trajectory, Point>> s_results = start_tree.search(Geometries.point(q_start.getPointX(),q_start.getPointY()), dist);
-        Observable<Entry<String, Point>> e_results = end_tree.search(Geometries.point(q_end.getPointX(),q_end.getPointY()), dist);
-
-        Map<String, Boolean> count = new HashMap<String, Boolean>();
+        DoubleDBIDList s_results = start_tree.search(new double[]{q_start.getPointX(), q_start.getPointY()}, dist);
+        DoubleDBIDList e_results = end_tree.search(new double[]{q_end.getPointX(), q_end.getPointY()}, dist);
 
         TrajectoryHolder poss = new TrajectoryHolder();
 
-        e_results.forEach(e->{
-            count.put(e.value(), true);
-        });
-
-        s_results.forEach(
-                e->{
-                    if (count.get(e.value().getName()) != null && count.get(e.value().getName())){
-                        poss.addTrajectory(e.value().getName(), e.value());
-                    }else{
-
-                    }
+        int i = 0;
+        int j = 0;
+        for (DoubleDBIDListIter x = s_results.iter(); x.valid(); x.advance(), i++) {
+            for (DoubleDBIDListIter y = e_results.iter(); y.valid(); y.advance(), j++) {
+                if (start_tree.getRecordName(x).equals(end_tree.getRecordName((y)))) {
+                    poss.addTrajectory(start_tree.getRecordName(x), holder.get(start_tree.getRecordName(x)));
                 }
-        );
+            }
+        }
 
-//        Map<String, Trajectory> count = new HashMap<String, Trajectory>();
-
-//        s_results.forEach(
-//                e->{
-//                    count.put(e.value().getName(), e.value());
-//                }
-//        );
-//
-//        for (Map.Entry<String, Trajectory> e : count.entrySet()){
-//            poss.addTrajectory(e.getKey(), e.getValue());
-//        }
-//
         return poss;
     }
 }
+
