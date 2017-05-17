@@ -10,6 +10,7 @@ import goLA.model.TrajectoryQuery;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -61,16 +62,18 @@ public class SE_Two_Rtree implements Tree {
         DoubleDBIDList e_results = end_tree.search(new double[]{q_end.getPointX(), q_end.getPointY()}, dist);
 
         TrajectoryHolder poss = new TrajectoryHolder();
+        Map<String, Boolean> check_in_start = new HashMap<>();
 
-        int i = 0;
-        int j = 0;
-        for (DoubleDBIDListIter x = s_results.iter(); x.valid(); x.advance(), i++) {
-            for (DoubleDBIDListIter y = e_results.iter(); y.valid(); y.advance(), j++) {
-                if (start_tree.getRecordName(x).equals(end_tree.getRecordName((y)))) {
-                    poss.addTrajectory(start_tree.getRecordName(x), holder.get(start_tree.getRecordName(x)));
-                }
+        for (DoubleDBIDListIter x = s_results.iter(); x.valid(); x.advance()) {
+            check_in_start.put(start_tree.getRecordName(x), true);
+        }
+
+        for (DoubleDBIDListIter y = e_results.iter(); y.valid(); y.advance()) {
+            if (check_in_start.get(end_tree.getRecordName((y))) != null){
+                poss.addTrajectory(end_tree.getRecordName((y)), holder.get(end_tree.getRecordName(y)));
             }
         }
+
 
         return poss;
     }
