@@ -1,4 +1,3 @@
+Query Processing & File Writer : PT26.457S
 
-Query Processing : PT46.095S
-
-Program execution time : PT55.562S
+Program execution time : PT34.793S

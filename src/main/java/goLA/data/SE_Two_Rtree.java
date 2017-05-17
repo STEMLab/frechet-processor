@@ -18,7 +18,7 @@ import java.util.Map;
  * Created by stem_dong on 2017-05-02.
  * UPPER LEFT is (0,0)
  */
-public class Start_End_Rtree implements Tree {
+public class SE_Two_Rtree implements Tree {
     public RTree<Trajectory, Point> start_tree;
     public RTree<String, Point> end_tree;
 
@@ -28,7 +28,7 @@ public class Start_End_Rtree implements Tree {
         return this.size;
     }
 
-    public Start_End_Rtree(){
+    public SE_Two_Rtree(){
         start_tree = RTree.star().create();
         end_tree = RTree.star().create();
     }

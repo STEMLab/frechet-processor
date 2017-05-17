@@ -4,7 +4,6 @@ import goLA.compute.QueryProcessor;
 import goLA.io.DataImporter;
 import goLA.model.TrajectoryHolder;
 import goLA.model.TrajectoryQuery;
-import goLA.data.Start_End_Rtree;
 import goLA.data.Tree;
 
 import java.util.ArrayList;
@@ -34,7 +33,9 @@ public class ManagerImpl implements Manager {
     	List<TrajectoryQuery> query = di.getQueries(query_path);
 
         query.forEach(q -> {
-            System.out.println("-------- " + q.getTrajectory().getName() + " --------");
+
+            System.out.println("----Query processing : " + q.getTrajectory().getName() +", " + q.dist + " -------");
+
             TrajectoryHolder possible_trajectoryHolder = tree.getPossible(q);
             System.out.println("---- result number : " + possible_trajectoryHolder.size() + " -------");
             result.add(q_processor.findTrajectoriesFrom(q , possible_trajectoryHolder));

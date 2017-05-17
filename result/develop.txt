@@ -1,0 +1,6 @@
+Data number : 15000
+Query number : 20
+Query Processing : PT8.362S
+Whole Time : PT19.572S
+
+
