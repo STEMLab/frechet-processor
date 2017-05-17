@@ -11,7 +11,9 @@ import java.time.Instant;
 import java.util.List;
 
 import goLA.compute.*;
-import goLA.data.*;
+
+import goLA.data.SE_MBR_Rtree;
+
 import goLA.io.DataExporter;
 import goLA.io.DataImporter;
 import goLA.manage.Manager;
@@ -28,7 +30,8 @@ public class demoSimpleFrechet {
         String src_path = "dataset.txt";
         String query_path = "queries.txt";
 
-        Manager manager = new ManagerImpl(new SimpleFrechet(), new SE_Two_Rtree(), new DataImporter());
+        Manager manager = new ManagerImpl(new SimpleFrechet(), new SE_MBR_Rtree(), new DataImporter());
+
 
         manager.makeStructure(src_path);
 
@@ -39,6 +42,7 @@ public class demoSimpleFrechet {
         List<TrajectoryHolder> result = manager.findResult(query_path);
 
         DataExporter de = new DataExporter("result/QueryResult/");
+
         for (int index = 0 ; index < result.size() ; index++){
         	result.get(index).printAllTrajectory(de, index);
         }
