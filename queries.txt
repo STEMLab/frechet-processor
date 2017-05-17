@@ -4,7 +4,7 @@ files/file-010679.dat	5000
 files/file-012341.dat	102
 files/file-008309.dat	1000
 files/file-009481.dat	3014
-files/file-006369.dat	42232
+files/file-006369.dat	15324
 files/file-005876.dat	1232
 files/file-002565.dat	3022
 files/file-012702.dat	5213
@@ -14,7 +14,7 @@ files/file-010679.dat	5000
 files/file-012341.dat	102
 files/file-008309.dat	1000
 files/file-009481.dat	3014
-files/file-006369.dat	42232
+files/file-006369.dat	15332
 files/file-005876.dat	1232
 files/file-002565.dat	3022
 files/file-012702.dat	5213
