@@ -1,8 +1,6 @@
 package goLA.test;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
@@ -11,12 +9,9 @@ import java.util.Date;
 import java.util.List;
 
 import goLA.compute.*;
-
-import goLA.data.SE_Two_Rtree;
-import goLA.io.DataExporter;
-import goLA.io.DataImporter;
-import goLA.manage.Manager;
-import goLA.manage.ManagerImpl;
+import goLA.data.*;
+import goLA.io.*;
+import goLA.manage.*;
 import goLA.model.TrajectoryHolder;
 
 public class demoSimpleFrechet {
@@ -50,9 +45,14 @@ public class demoSimpleFrechet {
         System.out.println("\nQuery Processing & File Writer : "+ Duration.between(middle, end));
         System.out.println("\nProgram execution time : "+ Duration.between(start, end));
 
-        writeEvaluation("develop", manager.getTree().size(), result.size(),
-                Duration.between(middle, end), Duration.between(start, end));
+        System.out.println("\n\n\n write result? (Y/N)");
 
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        String b = in.readLine();
+        if (b.contains("Y") || b.contains("y")){
+            writeEvaluation("v0.1", manager.getTree().size(), result.size(),
+                    Duration.between(middle, end), Duration.between(start, end));
+        }
     }
 
     private static void writeEvaluation(String branch, int d_num, int q_num, Duration q, Duration whole) throws IOException{
