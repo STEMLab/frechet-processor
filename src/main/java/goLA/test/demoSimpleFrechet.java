@@ -50,7 +50,7 @@ public class demoSimpleFrechet {
         System.out.println("\nQuery Processing & File Writer : "+ Duration.between(middle, end));
         System.out.println("\nProgram execution time : "+ Duration.between(start, end));
 
-        writeEvaluation("se_two_rtree", manager.getTree().size(), result.size(),
+        writeEvaluation("develop", manager.getTree().size(), result.size(),
                 Duration.between(middle, end), Duration.between(start, end));
 
     }
@@ -58,7 +58,7 @@ public class demoSimpleFrechet {
     private static void writeEvaluation(String branch, int d_num, int q_num, Duration q, Duration whole) throws IOException{
         Path path = Paths.get(String.format("result/" + "%s.txt", branch));
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(path.toString(), true))) {
-            writer.append(new Date().toString());
+            writer.append(new Date().toString() + "\n");
             writer.append("Data number : " + d_num +"\n");
             writer.append("Query number : " + q_num + "\n");
             writer.append("Query Processing : "+ q + "\n");

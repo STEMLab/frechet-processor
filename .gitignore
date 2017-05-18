@@ -2,7 +2,7 @@
 files/
 
 # ignore result
-result*.txt
+result/
 
 # ignore compiled classes
 bin/
