@@ -26,6 +26,8 @@ import de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.strategies.split.RTr
 import de.lmu.ifi.dbs.elki.utilities.ClassGenericsUtil;
 import de.lmu.ifi.dbs.elki.utilities.optionhandling.parameterization.ListParameterization;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -66,6 +68,8 @@ public class ElkiRStarTree {
         if(init) return;
         init = true;
 
+        Instant start = Instant.now();
+
         ListParameterization spatparams = new ListParameterization();
         spatparams.addParameter(INDEX_ID, RStarTreeFactory.class);
         spatparams.addParameter(AbstractRStarTreeFactory.Parameterizer.INSERTION_STRATEGY_ID, ApproximativeLeastOverlapInsertionStrategy.class);
@@ -74,10 +78,11 @@ public class ElkiRStarTree {
 
         //TODO avoid data copy
         double[][] d = new double[tree.size()][2];
-        for (int i = 0; i < tree.size(); i++) {
-            d[i][0] = tree.get(i)[0];
-            d[i][1] = tree.get(i)[1];
-        }
+        d = tree.toArray(d);
+//        for (int i = 0; i < tree.size(); i++) {
+//            d[i][0] = tree.get(i)[0];
+//            d[i][1] = tree.get(i)[1];
+//        }
 
         String[] h = treeLabels.parallelStream().toArray(String[]::new);
 
@@ -96,5 +101,8 @@ public class ElkiRStarTree {
         labelListRelation = db.getRelation(TypeUtil.STRING);
         euclidean = db.getDistanceQuery(vectors, EuclideanDistanceFunction.STATIC);
         rangeQuery = db.getRangeQuery(euclidean, vectors.size());
+
+        Instant end = Instant.now();
+        System.out.println("\nMake Tree time : "+ Duration.between(start, end) + "\n");
     }
 }
