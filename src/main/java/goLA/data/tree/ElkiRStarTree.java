@@ -43,9 +43,6 @@ public class ElkiRStarTree {
     private Database db;
     private Relation<LabelList> labelListRelation;
     private Relation<DoubleVector> vectors;
-    private DistanceQuery<DoubleVector> euclidean;
-    private RangeQuery<DoubleVector> rangeQuery;
-    private Boolean init = false;
 
     public void add(String id, double[] coordinates) {
         this.tree.add(new double[]{coordinates[0], coordinates[1]});
@@ -53,56 +50,49 @@ public class ElkiRStarTree {
     }
 
     public DoubleDBIDList search(double[] point, double dist) {
-        //TODO add custom annotation to run initialize by itself
-        initialize();
-        
-        return rangeQuery.getRangeForObject(DoubleVector.FACTORY.newNumberVector(new double[]{point[0], point[1]}), dist);
+        return db.getRangeQuery( db.getDistanceQuery(vectors, EuclideanDistanceFunction.STATIC), vectors.size()).getRangeForObject(DoubleVector.FACTORY.newNumberVector(new double[]{point[0], point[1]}), dist);
     }
 
     public String getRecordName(DoubleDBIDListIter res) {
         return String.valueOf(labelListRelation.get(res));
     }
 
-    private void initialize() {
-
-        if(init) return;
-        init = true;
+    public void initialize() {
 
         Instant start = Instant.now();
 
-        ListParameterization spatparams = new ListParameterization();
-        spatparams.addParameter(INDEX_ID, RStarTreeFactory.class);
-        spatparams.addParameter(AbstractRStarTreeFactory.Parameterizer.INSERTION_STRATEGY_ID, ApproximativeLeastOverlapInsertionStrategy.class);
-        spatparams.addParameter(RStarTreeFactory.Parameterizer.SPLIT_STRATEGY_ID, AngTanLinearSplit.class);
-        spatparams.addParameter(RStarTreeFactory.Parameterizer.BULK_SPLIT_ID, FileOrderBulkSplit.class);
-
-        //TODO avoid data copy
         double[][] d = new double[tree.size()][2];
         d = tree.toArray(d);
-//        for (int i = 0; i < tree.size(); i++) {
-//            d[i][0] = tree.get(i)[0];
-//            d[i][1] = tree.get(i)[1];
-//        }
 
         String[] h = treeLabels.parallelStream().toArray(String[]::new);
 
         DatabaseConnection dbc = new ArrayAdapterDatabaseConnection(d, h);
 
-        Collection<IndexFactory<?, ?>> indexFactories = new ArrayList();
-
-        RStarTreeFactory<DoubleVector> f =
-                ClassGenericsUtil.parameterizeOrAbort(RStarTreeFactory.class, spatparams);
-        indexFactories.add(f);
-
-        db = new StaticArrayDatabase(dbc, indexFactories);
+        db = new StaticArrayDatabase(dbc, getFactories());
         db.initialize();
 
         vectors = db.getRelation(TypeUtil.DOUBLE_VECTOR_FIELD);
         labelListRelation = db.getRelation(TypeUtil.STRING);
-        euclidean = db.getDistanceQuery(vectors, EuclideanDistanceFunction.STATIC);
-        rangeQuery = db.getRangeQuery(euclidean, vectors.size());
 
         Instant end = Instant.now();
         System.out.println("\nMake Tree time : "+ Duration.between(start, end) + "\n");
+    }
+
+    private ListParameterization getParams(){
+        //TODO play with params (see perfomance)
+        ListParameterization params = new ListParameterization();
+        params.addParameter(INDEX_ID, RStarTreeFactory.class);
+        params.addParameter(AbstractRStarTreeFactory.Parameterizer.INSERTION_STRATEGY_ID, ApproximativeLeastOverlapInsertionStrategy.class);
+        params.addParameter(RStarTreeFactory.Parameterizer.SPLIT_STRATEGY_ID, AngTanLinearSplit.class);
+        params.addParameter(RStarTreeFactory.Parameterizer.BULK_SPLIT_ID, FileOrderBulkSplit.class);
+        return params;
+    }
+
+    private Collection<IndexFactory<?, ?>> getFactories(){
+        Collection<IndexFactory<?, ?>> indexFactories = new ArrayList();
+        RStarTreeFactory<DoubleVector> factory =
+                ClassGenericsUtil.parameterizeOrAbort(RStarTreeFactory.class, getParams());
+        indexFactories.add(factory);
+        return indexFactories;
     }
 }

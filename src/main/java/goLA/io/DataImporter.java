@@ -36,6 +36,7 @@ public class DataImporter {
         catch (IOException e) {
             e.printStackTrace();
         }
+        tree.initialize();
     }
 
     public List<TrajectoryQuery> getQueries(String path){

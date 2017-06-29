@@ -48,6 +48,11 @@ public class SE_Manhattan_Rtree implements Tree {
         holder.put(tr.getName(), tr);
     }
 
+    @Override
+    public void initialize() {
+        manh_tree.initialize();
+    }
+
     private Double getSignedManhattanDist(Coordinates coordinates, Coordinates criterion) {
         double x_dist = coordinates.getPointX() - criterion.getPointX();
         double y_dist = coordinates.getPointY() - criterion.getPointY();

@@ -1,5 +1,6 @@
 import goLA.compute.SimpleFrechet;
 
+import goLA.data.SE_Manhattan_Rtree;
 import goLA.data.SE_Two_Rtree;
 import goLA.io.DataImporter;
 import goLA.manage.Manager;

@@ -10,6 +10,8 @@ import goLA.model.TrajectoryQuery;
 public interface Tree {
     void addTrajectory(String id, Trajectory tr);
 
+    void initialize();
+
     TrajectoryHolder getPossible(TrajectoryQuery query);
 
     int size();

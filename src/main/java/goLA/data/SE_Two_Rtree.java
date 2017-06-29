@@ -51,6 +51,12 @@ public class SE_Two_Rtree implements Tree {
     }
 
     @Override
+    public void initialize() {
+        start_tree.initialize();
+        end_tree.initialize();
+    }
+
+    @Override
     public TrajectoryHolder getPossible(TrajectoryQuery query) {
 
         Coordinates q_start = query.getTrajectory().getCoordinates().get(0);
