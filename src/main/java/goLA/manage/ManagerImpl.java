@@ -50,7 +50,7 @@ public class ManagerImpl implements Manager {
             System.out.println("---- result number : " + q_res.size() + " -------");
 
             Instant end = Instant.now();
-            System.out.println("---- calculate Dist Time : "+ Duration.between(middle, end));
+            System.out.println("---- calculate Dist Time : "+ Duration.between(middle, end) + " -------");
 
         });
 
