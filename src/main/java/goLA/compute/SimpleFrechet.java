@@ -63,6 +63,7 @@ public class SimpleFrechet implements QueryProcessor {
                 if (!result_left[i][j] && !result_bottom[i][j]) {
                     result_left[i + 1][j] = false;
                     result_bottom[i][j + 1] = false;
+                    return false;
                 } else {
                     result_bottom[i][j + 1] = bottom[i][j + 1];
                     result_left[i + 1][j] = left[i + 1][j];
