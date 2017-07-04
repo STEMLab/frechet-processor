@@ -7,6 +7,8 @@ import goLA.model.Trajectory;
 import goLA.model.TrajectoryHolder;
 import goLA.model.TrajectoryQuery;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -40,11 +42,22 @@ public class ManagerImpl implements Manager {
         List<TrajectoryQuery> query = di.getQueries(query_path);
 
         query.forEach(q -> {
-            System.out.println("----Query processing : " + q.getTrajectory().getName() + ", " + q.dist + " -------");
-
+            //TODO : print to file
+            Instant start = Instant.now();
+            System.out.println("\n\n---- Query processing : " + q.getTrajectory().getName() + ", " + q.dist + " -------");
             TrajectoryHolder possible_trajectoryHolder = tree.getPossible(q);
-            System.out.println("---- result number : " + possible_trajectoryHolder.size() + " -------");
-            result.add(q_processor.findTrajectoriesFrom(q, possible_trajectoryHolder));
+            System.out.println("---- candidate number : " + possible_trajectoryHolder.size() + " -------");
+
+            Instant middle = Instant.now();
+            System.out.println("---- getPossible Time : "+ Duration.between(start, middle));
+
+            TrajectoryHolder q_res = q_processor.findTrajectoriesFrom(q, possible_trajectoryHolder);
+            result.add(q_res);
+            System.out.println("---- result number : " + q_res.size() + " -------");
+
+            Instant end = Instant.now();
+            System.out.println("---- calculate Dist Time : "+ Duration.between(middle, end) + " -------");
+
         });
 
         return result;

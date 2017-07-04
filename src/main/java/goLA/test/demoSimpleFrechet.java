@@ -50,7 +50,7 @@ public class demoSimpleFrechet {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         String b = in.readLine();
         if (b.contains("Y") || b.contains("y")){
-            writeEvaluation("v0.1", manager.getTree().size(), result.size(),
+            writeEvaluation("v0.1.2", manager.getTree().size(), result.size(),
                     Duration.between(middle, end), Duration.between(start, end));
         }
     }

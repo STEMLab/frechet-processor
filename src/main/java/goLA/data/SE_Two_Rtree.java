@@ -31,6 +31,7 @@ public class SE_Two_Rtree implements Tree {
         this.holder = new ConcurrentHashMap<>();
     }
 
+    @Override
     public int size() {
         return this.size;
     }
