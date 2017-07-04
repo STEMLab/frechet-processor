@@ -20,14 +20,15 @@ import java.util.stream.Stream;
 public class DataImporter {
 
     public void loadFiles(String src, Tree tree) {
-
         try (Stream<String> stream = Files.lines(Paths.get(src))) {
             stream.forEach(e -> {
-                        Trajectory trajectory = new Trajectory();
-                        trajectory.setCoordinates(getCoordList(e));
-                        trajectory.setName(e);
-                        //trajectoryHolder.addTrajectory(e, trajectory);
-                        tree.addTrajectory(e, trajectory);
+                        if (e.length() != 0) {
+                            Trajectory trajectory = new Trajectory();
+                            trajectory.setCoordinates(getCoordList(e));
+                            trajectory.setName(e);
+                            //trajectoryHolder.addTrajectory(e, trajectory);
+                            tree.addTrajectory(e, trajectory);
+                        }
                     }
             );
 
@@ -43,10 +44,12 @@ public class DataImporter {
         HashSet<Trajectory> trajectoryHashMap = new LinkedHashSet<>();
         try (Stream<String> stream = Files.lines(Paths.get(src))) {
             stream.forEach(e -> {
-                        Trajectory trajectory = new Trajectory();
-                        trajectory.setCoordinates(getCoordList(e));
-                        trajectory.setName(e);
-                        trajectoryHashMap.add(trajectory);
+                if (e.length() != 0) {
+                    Trajectory trajectory = new Trajectory();
+                    trajectory.setCoordinates(getCoordList(e));
+                    trajectory.setName(e);
+                    trajectoryHashMap.add(trajectory);
+                }
                     }
             );
 
@@ -62,18 +65,20 @@ public class DataImporter {
         List<TrajectoryQuery> list = new ArrayList<>();
         try (Stream<String> stream = Files.lines(Paths.get(path))) {
             stream.forEach(e -> {
-                        String lines[] = e.split("\\s+");
-                        if (lines.length != 2)
-                            new CustomException("Query Line doesn't have two properties");
+                if (e.length() != 0) {
+                    String lines[] = e.split("\\s+");
+                    if (lines.length != 2)
+                        new CustomException("Query Line doesn't have two properties");
 
-                        Trajectory q_tr = new Trajectory();
-                        q_tr.setName(lines[0]);
-                        q_tr.setCoordinates(getCoordList(lines[0]));
-                        double dist = Double.parseDouble(lines[1]);
+                    Trajectory q_tr = new Trajectory();
+                    q_tr.setName(lines[0]);
+                    q_tr.setCoordinates(getCoordList(lines[0]));
+                    double dist = Double.parseDouble(lines[1]);
 
-                        TrajectoryQuery tq = new TrajectoryQuery(q_tr, dist);
+                    TrajectoryQuery tq = new TrajectoryQuery(q_tr, dist);
 
-                        list.add(tq);
+                    list.add(tq);
+                }
                     }
             );
 
@@ -95,8 +100,9 @@ public class DataImporter {
             AtomicInteger index = new AtomicInteger(0);
             stream.forEach(e -> {
                         String lines[] = e.split("\\s+");
-                        if (lines.length < 4)
+                        if (lines.length < 4) {
                             new CustomException("One of trajectory properties(x,y,k,tid) not found in file \"" + temp + "\"");
+                        }
                         Coordinates coordinates = new Coordinates();
                         coordinates.setPointX(Double.valueOf(lines[0]));
                         coordinates.setPointY(Double.valueOf(lines[1]));
