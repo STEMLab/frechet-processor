@@ -10,30 +10,28 @@ import java.util.List;
 
 import goLA.compute.*;
 import goLA.data.*;
+import goLA.filter.SimplifyPossibleFrechet;
+import goLA.filter.SimplifyQueryFrechet;
 import goLA.io.*;
 import goLA.manage.*;
 import goLA.model.TrajectoryHolder;
 
 public class demoSimpleFrechet {
-
+    private static String TEST_DATA_SET_PATH = "T_dataset.txt";
+    private static String QUERY_PATH = "T_queries.txt";
     public static void main(String[] args) throws IOException {
 
         Instant start = Instant.now();
         System.out.println("Start Program");
-        
-        String src_path = "dataset.txt";
-        String query_path = "queries.txt";
 
-        Manager manager = new ManagerImpl(new SimpleFrechet(), new SE_Two_Rtree(), new DataImporter());
-
-
-        manager.makeStructure(src_path);
+        Manager manager = new ManagerImpl(new SimpleFrechet(), new SE_Two_Rtree(), new DataImporter(), new SimplifyPossibleFrechet());
+        manager.makeStructure(TEST_DATA_SET_PATH);
 
         //get all data trajectories
         Instant middle = Instant.now();
         System.out.println("\nGet " + manager.getTree().size() + " data and put into data structure : "+ Duration.between(start, middle));
         
-        List<TrajectoryHolder> result = manager.findResult(query_path);
+        List<TrajectoryHolder> result = manager.findResult(QUERY_PATH);
 
         DataExporter de = new DataExporter("result/QueryResult/");
 
@@ -50,7 +48,7 @@ public class demoSimpleFrechet {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         String b = in.readLine();
         if (b.contains("Y") || b.contains("y")){
-            writeEvaluation("v0.1.2", manager.getTree().size(), result.size(),
+            writeEvaluation("v0.1.2.1_TD", manager.getTree().size(), result.size(),
                     Duration.between(middle, end), Duration.between(start, end));
         }
     }

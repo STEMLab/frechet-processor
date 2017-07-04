@@ -12,7 +12,7 @@ import java.util.List;
 public class SimpleFrechet implements QueryProcessor {
 
     @Override
-    public TrajectoryHolder findTrajectoriesFrom(TrajectoryQuery query, TrajectoryHolder trh) {
+    public TrajectoryHolder query(TrajectoryQuery query, TrajectoryHolder trh) {
         TrajectoryHolder result = new TrajectoryHolder();
 
         HashMap<String, Trajectory> trajectories = trh.getTrajectories();
@@ -24,7 +24,8 @@ public class SimpleFrechet implements QueryProcessor {
         return result;
     }
 
-    private boolean decideIn_FDist(Trajectory q_tr, Trajectory t_tr, double dist) {
+    @Override
+    public boolean decideIn_FDist(Trajectory q_tr, Trajectory t_tr, double dist) {
         int p, q;
 
         List<Coordinates> p_coordinates = q_tr.getCoordinates();

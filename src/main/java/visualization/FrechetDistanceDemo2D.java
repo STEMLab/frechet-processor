@@ -32,7 +32,7 @@ import java.util.HashSet;
  */
 public class FrechetDistanceDemo2D {
 
-    private static String TEST_DATA_SET_PATH = "dataset.txt";
+    private static String TEST_DATA_SET_PATH = "T_queries_dataset.txt";
 
     public static void main(String[] args) throws Exception {
 
@@ -77,6 +77,7 @@ public class FrechetDistanceDemo2D {
         Layer layer = new FeatureLayer(lineCollection, style);
         map.addLayer(layer);
 
+        trajectories.clear();
         JMapFrame.showMap(map);
     }
 }
