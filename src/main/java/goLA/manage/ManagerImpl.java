@@ -3,10 +3,12 @@ package goLA.manage;
 import goLA.compute.QueryProcessor;
 import goLA.data.Tree;
 import goLA.io.DataImporter;
+import goLA.model.Trajectory;
 import goLA.model.TrajectoryHolder;
 import goLA.model.TrajectoryQuery;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class ManagerImpl implements Manager {
@@ -25,6 +27,11 @@ public class ManagerImpl implements Manager {
     @Override
     public void makeStructure(String path) {
         di.loadFiles(path, tree);
+    }
+
+    @Override
+    public HashSet<Trajectory> makeStructureToVisualize(String path) {
+        return di.loadFilesToVisualize(path);
     }
 
     @Override
