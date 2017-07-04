@@ -1,0 +1,8 @@
+T_Drive_data/files-001762.dat	1.4545
+T_Drive_data/files-001865.dat	0.01122
+T_Drive_data/files-002817.dat	0.05278
+T_Drive_data/files-001953.dat	0.12
+T_Drive_data/files-000959.dat	0.3232
+T_Drive_data/files-002439.dat	0.002
+T_Drive_data/files-000668.dat	0.07512
+
