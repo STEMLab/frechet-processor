@@ -7,6 +7,7 @@ import goLA.model.Coordinates;
 import goLA.model.Trajectory;
 import goLA.model.TrajectoryHolder;
 import goLA.model.TrajectoryQuery;
+import goLA.utils.ManhattanDistance;
 
 import java.util.HashMap;
 import java.util.List;
@@ -37,8 +38,8 @@ public class SE_Manhattan_Rtree implements Tree {
             criteria[0] = list.get(0);
             criteria[1] = list.get(list.size() - 1);
         }
-        Double start_man_dist = getSignedManhattanDist(list.get(0), criteria[0]);
-        Double end_man_dist = getSignedManhattanDist(list.get(list.size() - 1), criteria[1]);
+        Double start_man_dist = ManhattanDistance.getSignedDistance(list.get(0), criteria[0]);
+        Double end_man_dist = ManhattanDistance.getSignedDistance(list.get(list.size() - 1), criteria[1]);
 
         manh_tree.add(tr.getName(), new double[]{start_man_dist, end_man_dist});
 
@@ -53,20 +54,14 @@ public class SE_Manhattan_Rtree implements Tree {
         manh_tree.initialize();
     }
 
-    private Double getSignedManhattanDist(Coordinates coordinates, Coordinates criterion) {
-        double x_dist = coordinates.getPointX() - criterion.getPointX();
-        double y_dist = coordinates.getPointY() - criterion.getPointY();
-        return x_dist + y_dist;
-    }
-
     @Override
     public TrajectoryHolder getPossible(TrajectoryQuery query) {
         Coordinates q_start = query.getTrajectory().getCoordinates().get(0);
         Coordinates q_end = query.getTrajectory().getCoordinates().get(query.getTrajectory().getCoordinates().size() - 1);
         double dist = query.dist;
 
-        Double s_q_dist = getSignedManhattanDist(q_start, criteria[0]);
-        Double e_q_dist = getSignedManhattanDist(q_end, criteria[1]);
+        Double s_q_dist = ManhattanDistance.getSignedDistance(q_start, criteria[0]);
+        Double e_q_dist = ManhattanDistance.getSignedDistance(q_end, criteria[1]);
 
         DoubleDBIDList results = manh_tree.search(new double[]{s_q_dist, e_q_dist}, dist * 1.5);
         TrajectoryHolder poss = new TrajectoryHolder();

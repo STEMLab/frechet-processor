@@ -4,6 +4,7 @@ import goLA.model.Coordinates;
 import goLA.model.Trajectory;
 import goLA.model.TrajectoryHolder;
 import goLA.model.TrajectoryQuery;
+import goLA.utils.EuclideanDistance;
 
 import java.util.HashMap;
 import java.util.List;
@@ -41,21 +42,21 @@ public class SimpleFrechet implements QueryProcessor {
         for (int i = 0; i < p; i++) {
             for (int j = 0; j < q; j++) {
                 //i && (j,j+1)
-                left[i][j] = (dist >= calcDistancePointAndLine(p_coordinates.get(i), q_coordinates.get(j), q_coordinates.get(j + 1)));
+                left[i][j] = (dist >= EuclideanDistance.pointAndLine(p_coordinates.get(i), q_coordinates.get(j), q_coordinates.get(j + 1)));
 
                 //j && (i,i+1)
-                bottom[i][j] = (dist >= calcDistancePointAndLine(q_coordinates.get(j), p_coordinates.get(i), p_coordinates.get(i + 1)));
+                bottom[i][j] = (dist >= EuclideanDistance.pointAndLine(q_coordinates.get(j), p_coordinates.get(i), p_coordinates.get(i + 1)));
             }
         }
 
         for (int i = 0; i < p; i++) {
             result_bottom[i][0] = bottom[i][0];
-            bottom[i][q] = (dist >= calcDistancePointAndLine(q_coordinates.get(q), p_coordinates.get(i), p_coordinates.get(i + 1)));
+            bottom[i][q] = (dist >= EuclideanDistance.pointAndLine(q_coordinates.get(q), p_coordinates.get(i), p_coordinates.get(i + 1)));
         }
 
         for (int j = 0; j < q; j++) {
             result_left[0][j] = left[0][j];
-            left[p][j] = (dist >= calcDistancePointAndLine(p_coordinates.get(p), q_coordinates.get(j), q_coordinates.get(j + 1)));
+            left[p][j] = (dist >= EuclideanDistance.pointAndLine(p_coordinates.get(p), q_coordinates.get(j), q_coordinates.get(j + 1)));
         }
 
         for (int i = 0; i < p; i++) {
@@ -72,30 +73,9 @@ public class SimpleFrechet implements QueryProcessor {
             }
         }
         if (result_left[p][q - 1] && result_bottom[p - 1][q]) {
-            if (EuclideanDistance(p_coordinates.get(p), q_coordinates.get(q)) <= dist && EuclideanDistance(p_coordinates.get(0), q_coordinates.get(0)) <= dist)
+            if (EuclideanDistance.distance(p_coordinates.get(p), q_coordinates.get(q)) <= dist && EuclideanDistance.distance(p_coordinates.get(0), q_coordinates.get(0)) <= dist)
                 return true;
         }
         return false;
     }
-
-    private double calcDistancePointAndLine(Coordinates point, Coordinates start, Coordinates end) {
-        double lineLen = EuclideanDistance(start, end);
-        if (lineLen == 0) return EuclideanDistance(point, start);
-
-        double prj = ((point.getPointX() - start.getPointX()) * (end.getPointX() - start.getPointX()) +
-                (point.getPointY() - start.getPointY()) * (end.getPointY() - start.getPointY())) / lineLen;
-        if (prj < 0) return EuclideanDistance(point, start);
-        else if (prj > lineLen) return EuclideanDistance(point, end);
-        else {
-            //return normal_projection
-            return Math.abs((-1) * (point.getPointX() - start.getPointX()) * (end.getPointY() - start.getPointY()) +
-                    (point.getPointY() - start.getPointY()) * (end.getPointX() - start.getPointX())) / lineLen;
-        }
-    }
-
-    private double EuclideanDistance(Coordinates start, Coordinates end) {
-        return Math.sqrt(Math.pow(end.getPointX() - start.getPointX(), 2) + Math.pow(end.getPointY() - start.getPointY(), 2));
-    }
-
-
 }
