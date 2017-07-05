@@ -14,12 +14,12 @@ import java.util.stream.Stream;
  * Created by stem-dong-li on 17. 7. 5.
  */
 public class CompareResult {
-    private static String ROOT = "result/SampleData/";
+    private static String ROOT = "result/T_Drive/";
     private static int tr_wrong_count = 0;
     private static int whole_sol_tr = 0;
     public static void main(String[] args){
-        String solution = ROOT + "v0.1.2/";
-        String new_answer = ROOT + "v0.1/";
+        String solution = ROOT + "v0.1.3.2/";
+        String new_answer = ROOT + "v0.1.3.3/";
 
         File[] f_sol = new File(solution).listFiles();
         File[] f_na = new File(new_answer).listFiles();
@@ -30,7 +30,9 @@ public class CompareResult {
             for (int j = 0 ; j < f_na.length ; j++){
                 if (f_sol[i].getName().equals(f_na[j].getName())){
                     checked = true;
+                    if (f_sol[i].getPath().contains("QueryInfo") || f_na[j].getPath().contains("QueryInfo")) continue;
                     if (!compare(f_sol[i], f_na[j])){
+                        System.out.println(f_sol[i].getPath() + ", " + f_na[j].getPath());
                         file_wrong_count++;
                     }
                     break;

@@ -38,10 +38,13 @@ public class DouglasPeucker {
     }
 
     public static Trajectory getReduced(Trajectory trajectory, Double epsilon) {
+        if (trajectory.simple != null) return trajectory.simple;
+        if (epsilon == 0.0) return trajectory;
         Trajectory ret = new Trajectory();
         List<Coordinates> coordinates = reduce(trajectory.getCoordinates(), epsilon);
         ret.setCoordinates(coordinates);
-        return ret;
+        trajectory.simple = ret;
+        return trajectory.simple;
     }
 
     public static double getAvgEpsilon(Trajectory trajectory) {
@@ -49,7 +52,9 @@ public class DouglasPeucker {
     }
 
     public static double getMaxEpsilon(Trajectory trajectory) {
-        return max(deviations(trajectory.getCoordinates()));
+        if (trajectory.MaxEpsilon != null) return trajectory.MaxEpsilon;
+        else trajectory.MaxEpsilon = max(deviations(trajectory.getCoordinates()));
+        return trajectory.MaxEpsilon;
     }
 
     private static double[] deviations(List<Coordinates> coordinates) {

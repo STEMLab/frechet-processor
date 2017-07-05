@@ -8,6 +8,10 @@ public class Trajectory {
 
 	private List<Coordinates> coordinates;
 
+	public boolean isResult = false;
+
+	public Double MaxEpsilon = null;
+	public Trajectory simple = null;
 
 	public String getName() {
 		return name;

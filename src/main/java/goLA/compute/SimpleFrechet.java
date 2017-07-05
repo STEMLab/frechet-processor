@@ -22,7 +22,8 @@ public class SimpleFrechet implements QueryProcessor {
         HashMap<String, Trajectory> trajectories = trh.getTrajectories();
 
         trajectories.forEach((key, value) -> {
-            if (FrechetDistance.decisionDP(query.q_tr, value, query.dist)) result.addTrajectory(key, value);
+            if (value.isResult) result.addTrajectory(key, value);
+            else if (FrechetDistance.decisionDP(query.q_tr, value, query.dist)) result.addTrajectory(key, value);
         });
 
         return result;

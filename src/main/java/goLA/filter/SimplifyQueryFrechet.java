@@ -20,7 +20,8 @@ public class SimplifyQueryFrechet implements Filter{
     //TODO
     @Override
     public TrajectoryHolder doFilter(TrajectoryQuery q, TrajectoryHolder trh) {
-        double epsilon = q.dist / 10;
+        double epsilon = (DouglasPeucker.getMaxEpsilon(q.getTrajectory()) + q.dist / 5)/ 2;//q.dist / 5;
+
         Trajectory simple_q = DouglasPeucker.getReduced(q.getTrajectory(), epsilon);
         Map<String, Trajectory> ret = trh.getTrajectories()
                 .entrySet()
@@ -32,17 +33,11 @@ public class SimplifyQueryFrechet implements Filter{
                         (entry) -> entry.getKey(),
                         (entry) -> entry.getValue()
                 ));
+
+
         TrajectoryHolder rettrh = new TrajectoryHolder();
         rettrh.setTrajectories(new HashMap<>(ret));
 
-//        TrajectoryHolder rettrh = new TrajectoryHolder();
-//        int size = 0;
-//        for( Map.Entry<String, Trajectory> elem : trh.getTrajectories().entrySet() ){
-//            if ( FrechetDistance.decisionDP(q.getTrajectory(), DouglasPeucker.getReduced(elem.getValue(), epsilon), q.dist + epsilon) ) {
-//                size++;
-//                rettrh.addTrajectory(elem.getKey(), elem.getValue());
-//            }
-//        }
         return rettrh;
     }
 }

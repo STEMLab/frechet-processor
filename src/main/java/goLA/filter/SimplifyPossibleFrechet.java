@@ -18,29 +18,29 @@ import java.util.stream.Collectors;
 public class SimplifyPossibleFrechet implements Filter{
     @Override
     public TrajectoryHolder doFilter(TrajectoryQuery q, TrajectoryHolder trh) {
-        //TODO : get reasonable epsilon
-        double epsilon = q.dist / 10;
-        Map<String, Trajectory> ret = trh.getTrajectories()
-                .entrySet()
+        double epsilon = (DouglasPeucker.getMaxEpsilon(q.getTrajectory()) + q.dist / 5)/ 2;
+        Map<String, Trajectory> ret = trh.getTrajectories().entrySet()
                 .stream()
                 .filter(t ->
-                        FrechetDistance.decisionDP(q.getTrajectory(), DouglasPeucker.getReduced(t.getValue(), epsilon), q.dist + epsilon)
+                        FrechetDistance.decisionDP(q.getTrajectory(), DouglasPeucker.getReduced(t.getValue(), DouglasPeucker.getMaxEpsilon(t.getValue())), q.dist + epsilon)
                 )
                 .collect(Collectors.toMap(
                         (entry) -> entry.getKey(),
                         (entry) -> entry.getValue()
                 ));
+//
+        ret.entrySet().stream().forEach((t)->{
+                    t.getValue().isResult = false;
+                    if (FrechetDistance.decisionDP(q.getTrajectory(),
+                            DouglasPeucker.getReduced(t.getValue(), DouglasPeucker.getMaxEpsilon(t.getValue())),
+                            q.dist - DouglasPeucker.getMaxEpsilon(t.getValue()) * 2 )){
+                        t.getValue().isResult = true;
+                    }
+                }
+        );
+
         TrajectoryHolder rettrh = new TrajectoryHolder();
         rettrh.setTrajectories(new HashMap<>(ret));
-
-//        TrajectoryHolder rettrh = new TrajectoryHolder();
-//        int size = 0;
-//        for( Map.Entry<String, Trajectory> elem : trh.getTrajectories().entrySet() ){
-//            if ( FrechetDistance.decisionDP(q.getTrajectory(), DouglasPeucker.getReduced(elem.getValue(), epsilon), q.dist + epsilon) ) {
-//                size++;
-//                rettrh.addTrajectory(elem.getKey(), elem.getValue());
-//            }
-//        }
-        return rettrh;
+        return trh;
     }
 }
