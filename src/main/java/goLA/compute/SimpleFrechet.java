@@ -17,6 +17,7 @@ public class SimpleFrechet implements QueryProcessor {
     @Override
     public TrajectoryHolder query(TrajectoryQuery query, TrajectoryHolder trh) {
         TrajectoryHolder result = new TrajectoryHolder();
+        if (trh.size() == 0) return result;
 
         HashMap<String, Trajectory> trajectories = trh.getTrajectories();
 

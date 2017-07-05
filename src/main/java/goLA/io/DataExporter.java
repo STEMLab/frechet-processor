@@ -21,7 +21,31 @@ public class DataExporter {
     }
 
     public DataExporter(String ppath){
+        File dir = new File(ppath);
+        removeDIR(ppath);
+        if (!dir.exists()){
+            dir.mkdir();
+        }
         path = ppath;
+    }
+
+    private void removeDIR(String source){
+        File[] listFile = new File(source).listFiles();
+        try{
+            if(listFile.length > 0){
+                for(int i = 0 ; i < listFile.length ; i++){
+                    if(listFile[i].isFile()){
+                        listFile[i].delete();
+                    }else{
+                        removeDIR(listFile[i].getPath());
+                    }
+                    listFile[i].delete();
+                }
+            }
+        }catch(Exception e){
+            System.err.println(System.err);
+            System.exit(-1);
+        }
     }
 
     public void export(HashMap<String, Trajectory> map, int number) throws IOException {

@@ -17,9 +17,11 @@ import goLA.manage.*;
 import goLA.model.TrajectoryHolder;
 
 public class demoSimpleFrechet {
-    private static String TEST_DATA_SET_PATH = "T_dataset.txt";
-    private static String QUERY_PATH = "T_queries.txt";
+    private static String TEST_DATA_SET_PATH = "dataset.txt";
+    private static String QUERY_PATH = "queries.txt";
+    private static String RESULT_PATH = "result/SampleData/";
     public static void main(String[] args) throws IOException {
+        DataExporter de = new DataExporter(RESULT_PATH + "QueryResult/");
 
         Instant start = Instant.now();
         System.out.println("Start Program");
@@ -33,7 +35,7 @@ public class demoSimpleFrechet {
         
         List<TrajectoryHolder> result = manager.findResult(QUERY_PATH);
 
-        DataExporter de = new DataExporter("result/QueryResult/");
+
 
         for (int index = 0 ; index < result.size() ; index++){
         	result.get(index).printAllTrajectory(de, index);
@@ -48,13 +50,13 @@ public class demoSimpleFrechet {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         String b = in.readLine();
         if (b.contains("Y") || b.contains("y")){
-            writeEvaluation("v0.1.2.1_TD", manager.getTree().size(), result.size(),
+            writeEvaluation("v0.1.2.1", manager.getTree().size(), result.size(),
                     Duration.between(middle, end), Duration.between(start, end));
         }
     }
 
-    private static void writeEvaluation(String branch, int d_num, int q_num, Duration q, Duration whole) throws IOException{
-        Path path = Paths.get(String.format("result/" + "%s.txt", branch));
+    private static void writeEvaluation(String tag, int d_num, int q_num, Duration q, Duration whole) throws IOException{
+        Path path = Paths.get(String.format(RESULT_PATH + "%s.txt", tag));
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(path.toString(), true))) {
             writer.append(new Date().toString() + "\n");
             writer.append("Data number : " + d_num +"\n");
