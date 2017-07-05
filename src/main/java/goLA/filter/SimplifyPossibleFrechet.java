@@ -32,6 +32,15 @@ public class SimplifyPossibleFrechet implements Filter{
                 ));
         TrajectoryHolder rettrh = new TrajectoryHolder();
         rettrh.setTrajectories(new HashMap<>(ret));
+
+//        TrajectoryHolder rettrh = new TrajectoryHolder();
+//        int size = 0;
+//        for( Map.Entry<String, Trajectory> elem : trh.getTrajectories().entrySet() ){
+//            if ( FrechetDistance.decisionDP(q.getTrajectory(), DouglasPeucker.getReduced(elem.getValue(), epsilon), q.dist + epsilon) ) {
+//                size++;
+//                rettrh.addTrajectory(elem.getKey(), elem.getValue());
+//            }
+//        }
         return rettrh;
     }
 }

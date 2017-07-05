@@ -29,7 +29,7 @@ public class FrechetDistanceTest {
         Manager manager = new ManagerImpl(new SimpleFrechet(), new SE_Two_Rtree(), new DataImporter(), new SimplifyPossibleFrechet());
 
         manager.makeStructure(TEST_DATA_SET_PATH);
-        List<TrajectoryHolder> result = manager.findResult(TEST_QUERY_PATH);
+        List<TrajectoryHolder> result = manager.findResult(TEST_QUERY_PATH, null);
 
 
         if (result.get(0).getTrajectories().size() != 2) {

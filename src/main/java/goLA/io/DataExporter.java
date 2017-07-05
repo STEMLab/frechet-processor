@@ -1,6 +1,8 @@
 package goLA.io;
 
 import goLA.model.Trajectory;
+import goLA.model.TrajectoryHolder;
+import goLA.model.TrajectoryQuery;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -9,6 +11,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
@@ -20,13 +24,17 @@ public class DataExporter {
         path = "";
     }
 
-    public DataExporter(String ppath){
-        File dir = new File(ppath);
-        removeDIR(ppath);
-        if (!dir.exists()){
+    public DataExporter(String root_path, String tag_path){
+        File dir = new File(root_path + tag_path);
+        if (dir.exists())
+            removeDIR(root_path + tag_path);
+        if (!dir.exists())
             dir.mkdir();
-        }
-        path = ppath;
+
+        path = root_path + tag_path;
+
+        File info = new File(this.path + "QueryInfo.txt");
+        if (info.exists()) info.delete();
     }
 
     private void removeDIR(String source){
@@ -61,4 +69,21 @@ public class DataExporter {
        // System.out.println("Content of StringBuffer written to File.");
     }
 
+    public void exportQuery(TrajectoryQuery q, int size1, boolean b, int size2, int size3, Instant start, Instant middle1, Instant middle2, Instant end) {
+        Path path = Paths.get(this.path + "QueryInfo.txt");
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(path.toString(), true))) {
+            writer.append("\n\n---- Query processing : " + q.getTrajectory().getName() + ", " + q.dist + " -------\n");
+            writer.append("---- candidate number : " + size1 + " -------\n");
+            writer.append("---- getPossible Time : "+ Duration.between(start, middle1)+"\n");
+            if (b){
+                writer.append("---- Filtering Time : "+ Duration.between(middle1, middle2)+"\n");
+                writer.append("---- After Filtering number : " + size2  + " -------"+"\n");
+            }
+            writer.append("---- result number : " + size3 + " -------"+"\n");
+            writer.append("---- calculate Dist Time : "+ Duration.between(middle2, end) + " -------"+"\n");
+            writer.close();
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -38,8 +38,9 @@ public class DouglasPeucker {
     }
 
     public static Trajectory getReduced(Trajectory trajectory, Double epsilon) {
+        Trajectory ret = new Trajectory();
         List<Coordinates> coordinates = reduce(trajectory.getCoordinates(), epsilon);
-        trajectory.setCoordinates(coordinates);
-        return trajectory;
+        ret.setCoordinates(coordinates);
+        return ret;
     }
 }
