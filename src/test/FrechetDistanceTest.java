@@ -33,6 +33,7 @@ public class FrechetDistanceTest {
         manager.makeStructure(TEST_DATA_SET_PATH);
         List<TrajectoryHolder> result = manager.findResult(TEST_QUERY_PATH, null);
 
+        System.out.println("\n");
         for(int i=0; i<result.size();i++){
                 if (result.get(i).getTrajectories().size() != results[i]) {
                     System.out.printf("%s - Test '%s' - failed %n", ++count, "Query "+(i+1));

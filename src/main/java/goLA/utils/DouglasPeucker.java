@@ -43,4 +43,37 @@ public class DouglasPeucker {
         ret.setCoordinates(coordinates);
         return ret;
     }
+
+    public static double getEpsilon(Trajectory trajectory){
+        return avg(deviations(trajectory.getCoordinates()));
+    }
+
+    private static double[] deviations(List<Coordinates> coordinates){
+        double[] deviations = new double[Math.max(0, coordinates.size() - 2)];
+        for (int i = 2; i < coordinates.size(); i++) {
+            Coordinates lineStart = coordinates.get(i-2);
+            Coordinates point = coordinates.get(i-1);
+            Coordinates lineEnd = coordinates.get(i);
+            double dev = EuclideanDistance.pointAndLine(point,lineStart,lineEnd);
+            deviations[i-2] = dev;
+        }
+        return deviations;
+    }
+
+    private static double avg(double[] values) {
+        if (values.length > 0) {
+            return sum(values)/values.length;
+        } else {
+            return 0.0;
+        }
+    }
+
+    private static double sum(double[] values) {
+        double sum = 0.0;
+        for (int i = 0; i < values.length; i++) {
+            sum += values[i];
+        }
+        return sum;
+    }
+
 }
