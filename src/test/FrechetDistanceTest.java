@@ -24,26 +24,21 @@ public class FrechetDistanceTest {
 
         int passed = 0, failed = 0, count = 0;
 
+        int[] results = {5,2,4,4,3,5,4,3,3,5};
+
         Manager manager = new ManagerImpl(new SimpleFrechet(), new SE_Two_Rtree(), new DataImporter());
 
         manager.makeStructure(TEST_DATA_SET_PATH);
         List<TrajectoryHolder> result = manager.findResult(TEST_QUERY_PATH);
 
-
-        if (result.get(0).getTrajectories().size() != 2) {
-            System.out.printf("%s - Test '%s' - failed %n", ++count, "Query 1 failed");
-            failed++;
-        } else {
-            System.out.printf("%s - Test '%s' - passed %n", ++count, "Query 1 proceed");
-            passed++;
-        }
-
-        if (result.get(1).getTrajectories().size() != 1) {
-            System.out.printf("%s - Test '%s' - failed %n", ++count, "Query 2 failed");
-            failed++;
-        } else {
-            System.out.printf("%s - Test '%s' - passed %n", ++count, "Query 2 proceed");
-            passed++;
+        for(int i=0; i<result.size();i++){
+                if (result.get(i).getTrajectories().size() != results[i]) {
+                    System.out.printf("%s - Test '%s' - failed %n", ++count, "Query "+(i+1));
+                    failed++;
+                } else {
+                    System.out.printf("%s - Test '%s' - passed %n", ++count, "Query "+(i+1));
+                    passed++;
+                }
         }
 
         System.out.printf("%nResult : Total : %d, Passed: %d, Failed %d", count, passed, failed);

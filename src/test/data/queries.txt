@@ -1,2 +1,10 @@
 src/test/data/file1.dat 2.6960
 src/test/data/file1.dat 1.2494
+src/test/data/file1.dat 1.3625
+src/test/data/file1.dat 1.4693
+src/test/data/file3.dat 1.1294
+src/test/data/file5.dat 2.3856
+src/test/data/file2.dat 2.3612
+src/test/data/file4.dat 1.0654
+src/test/data/file3.dat 0.9668
+src/test/data/file3.dat 2.3020
