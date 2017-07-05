@@ -41,6 +41,6 @@ public class SimplifyPossibleFrechet implements Filter{
 
         TrajectoryHolder rettrh = new TrajectoryHolder();
         rettrh.setTrajectories(new HashMap<>(ret));
-        return trh;
+        return rettrh;
     }
 }
