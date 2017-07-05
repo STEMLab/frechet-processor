@@ -6,6 +6,7 @@ import goLA.model.Trajectory;
 import goLA.model.TrajectoryHolder;
 import goLA.model.TrajectoryQuery;
 import goLA.utils.DouglasPeucker;
+import goLA.utils.FrechetDistance;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,15 +18,13 @@ import java.util.stream.Collectors;
 public class SimplifyPossibleFrechet implements Filter{
     @Override
     public TrajectoryHolder doFilter(TrajectoryQuery q, TrajectoryHolder trh) {
-
-        QueryProcessor sf = new SimpleFrechet();
         //TODO : get reasonable epsilon
         double epsilon = q.dist / 10;
         Map<String, Trajectory> ret = trh.getTrajectories()
                 .entrySet()
                 .stream()
                 .filter(t ->
-                        sf.decideIn_FDist(q.getTrajectory(), DouglasPeucker.getReduced(t.getValue(), epsilon), q.dist + epsilon)
+                        FrechetDistance.decisionDP(q.getTrajectory(), DouglasPeucker.getReduced(t.getValue(), epsilon), q.dist + epsilon)
                 )
                 .collect(Collectors.toMap(
                         (entry) -> entry.getKey(),
