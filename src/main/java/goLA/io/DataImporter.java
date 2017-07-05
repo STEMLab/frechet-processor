@@ -22,7 +22,7 @@ public class DataImporter {
     public void loadFiles(String src, Tree tree) {
         try (Stream<String> stream = Files.lines(Paths.get(src))) {
             stream.forEach(e -> {
-                        if (e.length() != 0) {
+                        if (!e.isEmpty() && e != null) {
                             Trajectory trajectory = new Trajectory();
                             trajectory.setCoordinates(getCoordList(e));
                             trajectory.setName(e);
@@ -35,21 +35,21 @@ public class DataImporter {
         } catch (NoSuchFileException e) {
             new CustomException("Dataset not found");
         } catch (IOException e) {
-            e.printStackTrace();
+                e.printStackTrace();
+            }
+            tree.initialize();
         }
-        tree.initialize();
-    }
 
     public HashSet<Trajectory> loadFilesToVisualize(String src) {
         HashSet<Trajectory> trajectoryHashMap = new LinkedHashSet<>();
         try (Stream<String> stream = Files.lines(Paths.get(src))) {
             stream.forEach(e -> {
-                if (e.length() != 0) {
-                    Trajectory trajectory = new Trajectory();
-                    trajectory.setCoordinates(getCoordList(e));
-                    trajectory.setName(e);
-                    trajectoryHashMap.add(trajectory);
-                }
+                        if (!e.isEmpty() && e != null) {
+                            Trajectory trajectory = new Trajectory();
+                            trajectory.setCoordinates(getCoordList(e));
+                            trajectory.setName(e);
+                            trajectoryHashMap.add(trajectory);
+                        }
                     }
             );
 
@@ -65,7 +65,7 @@ public class DataImporter {
         List<TrajectoryQuery> list = new ArrayList<>();
         try (Stream<String> stream = Files.lines(Paths.get(path))) {
             stream.forEach(e -> {
-                if (e.length() != 0) {
+                if (!e.isEmpty() && e != null) {
                     String lines[] = e.split("\\s+");
                     if (lines.length != 2)
                         new CustomException("Query Line doesn't have two properties");

@@ -10,32 +10,33 @@ import java.util.List;
 
 import goLA.compute.*;
 import goLA.data.*;
+import goLA.filter.SimplifyPossibleFrechet;
+import goLA.filter.SimplifyQueryFrechet;
 import goLA.io.*;
 import goLA.manage.*;
 import goLA.model.TrajectoryHolder;
 
 public class demoSimpleFrechet {
+    private static String TEST_DATA_SET_PATH = "dataset.txt";
+    private static String QUERY_PATH = "queries.txt";
+    private static String RESULT_PATH = "result/SampleData/";
+    private static String TAG = "v0.1.3";
 
     public static void main(String[] args) throws IOException {
+        DataExporter de = new DataExporter(RESULT_PATH, TAG +"/");
 
         Instant start = Instant.now();
         System.out.println("Start Program");
-        
-        String src_path = "dataset.txt";
-        String query_path = "queries.txt";
 
-        Manager manager = new ManagerImpl(new SimpleFrechet(), new SE_Two_Rtree(), new DataImporter());
-
-
-        manager.makeStructure(src_path);
+        Manager manager = new ManagerImpl(new SimpleFrechet(), new SE_Two_Rtree(), new DataImporter(), new SimplifyPossibleFrechet());
+        //Manager manager = new ManagerImpl(new SimpleFrechet(), new SE_Two_Rtree(), new DataImporter());
+        manager.makeStructure(TEST_DATA_SET_PATH);
 
         //get all data trajectories
         Instant middle = Instant.now();
         System.out.println("\nGet " + manager.getTree().size() + " data and put into data structure : "+ Duration.between(start, middle));
         
-        List<TrajectoryHolder> result = manager.findResult(query_path);
-
-        DataExporter de = new DataExporter("result/QueryResult/");
+        List<TrajectoryHolder> result = manager.findResult(QUERY_PATH, de);
 
         for (int index = 0 ; index < result.size() ; index++){
         	result.get(index).printAllTrajectory(de, index);
@@ -50,13 +51,13 @@ public class demoSimpleFrechet {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         String b = in.readLine();
         if (b.contains("Y") || b.contains("y")){
-            writeEvaluation("v0.1.2", manager.getTree().size(), result.size(),
+            writeEvaluation(manager.getTree().size(), result.size(),
                     Duration.between(middle, end), Duration.between(start, end));
         }
     }
 
-    private static void writeEvaluation(String branch, int d_num, int q_num, Duration q, Duration whole) throws IOException{
-        Path path = Paths.get(String.format("result/" + "%s.txt", branch));
+    private static void writeEvaluation(int d_num, int q_num, Duration q, Duration whole) throws IOException{
+        Path path = Paths.get(String.format(RESULT_PATH + "%s.txt", TAG));
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(path.toString(), true))) {
             writer.append(new Date().toString() + "\n");
             writer.append("Data number : " + d_num +"\n");

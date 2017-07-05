@@ -2,6 +2,8 @@ import goLA.compute.SimpleFrechet;
 
 import goLA.data.SE_Manhattan_Rtree;
 import goLA.data.SE_Two_Rtree;
+import goLA.filter.SimplifyPossibleFrechet;
+import goLA.filter.SimplifyQueryFrechet;
 import goLA.io.DataImporter;
 import goLA.manage.Manager;
 import goLA.manage.ManagerImpl;
@@ -26,10 +28,10 @@ public class FrechetDistanceTest {
 
         int[] results = {5,2,4,4,3,5,4,3,3,5};
 
-        Manager manager = new ManagerImpl(new SimpleFrechet(), new SE_Two_Rtree(), new DataImporter());
+        Manager manager = new ManagerImpl(new SimpleFrechet(), new SE_Two_Rtree(), new DataImporter(), new SimplifyPossibleFrechet());
 
         manager.makeStructure(TEST_DATA_SET_PATH);
-        List<TrajectoryHolder> result = manager.findResult(TEST_QUERY_PATH);
+        List<TrajectoryHolder> result = manager.findResult(TEST_QUERY_PATH, null);
 
         for(int i=0; i<result.size();i++){
                 if (result.get(i).getTrajectories().size() != results[i]) {
