@@ -44,28 +44,42 @@ public class DouglasPeucker {
         return ret;
     }
 
-    public static double getEpsilon(Trajectory trajectory){
+    public static double getAvgEpsilon(Trajectory trajectory) {
         return avg(deviations(trajectory.getCoordinates()));
     }
 
-    private static double[] deviations(List<Coordinates> coordinates){
+    public static double getMaxEpsilon(Trajectory trajectory) {
+        return max(deviations(trajectory.getCoordinates()));
+    }
+
+    private static double[] deviations(List<Coordinates> coordinates) {
         double[] deviations = new double[Math.max(0, coordinates.size() - 2)];
         for (int i = 2; i < coordinates.size(); i++) {
-            Coordinates lineStart = coordinates.get(i-2);
-            Coordinates point = coordinates.get(i-1);
+            Coordinates lineStart = coordinates.get(i - 2);
+            Coordinates point = coordinates.get(i - 1);
             Coordinates lineEnd = coordinates.get(i);
-            double dev = EuclideanDistance.pointAndLine(point,lineStart,lineEnd);
-            deviations[i-2] = dev;
+            double dev = EuclideanDistance.pointAndLine(point, lineStart, lineEnd);
+            deviations[i - 2] = dev;
         }
         return deviations;
     }
 
     private static double avg(double[] values) {
         if (values.length > 0) {
-            return sum(values)/values.length;
+            return sum(values) / values.length;
         } else {
             return 0.0;
         }
+    }
+
+    public static double max(double[] values) {
+        double max = 0.0;
+        for (int i = 0; i < values.length; i++) {
+            if (values[i] > max) {
+                max = values[i];
+            }
+        }
+        return max;
     }
 
     private static double sum(double[] values) {
