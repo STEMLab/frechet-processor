@@ -18,22 +18,23 @@ import java.util.stream.Collectors;
 public class SimplifyPossibleFrechet implements Filter{
     @Override
     public TrajectoryHolder doFilter(TrajectoryQuery q, TrajectoryHolder trh) {
-        double epsilon = (DouglasPeucker.getMaxEpsilon(q.getTrajectory()) + q.dist / 5)/ 2;
+        Trajectory simple = DouglasPeucker.getReduced(q.getTrajectory(), DouglasPeucker.getMaxEpsilon(q.getTrajectory()));
+        double dist = DouglasPeucker.getMaxEpsilon(q.getTrajectory());
         Map<String, Trajectory> ret = trh.getTrajectories().entrySet()
                 .stream()
                 .filter(t ->
-                        FrechetDistance.decisionDP(q.getTrajectory(), DouglasPeucker.getReduced(t.getValue(), DouglasPeucker.getMaxEpsilon(t.getValue())), q.dist + epsilon)
-                )
+                        FrechetDistance.decisionDP(simple, DouglasPeucker.getReduced(t.getValue(), DouglasPeucker.getMaxEpsilon(t.getValue())),
+                                q.dist + dist * 2))
                 .collect(Collectors.toMap(
                         (entry) -> entry.getKey(),
                         (entry) -> entry.getValue()
                 ));
-//
+
         ret.entrySet().stream().forEach((t)->{
                     t.getValue().isResult = false;
                     if (FrechetDistance.decisionDP(q.getTrajectory(),
                             DouglasPeucker.getReduced(t.getValue(), DouglasPeucker.getMaxEpsilon(t.getValue())),
-                            q.dist - DouglasPeucker.getMaxEpsilon(t.getValue()) * 2 )){
+                            q.dist - DouglasPeucker.getMaxEpsilon(t.getValue()))){
                         t.getValue().isResult = true;
                     }
                 }
