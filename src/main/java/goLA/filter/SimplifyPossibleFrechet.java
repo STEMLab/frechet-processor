@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 public class SimplifyPossibleFrechet implements Filter{
     @Override
     public TrajectoryHolder doFilter(TrajectoryQuery q, TrajectoryHolder trh) {
+        //Trajectory simple = q.getTrajectory().makeStraight();
         Trajectory simple = DouglasPeucker.getReduced(q.getTrajectory(), DouglasPeucker.getMaxEpsilon(q.getTrajectory()));
         double dist = DouglasPeucker.getMaxEpsilon(q.getTrajectory());
         Map<String, Trajectory> ret = trh.getTrajectories().entrySet()

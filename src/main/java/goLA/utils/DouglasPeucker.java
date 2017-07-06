@@ -53,7 +53,16 @@ public class DouglasPeucker {
 
     public static double getMaxEpsilon(Trajectory trajectory) {
         if (trajectory.MaxEpsilon != null) return trajectory.MaxEpsilon;
-        else trajectory.MaxEpsilon = max(deviations(trajectory.getCoordinates()));
+        List<Coordinates> coordinates = trajectory.getCoordinates();
+        double maxDistance = 0.0;
+        for (int i = 0; i < coordinates.size() - 1; i++) {
+            double distance = EuclideanDistance.pointAndLine(coordinates.get(i), coordinates.get(0), coordinates.get(coordinates.size() - 1));
+            if (distance > maxDistance) {
+                maxDistance = distance;
+            }
+        }
+        trajectory.MaxEpsilon = maxDistance;
+//        trajectory.MaxEpsilon = max(deviations(trajectory.getCoordinates()));
         return trajectory.MaxEpsilon;
     }
 

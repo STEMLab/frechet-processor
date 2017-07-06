@@ -1,5 +1,6 @@
 package goLA.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Trajectory {
@@ -28,4 +29,13 @@ public class Trajectory {
 	public void setCoordinates(List<Coordinates> coordinates) {
 		this.coordinates = coordinates;
 	}
+
+    public Trajectory makeStraight() {
+		Trajectory tr = new Trajectory();
+		List<Coordinates> coord = new ArrayList<>();
+		coord.add(this.coordinates.get(0));
+		coord.add(this.coordinates.get(this.coordinates.size() - 1));
+		tr.setCoordinates(coord);
+		return tr;
+    }
 }
