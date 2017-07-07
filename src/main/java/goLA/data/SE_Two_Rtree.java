@@ -83,5 +83,10 @@ public class SE_Two_Rtree implements Tree {
 
         return poss;
     }
+
+    @Override
+    public ConcurrentHashMap<String, Trajectory> getHolder() {
+        return null;
+    }
 }
 

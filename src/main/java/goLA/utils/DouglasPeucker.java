@@ -38,7 +38,7 @@ public class DouglasPeucker {
     }
 
     public static Trajectory getReduced(Trajectory trajectory, Double epsilon) {
-        if (trajectory.simple != null) return trajectory.simple;
+        //if (trajectory.simple != null) return trajectory.simple;
         if (epsilon == 0.0) return trajectory;
         Trajectory ret = new Trajectory();
         List<Coordinates> coordinates = reduce(trajectory.getCoordinates(), epsilon);

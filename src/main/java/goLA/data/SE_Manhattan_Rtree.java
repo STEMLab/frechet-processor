@@ -11,6 +11,7 @@ import goLA.utils.ManhattanDistance;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 /**
@@ -72,6 +73,11 @@ public class SE_Manhattan_Rtree implements Tree {
         }
 
         return poss;
+    }
+
+    @Override
+    public ConcurrentHashMap<String, Trajectory> getHolder() {
+        return null;
     }
 
     @Override

@@ -72,6 +72,11 @@ public class StartRTree implements Tree{
     }
 
     @Override
+    public ConcurrentHashMap<String, Trajectory> getHolder() {
+        return holder;
+    }
+
+    @Override
     public int size() {
         return this.size;
     }
