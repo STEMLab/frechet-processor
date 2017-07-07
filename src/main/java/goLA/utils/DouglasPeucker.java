@@ -43,8 +43,8 @@ public class DouglasPeucker {
         Trajectory ret = new Trajectory();
         List<Coordinates> coordinates = reduce(trajectory.getCoordinates(), epsilon);
         ret.setCoordinates(coordinates);
-        trajectory.simple = ret;
-        return trajectory.simple;
+        //trajectory.simple = ret;
+        return ret;
     }
 
     public static double getAvgEpsilon(Trajectory trajectory) {

@@ -10,8 +10,7 @@ import java.util.List;
 
 import goLA.compute.*;
 import goLA.data.*;
-import goLA.filter.SimplifyPossibleFrechet;
-import goLA.filter.SimplifyQueryFrechet;
+import goLA.filter.SimplificationFrechet;
 import goLA.io.*;
 import goLA.manage.*;
 import goLA.model.TrajectoryHolder;
@@ -20,7 +19,7 @@ public class demoSimpleFrechet {
     private static String TEST_DATA_SET_PATH = "dataset.txt";
     private static String QUERY_PATH = "queries.txt";
     private static String RESULT_PATH = "result/SampleData/";
-    private static String TAG = "v0.1.4";
+    private static String TAG = "v0.1.4.3";
 
     public static void main(String[] args) throws IOException {
         DataExporter de = new DataExporter(RESULT_PATH, TAG +"/");
@@ -28,7 +27,7 @@ public class demoSimpleFrechet {
         Instant start = Instant.now();
         System.out.println("Start Program");
 
-        Manager manager = new ManagerImpl(new SimpleFrechet(), new StartRTree(), new DataImporter(), new SimplifyPossibleFrechet());
+        Manager manager = new ManagerImpl(new SimpleFrechet(), new StartRTree(), new DataImporter(), new SimplificationFrechet());
         //Manager manager = new ManagerImpl(new SimpleFrechet(), new SE_Two_Rtree(), new DataImporter());
         manager.makeStructure(TEST_DATA_SET_PATH);
 

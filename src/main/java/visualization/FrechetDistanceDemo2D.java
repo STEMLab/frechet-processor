@@ -11,6 +11,7 @@ import goLA.manage.ManagerImpl;
 import goLA.model.Trajectory;
 import org.geotools.data.DataUtilities;
 import org.geotools.feature.DefaultFeatureCollection;
+import org.geotools.feature.SchemaException;
 import org.geotools.feature.simple.SimpleFeatureBuilder;
 import org.geotools.geometry.jts.JTSFactoryFinder;
 import org.geotools.map.FeatureLayer;
@@ -26,13 +27,14 @@ import java.awt.*;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * Created by Azamat on 7/3/2017.
  */
 public class FrechetDistanceDemo2D {
 
-    private static String TEST_DATA_SET_PATH = "T_queries_dataset.txt";
+    private static String TEST_DATA_SET_PATH = "dataset.txt";
 
     public static void main(String[] args) throws Exception {
 
@@ -80,4 +82,55 @@ public class FrechetDistanceDemo2D {
         trajectories.clear();
         JMapFrame.showMap(map);
     }
+
+    public static void vis(List<Trajectory> trajectories, Color c1, Color c2){
+        System.out.print("Data loading... \n");
+
+        MapContent map = new MapContent();
+        map.setTitle("Data visualize");
+
+        GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory();
+
+        SimpleFeatureType TYPE = null;
+        try {
+            TYPE = DataUtilities.createType("frechet", "line", "the_geom:LineString");
+        } catch (SchemaException e) {
+            e.printStackTrace();
+        }
+        SimpleFeatureBuilder featureBuilder = new SimpleFeatureBuilder((SimpleFeatureType) TYPE);
+
+        DefaultFeatureCollection lineCollection = new DefaultFeatureCollection();
+
+        System.out.print("Drawing... \n");
+        int index = 0;
+        for (Trajectory trajectory : trajectories) {
+            Coordinate[] coords = new Coordinate[trajectory.getCoordinates().size()];
+            for (int i = 0; i < trajectory.getCoordinates().size(); i++) {
+                coords[i] = new Coordinate(trajectory.getCoordinates().get(i).getPointX(), trajectory.getCoordinates().get(i).getPointY());
+            }
+            LineString line = geometryFactory.createLineString(coords);
+            featureBuilder.add(line);
+            SimpleFeature feature = featureBuilder.buildFeature(trajectory.getName());
+            lineCollection.add(feature);
+
+            if (index % 2 == 0){
+                Style style = SLD.createLineStyle(c1, 1);
+                Layer layer = new FeatureLayer(lineCollection, style);
+                map.addLayer(layer);
+            }
+            else{
+                Style style = SLD.createLineStyle(c2, 10);
+                Layer layer = new FeatureLayer(lineCollection, style);
+                map.addLayer(layer);
+            }
+
+            index ++;
+        }
+
+
+
+        //trajectories.clear();
+        JMapFrame.showMap(map);
+    }
+
 }

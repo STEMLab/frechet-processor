@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 /**
  * Created by stem-dong-li on 17. 7. 4.
  */
-public class SimplifyPossibleFrechet implements Filter{
+public class SimplificationFrechet implements Filter{
     @Override
     public TrajectoryHolder doFilter(TrajectoryQuery q, TrajectoryHolder trh) {
         Trajectory simple = DouglasPeucker.getReduced(q.getTrajectory(), DouglasPeucker.getMaxEpsilon(q.getTrajectory()));
@@ -27,10 +27,9 @@ public class SimplifyPossibleFrechet implements Filter{
                         (entry) -> entry.getKey(),
                         (entry) -> entry.getValue()
                 ));
-
         ret.entrySet().stream().forEach((t)->{
                     t.getValue().isResult = false;
-                    if (FrechetDistance.decisionDP(simple,
+                    if (FrechetDistance.decisionDP(q.getTrajectory(),
                             DouglasPeucker.getReduced(t.getValue(), q_max_E),
                             q.dist - q_max_E * 2)){
                         t.getValue().isResult = true;

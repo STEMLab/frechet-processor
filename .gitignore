@@ -1,6 +1,7 @@
 # all data of trajectories must be hold on PC hard drive, in order to avoid huge size of project
 files/
 T_Drive_data/
+Roma_data/
 
 # ignore result
 result/
