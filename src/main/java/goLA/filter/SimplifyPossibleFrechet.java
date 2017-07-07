@@ -1,7 +1,5 @@
 package goLA.filter;
 
-import goLA.compute.QueryProcessor;
-import goLA.compute.SimpleFrechet;
 import goLA.model.Trajectory;
 import goLA.model.TrajectoryHolder;
 import goLA.model.TrajectoryQuery;
@@ -25,7 +23,7 @@ public class SimplifyPossibleFrechet implements Filter{
                 .stream()
                 .filter(t ->
                         FrechetDistance.decisionDP(simple, DouglasPeucker.getReduced(t.getValue(), DouglasPeucker.getMaxEpsilon(t.getValue())),
-                                q.dist + dist * 2))
+                                q.dist + dist + DouglasPeucker.getMaxEpsilon(t.getValue())))
                 .collect(Collectors.toMap(
                         (entry) -> entry.getKey(),
                         (entry) -> entry.getValue()
@@ -35,7 +33,7 @@ public class SimplifyPossibleFrechet implements Filter{
                     t.getValue().isResult = false;
                     if (FrechetDistance.decisionDP(q.getTrajectory(),
                             DouglasPeucker.getReduced(t.getValue(), DouglasPeucker.getMaxEpsilon(t.getValue())),
-                            q.dist - DouglasPeucker.getMaxEpsilon(t.getValue()))){
+                            q.dist - dist - DouglasPeucker.getMaxEpsilon(t.getValue()))){
                         t.getValue().isResult = true;
                     }
                 }
