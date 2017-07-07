@@ -30,7 +30,7 @@ public class SimplifyPossibleFrechet implements Filter{
 
         ret.entrySet().stream().forEach((t)->{
                     t.getValue().isResult = false;
-                    if (FrechetDistance.decisionDP(q.getTrajectory(),
+                    if (FrechetDistance.decisionDP(simple,
                             DouglasPeucker.getReduced(t.getValue(), q_max_E),
                             q.dist - q_max_E * 2)){
                         t.getValue().isResult = true;
