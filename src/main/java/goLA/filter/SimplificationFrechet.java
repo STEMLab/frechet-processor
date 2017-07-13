@@ -31,7 +31,7 @@ public class SimplificationFrechet implements Filter{
                     t.getValue().isResult = false;
                     if (FrechetDistance.decisionDP(q.getTrajectory(),
                             DouglasPeucker.getReduced(t.getValue(), q_max_E),
-                            q.dist - q_max_E * 2)){
+                            q.dist - q_max_E)){
                         t.getValue().isResult = true;
                     }
                 }
