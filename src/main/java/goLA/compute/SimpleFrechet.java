@@ -6,6 +6,8 @@ import goLA.model.TrajectoryQuery;
 import goLA.utils.FrechetDistance;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
 public class SimpleFrechet implements QueryProcessor {
@@ -15,12 +17,19 @@ public class SimpleFrechet implements QueryProcessor {
         TrajectoryHolder result = new TrajectoryHolder();
         if (trh.size() == 0) return result;
 
-        HashMap<String, Trajectory> trajectories = trh.getTrajectories();
+        Map<String, Trajectory> trajectories =
+                trh.getTrajectories()
+                .entrySet()
+                .stream()
+                .filter(t->
+                    t.getValue().isResult || FrechetDistance.decisionDP(query.q_tr, t.getValue(), query.dist)
+                )
+                .collect(Collectors.toMap(
+                        (entry) -> entry.getKey(),
+                        (entry) -> entry.getValue()
+                ));;
 
-        trajectories.forEach((key, value) -> {
-            if (value.isResult) result.addTrajectory(key, value);
-            else if (FrechetDistance.decisionDP(query.q_tr, value, query.dist)) result.addTrajectory(key, value);
-        });
+        result.setTrajectories(new HashMap<>(trajectories));
 
         return result;
     }
