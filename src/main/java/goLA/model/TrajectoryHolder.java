@@ -16,6 +16,12 @@ public class TrajectoryHolder {
 
     private HashMap<String, Trajectory> trajectories = new HashMap<>();
 
+    public TrajectoryHolder(HashMap<String, Trajectory> trajectories) {
+        this.trajectories = trajectories;
+    }
+
+    public TrajectoryHolder() {
+    }
 
     public HashMap<String, Trajectory> getTrajectories() {
         return trajectories;
@@ -31,12 +37,6 @@ public class TrajectoryHolder {
 
     public int size() {
         return trajectories.size();
-    }
-
-    public void printAllTrajectory() {
-        for (String key : trajectories.keySet()) {
-            System.out.println(key);
-        }
     }
 
     public void printAllTrajectory(DataExporter de, int number) throws IOException {
@@ -72,16 +72,16 @@ public class TrajectoryHolder {
         return list;
     }
 
-    public void addHolderNotDuplicate(TrajectoryHolder add_holder) {
-        HashMap<String, Trajectory> add_holderTrajectories = add_holder.getTrajectories();
-        for (String key : add_holderTrajectories.keySet()) {
-            if (this.trajectories.get(key) == null) {
-                this.addTrajectory(key, add_holderTrajectories.get(key));
-            }
+    public static class Builder {
+        private HashMap<String, Trajectory> trajectories = new HashMap<>();
+
+        public Builder setTrajectories(HashMap<String, Trajectory> trajectories) {
+            this.trajectories = trajectories;
+            return this;
+        }
+
+        public TrajectoryHolder build() {
+            return new TrajectoryHolder(trajectories);
         }
     }
-
-/*	public void joinObservable(Observable<Entry<String, Point>> s_results, Observable<Entry<String, Point>> e_results) {
-
-	}*/
 }
