@@ -7,8 +7,6 @@ import de.lmu.ifi.dbs.elki.database.Database;
 import de.lmu.ifi.dbs.elki.database.StaticArrayDatabase;
 import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDList;
 import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDListIter;
-import de.lmu.ifi.dbs.elki.database.query.distance.DistanceQuery;
-import de.lmu.ifi.dbs.elki.database.query.range.RangeQuery;
 import de.lmu.ifi.dbs.elki.database.relation.Relation;
 import de.lmu.ifi.dbs.elki.datasource.ArrayAdapterDatabaseConnection;
 import de.lmu.ifi.dbs.elki.datasource.DatabaseConnection;
@@ -17,12 +15,8 @@ import de.lmu.ifi.dbs.elki.index.IndexFactory;
 import de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.AbstractRStarTreeFactory;
 import de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.rstar.RStarTreeFactory;
 import de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.strategies.bulk.FileOrderBulkSplit;
-import de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.strategies.bulk.SortTileRecursiveBulkSplit;
 import de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.strategies.insert.ApproximativeLeastOverlapInsertionStrategy;
 import de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.strategies.split.AngTanLinearSplit;
-import de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.strategies.split.GreeneSplit;
-import de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.strategies.split.RTreeLinearSplit;
-import de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.strategies.split.RTreeQuadraticSplit;
 import de.lmu.ifi.dbs.elki.utilities.ClassGenericsUtil;
 import de.lmu.ifi.dbs.elki.utilities.optionhandling.parameterization.ListParameterization;
 
@@ -50,7 +44,7 @@ public class ElkiRStarTree {
     }
 
     public DoubleDBIDList search(double[] point, double dist) {
-        return db.getRangeQuery( db.getDistanceQuery(vectors, EuclideanDistanceFunction.STATIC), vectors.size()).getRangeForObject(DoubleVector.FACTORY.newNumberVector(new double[]{point[0], point[1]}), dist);
+        return db.getRangeQuery(db.getDistanceQuery(vectors, EuclideanDistanceFunction.STATIC), vectors.size()).getRangeForObject(DoubleVector.FACTORY.newNumberVector(new double[]{point[0], point[1]}), dist);
     }
 
     public String getRecordName(DoubleDBIDListIter res) {
@@ -75,10 +69,10 @@ public class ElkiRStarTree {
         labelListRelation = db.getRelation(TypeUtil.STRING);
 
         Instant end = Instant.now();
-        System.out.println("\nMake Tree time : "+ Duration.between(start, end) + "\n");
+        System.out.println("\nMake Tree time : " + Duration.between(start, end) + "\n");
     }
 
-    private ListParameterization getParams(){
+    private ListParameterization getParams() {
         //TODO play with params (see perfomance)
         ListParameterization params = new ListParameterization();
         params.addParameter(INDEX_ID, RStarTreeFactory.class);
@@ -88,7 +82,7 @@ public class ElkiRStarTree {
         return params;
     }
 
-    private Collection<IndexFactory<?, ?>> getFactories(){
+    private Collection<IndexFactory<?, ?>> getFactories() {
         Collection<IndexFactory<?, ?>> indexFactories = new ArrayList();
         RStarTreeFactory<DoubleVector> factory =
                 ClassGenericsUtil.parameterizeOrAbort(RStarTreeFactory.class, getParams());

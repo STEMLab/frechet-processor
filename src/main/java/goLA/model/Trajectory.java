@@ -5,37 +5,34 @@ import java.util.List;
 
 public class Trajectory {
 
-	private String name;
+    public boolean isResult = false;
+    public Double MaxEpsilon = null;
+    public Trajectory simple = null;
+    private String name;
+    private List<Coordinate> coordinates;
 
-	private List<Coordinates> coordinates;
+    public String getName() {
+        return name;
+    }
 
-	public boolean isResult = false;
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public Double MaxEpsilon = null;
-	public Trajectory simple = null;
+    public List<Coordinate> getCoordinates() {
+        return coordinates;
+    }
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public List<Coordinates> getCoordinates() {
-		return coordinates;
-	}
-
-	public void setCoordinates(List<Coordinates> coordinates) {
-		this.coordinates = coordinates;
-	}
+    public void setCoordinates(List<Coordinate> coordinates) {
+        this.coordinates = coordinates;
+    }
 
     public Trajectory makeStraight() {
-		Trajectory tr = new Trajectory();
-		List<Coordinates> coord = new ArrayList<>();
-		coord.add(this.coordinates.get(0));
-		coord.add(this.coordinates.get(this.coordinates.size() - 1));
-		tr.setCoordinates(coord);
-		return tr;
+        Trajectory tr = new Trajectory();
+        List<Coordinate> coord = new ArrayList<>();
+        coord.add(this.coordinates.get(0));
+        coord.add(this.coordinates.get(this.coordinates.size() - 1));
+        tr.setCoordinates(coord);
+        return tr;
     }
 }

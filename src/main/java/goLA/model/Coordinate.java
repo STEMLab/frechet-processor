@@ -1,18 +1,18 @@
 package goLA.model;
 
-public class Coordinates {
+public class Coordinate {
 
     private double pointX;
     private double pointY;
     private int order;
     private int id;
 
-    public Coordinates(double mx, double my){
+    public Coordinate(double mx, double my) {
         this.pointY = my;
         this.pointX = mx;
     }
 
-    public Coordinates (){
+    public Coordinate() {
 
     }
 
@@ -32,7 +32,7 @@ public class Coordinates {
         this.pointY = pointY;
     }
 
-    public void setPoint(double x, double y){
+    public void setPoint(double x, double y) {
         this.pointX = x;
         this.pointY = y;
     }

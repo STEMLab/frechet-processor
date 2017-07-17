@@ -1,15 +1,11 @@
 package goLA.compute;
 
-import goLA.model.Coordinates;
 import goLA.model.Trajectory;
 import goLA.model.TrajectoryHolder;
 import goLA.model.TrajectoryQuery;
-import goLA.utils.EuclideanDistance;
 import goLA.utils.FrechetDistance;
 
 import java.util.HashMap;
-import java.util.List;
-
 
 
 public class SimpleFrechet implements QueryProcessor {

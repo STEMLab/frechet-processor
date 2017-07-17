@@ -1,12 +1,12 @@
 package goLA.utils;
 
-import goLA.model.Coordinates;
+import goLA.model.Coordinate;
 
 /**
  * Created by Azamat on 7/4/2017.
  */
 public class EuclideanDistance {
-    public static double pointAndLine(Coordinates point, Coordinates lineStart, Coordinates lineEnd) {
+    public static double pointAndLine(Coordinate point, Coordinate lineStart, Coordinate lineEnd) {
         double lineLen = distance(lineStart, lineEnd);
         if (lineLen == 0) return distance(point, lineStart);
         double prj = ((point.getPointX() - lineStart.getPointX()) * (lineEnd.getPointX() - lineStart.getPointX()) +
@@ -18,7 +18,7 @@ public class EuclideanDistance {
                     (point.getPointY() - lineStart.getPointY()) * (lineEnd.getPointX() - lineStart.getPointX())) / lineLen;
     }
 
-    public static double distance(Coordinates start, Coordinates end) {
+    public static double distance(Coordinate start, Coordinate end) {
         return Math.sqrt(Math.pow(end.getPointX() - start.getPointX(), 2) + Math.pow(end.getPointY() - start.getPointY(), 2));
     }
 }

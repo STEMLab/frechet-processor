@@ -1,7 +1,6 @@
 package goLA.io;
 
 import goLA.model.Trajectory;
-import goLA.model.TrajectoryHolder;
 import goLA.model.TrajectoryQuery;
 
 import java.io.BufferedWriter;
@@ -18,13 +17,13 @@ import java.util.stream.Collectors;
 
 public class DataExporter {
 
-    private String path ="";
+    private String path = "";
 
-    public DataExporter(){
+    public DataExporter() {
         path = "";
     }
 
-    public DataExporter(String root_path, String tag_path){
+    public DataExporter(String root_path, String tag_path) {
         File root = new File(root_path);
         if (!root.exists()) root.mkdir();
 
@@ -40,20 +39,20 @@ public class DataExporter {
         if (info.exists()) info.delete();
     }
 
-    private void removeDIR(String source){
+    private void removeDIR(String source) {
         File[] listFile = new File(source).listFiles();
-        try{
-            if(listFile.length > 0){
-                for(int i = 0 ; i < listFile.length ; i++){
-                    if(listFile[i].isFile()){
+        try {
+            if (listFile.length > 0) {
+                for (int i = 0; i < listFile.length; i++) {
+                    if (listFile[i].isFile()) {
                         listFile[i].delete();
-                    }else{
+                    } else {
                         removeDIR(listFile[i].getPath());
                     }
                     listFile[i].delete();
                 }
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             System.err.println(System.err);
             System.exit(-1);
         }
@@ -69,7 +68,7 @@ public class DataExporter {
         try (BufferedWriter writer = Files.newBufferedWriter(path)) {
             writer.write(output);
         }
-       // System.out.println("Content of StringBuffer written to File.");
+        // System.out.println("Content of StringBuffer written to File.");
     }
 
     public void exportQuery(TrajectoryQuery q, int size1, boolean b, int size2, int size3, Instant start, Instant middle1, Instant middle2, Instant end) {
@@ -77,15 +76,15 @@ public class DataExporter {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(path.toString(), true))) {
             writer.append("\n\n---- Query processing : " + q.getTrajectory().getName() + ", " + q.dist + " -------\n");
             writer.append("---- candidate number : " + size1 + " -------\n");
-            writer.append("---- getPossible Time : "+ Duration.between(start, middle1)+"\n");
-            if (b){
-                writer.append("---- Filtering Time : "+ Duration.between(middle1, middle2)+"\n");
-                writer.append("---- After Filtering number : " + size2  + " -------"+"\n");
+            writer.append("---- getPossible Time : " + Duration.between(start, middle1) + "\n");
+            if (b) {
+                writer.append("---- Filtering Time : " + Duration.between(middle1, middle2) + "\n");
+                writer.append("---- After Filtering number : " + size2 + " -------" + "\n");
             }
-            writer.append("---- result number : " + size3 + " -------"+"\n");
-            writer.append("---- calculate Dist Time : "+ Duration.between(middle2, end) + " -------"+"\n");
+            writer.append("---- result number : " + size3 + " -------" + "\n");
+            writer.append("---- calculate Dist Time : " + Duration.between(middle2, end) + " -------" + "\n");
             writer.close();
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

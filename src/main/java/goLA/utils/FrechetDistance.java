@@ -1,6 +1,6 @@
 package goLA.utils;
 
-import goLA.model.Coordinates;
+import goLA.model.Coordinate;
 import goLA.model.Trajectory;
 
 import java.util.List;
@@ -12,10 +12,10 @@ public class FrechetDistance {
     static public boolean decisionDP(Trajectory q_tr, Trajectory t_tr, double dist) {
         int p, q;
 
-        List<Coordinates> p_coordinates = q_tr.getCoordinates();
+        List<Coordinate> p_coordinates = q_tr.getCoordinates();
         p = p_coordinates.size() - 1;
 
-        List<Coordinates> q_coordinates = t_tr.getCoordinates();
+        List<Coordinate> q_coordinates = t_tr.getCoordinates();
         q = q_coordinates.size() - 1;
 
         boolean[][] bottom = new boolean[p + 1][q + 1];
