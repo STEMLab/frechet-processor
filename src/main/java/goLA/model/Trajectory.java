@@ -5,8 +5,11 @@ import java.util.List;
 
 public class Trajectory {
 
+    //TODO : chagne variable
     public boolean isResult = false;
     public Double MaxEpsilon = null;
+    public Double AvgEpsilon = null;
+    public Integer Simplemode = 0; // 1 : Max, 2 : Avg
     public Trajectory simple = null;
 
     private String name;

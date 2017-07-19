@@ -37,14 +37,28 @@ public class DouglasPeucker {
         return result;
     }
 
+    public static Trajectory getReducedMax(Trajectory trajectory){
+        if (trajectory.simple != null && trajectory.Simplemode == 1) return trajectory.simple;
+        Trajectory ret = getReduced(trajectory, getMaxEpsilon(trajectory));
+        trajectory.simple = ret;
+        trajectory.Simplemode = 1;
+        return ret;
+    }
+
+    public static Trajectory getReducedAvg(Trajectory trajectory){
+        if (trajectory.simple != null && trajectory.Simplemode == 2) return trajectory.simple;
+        Trajectory ret = getReduced(trajectory, getAvgEpsilon(trajectory));
+        trajectory.simple = ret;
+        trajectory.Simplemode = 2;
+        return ret;
+    }
+
+
     public static Trajectory getReduced(Trajectory trajectory, Double epsilon) {
         if (epsilon == 0.0) return trajectory;
-        if (trajectory.MaxEpsilon == epsilon) return trajectory.simple;
         Trajectory ret = new Trajectory();
         List<Coordinate> coordinates = reduce(trajectory.getCoordinates(), epsilon);
         ret.setCoordinates(coordinates);
-        trajectory.simple = ret;
-        trajectory.MaxEpsilon = epsilon;
         return ret;
     }
 
@@ -52,6 +66,12 @@ public class DouglasPeucker {
         if (trajectory.MaxEpsilon != null) return trajectory.MaxEpsilon;
         trajectory.MaxEpsilon = max(deviations(trajectory.getCoordinates()));
         return trajectory.MaxEpsilon;
+    }
+
+    public static double getAvgEpsilon(Trajectory trajectory) {
+        if (trajectory.AvgEpsilon != null) return trajectory.AvgEpsilon;
+        trajectory.AvgEpsilon = avg(deviations(trajectory.getCoordinates()));
+        return trajectory.AvgEpsilon;
     }
 
     private static double[] deviations(List<Coordinate> coordinates) {
