@@ -24,6 +24,10 @@ public class DataExporter {
     }
 
     public DataExporter(String root_path, String tag_path) {
+        //TODO : remove
+        File result = new File("result/");
+        if (!result.exists()) result.mkdir();
+
         File root = new File(root_path);
         if (!root.exists()) root.mkdir();
 
