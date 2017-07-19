@@ -2,25 +2,15 @@ package test;
 
 import goLA.data.StartRTree;
 import goLA.data.Tree;
-import goLA.exceptions.CustomException;
 import goLA.io.DataImporter;
 import goLA.model.Coordinate;
 import goLA.model.Trajectory;
-import goLA.model.TrajectoryHolder;
 import goLA.model.TrajectoryQuery;
 import goLA.utils.DouglasPeucker;
 import goLA.utils.EuclideanDistance;
 import goLA.utils.FrechetDistance;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Stream;
 
 //TODO : delete class
 
@@ -46,14 +36,13 @@ public class SimplificationFrechetTest {
             Trajectory simple = DouglasPeucker.getReduced(q, q_maxEpsilon);
 
             TrajectoryQuery query = new TrajectoryQuery(q, q_dist);
-            TrajectoryHolder ret = tree.getPossible(query);
-            Map<String, Trajectory> trmap = ret.getTrajectories();
+            List<Trajectory> ret = tree.getPossible(query);
 
             Coordinate q_start = q.getCoordinates().get(0);
             Coordinate q_end = q.getCoordinates().get(q.getCoordinates().size() - 1);
 
-            trmap.entrySet().forEach(e -> {
-                Trajectory C = e.getValue();
+            ret.forEach(e -> {
+                Trajectory C = e;
                 Coordinate c_start = C.getCoordinates().get(0);
 
                 Coordinate c_end = C.getCoordinates().get(C.getCoordinates().size() - 1);

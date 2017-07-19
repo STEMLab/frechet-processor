@@ -5,7 +5,7 @@ import goLA.data.Tree;
 import goLA.filter.Filter;
 import goLA.io.DataExporter;
 import goLA.io.DataImporter;
-import goLA.model.TrajectoryHolder;
+import goLA.model.Trajectory;
 import goLA.model.TrajectoryQuery;
 
 import java.time.Duration;
@@ -45,22 +45,22 @@ public class ManagerImpl implements Manager {
     }
 
     @Override
-    public List<TrajectoryHolder> findResult(String query_path, DataExporter de) {
-        List<TrajectoryHolder> result = new ArrayList<>();
+    public List<List<Trajectory>> findResult(String query_path, DataExporter de) {
+        List<List<Trajectory>> result = new ArrayList<>();
         List<TrajectoryQuery> query = di.getQueries(query_path);
 
         int index = 0;
         for (TrajectoryQuery q : query){
             Instant start = Instant.now();
             System.out.println("\n\n---- Query processing : " + q.getTrajectory().getName() + ", " + q.dist + " -------");
-            TrajectoryHolder possible_trajectoryHolder = tree.getPossible(q);
+            List<Trajectory> possible_trajectoryHolder = tree.getPossible(q);
             int size1 = possible_trajectoryHolder.size();
             System.out.println("---- candidate number : " + size1 + " -------");
 
             Instant middle1 = Instant.now();
             System.out.println("---- getPossible Time : " + Duration.between(start, middle1));
 
-            TrajectoryHolder possible_trajectoryHolder_filter;
+            List<Trajectory> possible_trajectoryHolder_filter;
             Instant middle2;
 
             if (this.filter != null) {
@@ -73,7 +73,7 @@ public class ManagerImpl implements Manager {
                 middle2 = middle1;
             }
 
-            TrajectoryHolder q_res = q_processor.query(q, possible_trajectoryHolder_filter);
+            List<Trajectory> q_res = q_processor.query(q, possible_trajectoryHolder_filter);
             result.add(q_res);
             int size2 = q_res.size();
             System.out.println("---- result number : " + size2 + " -------");

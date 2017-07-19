@@ -1,15 +1,11 @@
 package goLA.filter;
 
 import goLA.model.Trajectory;
-import goLA.model.TrajectoryHolder;
 import goLA.model.TrajectoryQuery;
-import goLA.utils.DiscreteFrechet;
 import goLA.utils.DouglasPeucker;
 import goLA.utils.FrechetDistance;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Consumer;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -17,40 +13,37 @@ import java.util.stream.Collectors;
  */
 public class SimplificationFrechet implements Filter {
     @Override
-    public TrajectoryHolder doFilter(TrajectoryQuery q, TrajectoryHolder trh) {
+    public List<Trajectory> doFilter(TrajectoryQuery q, List<Trajectory> trh) {
         Trajectory simple = DouglasPeucker.getReduced(q.getTrajectory(), DouglasPeucker.getMaxEpsilon(q.getTrajectory()));
         double q_max_E = DouglasPeucker.getMaxEpsilon(q.getTrajectory());
 
-        Map<String, Trajectory> trajectoryHashMap = trh.getTrajectories().entrySet()
+        List<Trajectory> trajectoryList = trh
                 .stream()
                 .filter(t ->
-                        FrechetDistance.decisionDP(simple, DouglasPeucker.getReduced(t.getValue(), q_max_E),
+                        FrechetDistance.decisionDP(simple, DouglasPeucker.getReduced(t, q_max_E),
                                 q.dist + q_max_E * 2 ))
-                .collect(Collectors.toMap(
-                        (entry) -> entry.getKey(),
-                        (entry) -> entry.getValue()
-                ));
+                .collect(Collectors.toList());
 
-        trajectoryHashMap.entrySet()
+        trajectoryList
                 .stream()
                 .forEach((t) -> {
-                    t.getValue().isResult = false;
+                    t.isResult = false;
                         if (FrechetDistance.decisionDP(q.getTrajectory(),
-                                t.getValue().simple,
+                                t.simple,
                                 q.dist - q_max_E)) {
-                            t.getValue().isResult = true;
+                            t.isResult = true;
                         }
                 }
         );
 
         //TODO : removed
         int isResult = 0;
-        for (Map.Entry<String, Trajectory> tr : trajectoryHashMap.entrySet()){
-            if (tr.getValue().isResult) isResult++;
+        for (Trajectory tr : trajectoryList){
+            if (tr.isResult) isResult++;
         }
         System.out.println("****** sure answer : " + isResult + " *******");
 
 
-        return new TrajectoryHolder.Builder().setTrajectories(new HashMap<>(trajectoryHashMap) ).build();
+        return trajectoryList;
     }
 }

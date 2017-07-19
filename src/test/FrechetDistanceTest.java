@@ -6,7 +6,7 @@ import goLA.filter.SimplificationFrechet;
 import goLA.io.DataImporter;
 import goLA.manage.Manager;
 import goLA.manage.ManagerImpl;
-import goLA.model.TrajectoryHolder;
+import goLA.model.Trajectory;
 
 import java.io.IOException;
 import java.util.List;
@@ -30,11 +30,11 @@ public class FrechetDistanceTest {
         Manager manager = new ManagerImpl(new SimpleFrechet(), new StartRTree(), new DataImporter(), new SimplificationFrechet());
 
         manager.makeStructure(TEST_DATA_SET_PATH);
-        List<TrajectoryHolder> result = manager.findResult(TEST_QUERY_PATH, null);
+        List<List<Trajectory>> result = manager.findResult(TEST_QUERY_PATH, null);
 
         System.out.println("\n");
         for (int i = 0; i < result.size(); i++) {
-            if (result.get(i).getTrajectories().size() != results[i]) {
+            if (result.get(i).size() != results[i]) {
                 System.out.printf("%s - Test '%s' - failed %n", ++count, "Query " + (i + 1));
                 failed++;
             } else {

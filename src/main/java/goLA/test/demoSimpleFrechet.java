@@ -7,7 +7,7 @@ import goLA.io.DataExporter;
 import goLA.io.DataImporter;
 import goLA.manage.Manager;
 import goLA.manage.ManagerImpl;
-import goLA.model.TrajectoryHolder;
+import goLA.model.Trajectory;
 
 import java.io.*;
 import java.nio.file.Path;
@@ -36,10 +36,10 @@ public class demoSimpleFrechet {
         Instant middle = Instant.now();
         System.out.println("\nGet " + manager.getTree().size() + " data and put into data structure : " + Duration.between(start, middle));
 
-        List<TrajectoryHolder> result = manager.findResult(QUERY_PATH, de);
+        List<List<Trajectory>> result = manager.findResult(QUERY_PATH, de);
 
         for (int index = 0; index < result.size(); index++) {
-            result.get(index).printAllTrajectory(de, index);
+            de.export(result.get(index), index);;
         }
 
         Instant end = Instant.now();

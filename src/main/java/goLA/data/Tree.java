@@ -1,9 +1,9 @@
 package goLA.data;
 
 import goLA.model.Trajectory;
-import goLA.model.TrajectoryHolder;
 import goLA.model.TrajectoryQuery;
 
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -14,7 +14,7 @@ public interface Tree {
 
     void initialize();
 
-    TrajectoryHolder getPossible(TrajectoryQuery query);
+    List<Trajectory> getPossible(TrajectoryQuery query);
 
     ConcurrentHashMap<String, Trajectory> getHolder();
 

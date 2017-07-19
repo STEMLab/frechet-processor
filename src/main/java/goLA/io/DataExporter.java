@@ -13,6 +13,7 @@ import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class DataExporter {
@@ -62,10 +63,10 @@ public class DataExporter {
         }
     }
 
-    public void export(HashMap<String, Trajectory> map, int number) throws IOException {
+    public void export(List<Trajectory> list, int number) throws IOException {
 
-        String output = map.entrySet().stream().map(entry ->
-                entry.getKey())
+        String output = list.stream().map(entry ->
+                entry.getName())
                 .collect(Collectors.joining("\n"));
 
         Path path = Paths.get(String.format(this.path + "result-%04d.txt", number));
