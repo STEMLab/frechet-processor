@@ -1,37 +1,29 @@
 package goLA.compute;
 
 import goLA.model.Trajectory;
-import goLA.model.TrajectoryHolder;
 import goLA.model.TrajectoryQuery;
 import goLA.utils.FrechetDistance;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 
 public class SimpleFrechet implements QueryProcessor {
 
     @Override
-    public TrajectoryHolder query(TrajectoryQuery query, TrajectoryHolder trh) {
-        TrajectoryHolder result = new TrajectoryHolder();
-        if (trh.size() == 0) return result;
+    public List<Trajectory> query(TrajectoryQuery query, List<Trajectory> trh) {
+        if (trh.size() == 0) return new ArrayList<>();
 
-        Map<String, Trajectory> trajectories =
-                trh.getTrajectories()
-                .entrySet()
+        List<Trajectory> trajectories =
+                trh
                 .stream()
                 .filter(t->
-                    t.getValue().isResult || FrechetDistance.decisionDP(query.q_tr, t.getValue(), query.dist)
+                    t.isResult || FrechetDistance.decisionDP(query.q_tr, t, query.dist)
                 )
-                .collect(Collectors.toMap(
-                        (entry) -> entry.getKey(),
-                        (entry) -> entry.getValue()
-                ));;
+                .collect(Collectors.toList());
 
-        result.setTrajectories(new HashMap<>(trajectories));
-
-        return result;
+        return trajectories;
     }
 
 }

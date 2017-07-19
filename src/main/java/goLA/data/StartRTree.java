@@ -5,10 +5,10 @@ import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDListIter;
 import goLA.data.tree.ElkiRStarTree;
 import goLA.model.Coordinate;
 import goLA.model.Trajectory;
-import goLA.model.TrajectoryHolder;
 import goLA.model.TrajectoryQuery;
 import goLA.utils.EuclideanDistance;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -44,7 +44,7 @@ public class StartRTree implements Tree {
     }
 
     @Override
-    public TrajectoryHolder getPossible(TrajectoryQuery query) {
+    public List<Trajectory> getPossible(TrajectoryQuery query) {
 
         Coordinate q_start = query.getTrajectory().getCoordinates().get(0);
         Coordinate q_end = query.getTrajectory().getCoordinates().get(query.getTrajectory().getCoordinates().size() - 1);
@@ -52,14 +52,14 @@ public class StartRTree implements Tree {
 
         DoubleDBIDList s_results = start_tree.search(new double[]{q_start.getPointX(), q_start.getPointY()}, dist);
 
-        TrajectoryHolder poss = new TrajectoryHolder();
+        List<Trajectory> poss = new ArrayList<>();
 
         for (DoubleDBIDListIter x = s_results.iter(); x.valid(); x.advance()) {
             String key = start_tree.getRecordName(x);
             List<Coordinate> coords = this.holder.get(key).getCoordinates();
             Coordinate end = coords.get(coords.size() - 1);
             if (EuclideanDistance.distance(end, q_end) <= dist)
-                poss.addTrajectory(key, this.holder.get(key));
+                poss.add(this.holder.get(key));
         }
         return poss;
     }

@@ -59,6 +59,7 @@ public class DouglasPeucker {
         Trajectory ret = new Trajectory();
         List<Coordinate> coordinates = reduce(trajectory.getCoordinates(), epsilon);
         ret.setCoordinates(coordinates);
+        trajectory.simple = ret;
         return ret;
     }
 
