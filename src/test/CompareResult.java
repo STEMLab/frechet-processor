@@ -15,7 +15,7 @@ import java.util.stream.Stream;
  * Created by stem-dong-li on 17. 7. 5.
  */
 public class CompareResult {
-    private static String ROOT = "result/SampleData/";
+    private static String ROOT = "result/SampleData_2/";
     private static int tr_wrong_count = 0;
     private static int whole_sol_tr = 0;
 
@@ -26,6 +26,9 @@ public class CompareResult {
         File[] f_sol = new File(solution).listFiles();
         File[] f_na = new File(new_answer).listFiles();
 
+        if (f_sol.length == 0 || f_na.length ==0) {
+            System.out.println("no files");return;
+        }
         int file_wrong_count = 0;
         for (int i = 0; i < f_sol.length; i++) {
             for (int j = 0; j < f_na.length; j++) {

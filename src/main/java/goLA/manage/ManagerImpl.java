@@ -60,20 +60,20 @@ public class ManagerImpl implements Manager {
             Instant middle1 = Instant.now();
             System.out.println("---- getPossible Time : " + Duration.between(start, middle1));
 
-            List<Trajectory> possible_trajectoryHolder_filter;
+            List<Trajectory> filtered_list;
             Instant middle2;
 
             if (this.filter != null) {
-                possible_trajectoryHolder_filter = filter.doFilter(q, possible_trajectoryHolder);
+                filtered_list = filter.doFilter(q, possible_trajectoryHolder);
                 middle2 = Instant.now();
                 System.out.println("---- Filtering Time : " + Duration.between(middle1, middle2));
-                System.out.println("---- After Filtering number : " + possible_trajectoryHolder_filter.size() + " -------");
+                System.out.println("---- After Filtering number : " + filtered_list.size() + " -------");
             } else {
-                possible_trajectoryHolder_filter = possible_trajectoryHolder;
+                filtered_list = possible_trajectoryHolder;
                 middle2 = middle1;
             }
 
-            List<Trajectory> q_res = q_processor.query(q, possible_trajectoryHolder_filter);
+            List<Trajectory> q_res = q_processor.query(q, filtered_list);
             result.add(q_res);
             int size2 = q_res.size();
             System.out.println("---- result number : " + size2 + " -------");
@@ -83,7 +83,7 @@ public class ManagerImpl implements Manager {
             if (de != null)
                 de.exportQuery(index, 
                         q, possible_trajectoryHolder.size(), this.filter != null,
-                        possible_trajectoryHolder_filter.size(), size2,
+                        filtered_list.size(), size2,
                         start, middle1, middle2, end
                 );
         }
