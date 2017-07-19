@@ -39,9 +39,12 @@ public class DouglasPeucker {
 
     public static Trajectory getReduced(Trajectory trajectory, Double epsilon) {
         if (epsilon == 0.0) return trajectory;
+        if (trajectory.MaxEpsilon == epsilon) return trajectory.simple;
         Trajectory ret = new Trajectory();
         List<Coordinate> coordinates = reduce(trajectory.getCoordinates(), epsilon);
         ret.setCoordinates(coordinates);
+        trajectory.simple = ret;
+        trajectory.MaxEpsilon = epsilon;
         return ret;
     }
 

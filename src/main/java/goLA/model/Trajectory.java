@@ -8,6 +8,7 @@ public class Trajectory {
     public boolean isResult = false;
     public Double MaxEpsilon = null;
     public Trajectory simple = null;
+
     private String name;
     private List<Coordinate> coordinates;
 
