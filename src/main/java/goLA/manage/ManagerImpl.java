@@ -66,7 +66,7 @@ public class ManagerImpl implements Manager {
             if (this.filter != null) {
                 possible_trajectoryHolder_filter = filter.doFilter(q, possible_trajectoryHolder);
                 middle2 = Instant.now();
-                System.out.println("\n---- Filtering Time : " + Duration.between(middle1, middle2));
+                System.out.println("---- Filtering Time : " + Duration.between(middle1, middle2));
                 System.out.println("---- After Filtering number : " + possible_trajectoryHolder_filter.size() + " -------");
             } else {
                 possible_trajectoryHolder_filter = possible_trajectoryHolder;

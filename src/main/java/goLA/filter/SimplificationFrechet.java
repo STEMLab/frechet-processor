@@ -3,11 +3,13 @@ package goLA.filter;
 import goLA.model.Trajectory;
 import goLA.model.TrajectoryHolder;
 import goLA.model.TrajectoryQuery;
+import goLA.utils.DiscreteFrechet;
 import goLA.utils.DouglasPeucker;
 import goLA.utils.FrechetDistance;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
@@ -23,7 +25,7 @@ public class SimplificationFrechet implements Filter {
                 .stream()
                 .filter(t ->
                         FrechetDistance.decisionDP(simple, DouglasPeucker.getReduced(t.getValue(), q_max_E),
-                                q.dist + q_max_E * 2))
+                                q.dist + q_max_E * 2 ))
                 .collect(Collectors.toMap(
                         (entry) -> entry.getKey(),
                         (entry) -> entry.getValue()
@@ -33,13 +35,20 @@ public class SimplificationFrechet implements Filter {
                 .stream()
                 .forEach((t) -> {
                     t.getValue().isResult = false;
-                    if (FrechetDistance.decisionDP(q.getTrajectory(),
-                            DouglasPeucker.getReduced(t.getValue(), q_max_E),
-                            q.dist - q_max_E)){
-                        t.getValue().isResult = true;
-                    }
+                        if (FrechetDistance.decisionDP(q.getTrajectory(),
+                                t.getValue().simple,
+                                q.dist - q_max_E)) {
+                            t.getValue().isResult = true;
+                        }
                 }
         );
+
+        //TODO : removed
+        int isResult = 0;
+        for (Map.Entry<String, Trajectory> tr : trajectoryHashMap.entrySet()){
+            if (tr.getValue().isResult) isResult++;
+        }
+        System.out.println("****** sure answer : " + isResult + " *******");
 
 
         return new TrajectoryHolder.Builder().setTrajectories(new HashMap<>(trajectoryHashMap) ).build();
