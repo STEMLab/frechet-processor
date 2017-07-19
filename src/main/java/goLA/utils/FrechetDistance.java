@@ -10,6 +10,7 @@ import java.util.List;
  */
 public class FrechetDistance {
     static public boolean decisionDP(Trajectory q_tr, Trajectory t_tr, double dist) {
+        if (dist < 0) return false;
         int p, q;
 
         List<Coordinate> p_coordinates = q_tr.getCoordinates();
@@ -17,6 +18,9 @@ public class FrechetDistance {
 
         List<Coordinate> q_coordinates = t_tr.getCoordinates();
         q = q_coordinates.size() - 1;
+
+        if (EuclideanDistance.distance(p_coordinates.get(p), q_coordinates.get(q)) > dist || EuclideanDistance.distance(p_coordinates.get(0), q_coordinates.get(0)) > dist)
+            return false;
 
         boolean[][] bottom = new boolean[p + 1][q + 1];
         boolean[][] left = new boolean[p + 1][q + 1];

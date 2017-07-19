@@ -24,6 +24,10 @@ public class DataExporter {
     }
 
     public DataExporter(String root_path, String tag_path) {
+        //TODO : remove
+        File result = new File("result/");
+        if (!result.exists()) result.mkdir();
+
         File root = new File(root_path);
         if (!root.exists()) root.mkdir();
 
@@ -71,9 +75,10 @@ public class DataExporter {
         // System.out.println("Content of StringBuffer written to File.");
     }
 
-    public void exportQuery(TrajectoryQuery q, int size1, boolean b, int size2, int size3, Instant start, Instant middle1, Instant middle2, Instant end) {
+    public void exportQuery(int index, TrajectoryQuery q, int size1, boolean b, int size2, int size3, Instant start, Instant middle1, Instant middle2, Instant end) {
         Path path = Paths.get(this.path + "QueryInfo.txt");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(path.toString(), true))) {
+            writer.append("\n\n---- " + index + " -------\n");
             writer.append("\n\n---- Query processing : " + q.getTrajectory().getName() + ", " + q.dist + " -------\n");
             writer.append("---- candidate number : " + size1 + " -------\n");
             writer.append("---- getPossible Time : " + Duration.between(start, middle1) + "\n");

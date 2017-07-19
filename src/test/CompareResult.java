@@ -20,18 +20,16 @@ public class CompareResult {
     private static int whole_sol_tr = 0;
 
     public static void main(String[] args) {
-        String solution = ROOT + "v0.1.4/";
-        String new_answer = ROOT + "v0.1.4.3/";
+        String solution = ROOT + "answer";
+        String new_answer = ROOT + "v0.1.4.6/";
 
         File[] f_sol = new File(solution).listFiles();
         File[] f_na = new File(new_answer).listFiles();
 
         int file_wrong_count = 0;
         for (int i = 0; i < f_sol.length; i++) {
-            boolean checked = false;
             for (int j = 0; j < f_na.length; j++) {
                 if (f_sol[i].getName().equals(f_na[j].getName())) {
-                    checked = true;
                     if (f_sol[i].getPath().contains("QueryInfo") || f_na[j].getPath().contains("QueryInfo")) continue;
                     if (!compare(f_sol[i], f_na[j])) {
                         System.out.println(f_sol[i].getPath() + ", " + f_na[j].getPath());
@@ -85,6 +83,7 @@ public class CompareResult {
                 }
             }
             if (!temp) {
+                System.out.println(sa + " : not exist in your answer");
                 ret = false;
                 tr_wrong_count++;
             }
@@ -92,6 +91,21 @@ public class CompareResult {
 
         if (right_b != b_list.size()) {
             tr_wrong_count += Math.abs(right_b - b_list.size());
+            System.out.println( " over : " + Math.abs(right_b - b_list.size()) );
+            for (String sb : b_list){
+                boolean temp = false;
+                for (int i = 0; i < a_list.size(); i++) {
+                    String sa = a_list.get(i);
+                    if (sb.equals(sa)) {
+                        temp = true;
+                        break;
+                    }
+                }
+                if (!temp) {
+                    System.out.println(sb + " : wrong");
+                }
+            }
+
             return false;
         }
         return ret;

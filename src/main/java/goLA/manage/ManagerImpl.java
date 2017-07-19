@@ -49,7 +49,8 @@ public class ManagerImpl implements Manager {
         List<TrajectoryHolder> result = new ArrayList<>();
         List<TrajectoryQuery> query = di.getQueries(query_path);
 
-        query.forEach(q -> {
+        int index = 0;
+        for (TrajectoryQuery q : query){
             Instant start = Instant.now();
             System.out.println("\n\n---- Query processing : " + q.getTrajectory().getName() + ", " + q.dist + " -------");
             TrajectoryHolder possible_trajectoryHolder = tree.getPossible(q);
@@ -65,7 +66,7 @@ public class ManagerImpl implements Manager {
             if (this.filter != null) {
                 possible_trajectoryHolder_filter = filter.doFilter(q, possible_trajectoryHolder);
                 middle2 = Instant.now();
-                System.out.println("---- Filtering Time : " + Duration.between(middle1, middle2));
+                System.out.println("\n---- Filtering Time : " + Duration.between(middle1, middle2));
                 System.out.println("---- After Filtering number : " + possible_trajectoryHolder_filter.size() + " -------");
             } else {
                 possible_trajectoryHolder_filter = possible_trajectoryHolder;
@@ -80,12 +81,12 @@ public class ManagerImpl implements Manager {
             Instant end = Instant.now();
             System.out.println("---- calculate Dist Time : " + Duration.between(middle2, end) + " -------");
             if (de != null)
-                de.exportQuery(
+                de.exportQuery(index, 
                         q, possible_trajectoryHolder.size(), this.filter != null,
                         possible_trajectoryHolder_filter.size(), size2,
                         start, middle1, middle2, end
                 );
-        });
+        }
 
         return result;
     }
