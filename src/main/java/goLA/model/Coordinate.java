@@ -7,15 +7,6 @@ public class Coordinate {
     private int order;
     private int id;
 
-    public Coordinate(double mx, double my) {
-        this.pointY = my;
-        this.pointX = mx;
-    }
-
-    public Coordinate() {
-
-    }
-
     public double getPointX() {
         return pointX;
     }

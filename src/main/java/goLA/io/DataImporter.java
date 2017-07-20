@@ -3,18 +3,15 @@ package goLA.io;
 import goLA.data.Tree;
 import goLA.exceptions.CustomException;
 import goLA.model.Coordinate;
-import goLA.model.Trajectory;
 import goLA.model.Query;
+import goLA.model.Trajectory;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 public class DataImporter {
@@ -22,10 +19,10 @@ public class DataImporter {
     public void loadFiles(String src, Tree tree) {
         try (Stream<String> stream = Files.lines(Paths.get(src))) {
             stream.forEach(e -> {
-                        if (!e.isEmpty() && e != null) {
+                        if (!e.isEmpty() && !e.equals(null)) {
                             Trajectory trajectory = new Trajectory();
-                            trajectory.setCoordinates(getCoordList(e));
                             trajectory.setName(e);
+                            trajectory.setCoordinates(getCoordinateList(e));
                             tree.addTrajectory(e, trajectory);
                         }
                     }
@@ -39,39 +36,18 @@ public class DataImporter {
         tree.initialize();
     }
 
-    public HashSet<Trajectory> loadFilesToVisualize(String src) {
-        HashSet<Trajectory> trajectoryHashMap = new LinkedHashSet<>();
-        try (Stream<String> stream = Files.lines(Paths.get(src))) {
-            stream.forEach(e -> {
-                        if (!e.isEmpty() && e != null) {
-                            Trajectory trajectory = new Trajectory();
-                            trajectory.setCoordinates(getCoordList(e));
-                            trajectory.setName(e);
-                            trajectoryHashMap.add(trajectory);
-                        }
-                    }
-            );
-
-        } catch (NoSuchFileException e) {
-            new CustomException("Dataset not found");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return trajectoryHashMap;
-    }
-
     public List<Query> getQueries(String path) {
         List<Query> list = new ArrayList<>();
         try (Stream<String> stream = Files.lines(Paths.get(path))) {
             stream.forEach(e -> {
-                        if (!e.isEmpty() && e != null) {
+                        if (!e.isEmpty() && !e.equals(null)) {
                             String lines[] = e.split("\\s+");
                             if (lines.length != 2)
                                 new CustomException("Query Line doesn't have two properties");
 
                             Trajectory q_tr = new Trajectory();
                             q_tr.setName(lines[0]);
-                            q_tr.setCoordinates(getCoordList(lines[0]));
+                            q_tr.setCoordinates(getCoordinateList(lines[0]));
                             double dist = Double.parseDouble(lines[1]);
 
                             Query tq = new Query(q_tr, dist);
@@ -82,25 +58,22 @@ public class DataImporter {
             );
 
         } catch (NoSuchFileException e) {
-            new CustomException("query file not found");
+            new CustomException("Query file not found");
         } catch (IOException e) {
             e.printStackTrace();
         }
         return list;
     }
 
-    private List<Coordinate> getCoordList(String s) {
+    private List<Coordinate> getCoordinateList(String s) {
 
-        //TODO: remove in future
-        String temp = s;
         List<Coordinate> list = new ArrayList<>();
 
-        try (Stream<String> stream = Files.lines(Paths.get(temp)).skip(1)) {
-            AtomicInteger index = new AtomicInteger(0);
+        try (Stream<String> stream = Files.lines(Paths.get(s)).skip(1)) {
             stream.forEach(e -> {
                         String lines[] = e.split("\\s+");
                         if (lines.length < 4) {
-                            new CustomException("One of trajectory properties(x,y,k,tid) not found in file \"" + temp + "\"");
+                            new CustomException("One of trajectory properties(x,y,k,tid) not found in file \"" + s + "\"");
                         }
                         Coordinate coordinate = new Coordinate();
                         coordinate.setPointX(Double.valueOf(lines[0]));
@@ -112,7 +85,7 @@ public class DataImporter {
             );
 
         } catch (NoSuchFileException e) {
-            new CustomException("File not found : \"" + temp + "\"");
+            new CustomException("File not found : \"" + s + "\"");
         } catch (IOException e) {
             e.printStackTrace();
         }
