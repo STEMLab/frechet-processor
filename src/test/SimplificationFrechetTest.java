@@ -4,8 +4,8 @@ import goLA.data.StartRTree;
 import goLA.data.Tree;
 import goLA.io.DataImporter;
 import goLA.model.Coordinate;
+import goLA.model.Query;
 import goLA.model.Trajectory;
-import goLA.model.TrajectoryQuery;
 import goLA.utils.DouglasPeucker;
 import goLA.utils.EuclideanDistance;
 import goLA.utils.FrechetDistance;
@@ -35,7 +35,7 @@ public class SimplificationFrechetTest {
             double q_maxEpsilon = DouglasPeucker.getMaxEpsilon(q);
             Trajectory simple = DouglasPeucker.getReduced(q, q_maxEpsilon);
 
-            TrajectoryQuery query = new TrajectoryQuery(q, q_dist);
+            Query query = new Query(q, q_dist);
             List<Trajectory> ret = tree.getPossible(query);
 
             Coordinate q_start = q.getCoordinates().get(0);

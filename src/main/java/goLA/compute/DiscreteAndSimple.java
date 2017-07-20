@@ -1,8 +1,8 @@
 package goLA.compute;
 
+import goLA.model.Query;
 import goLA.model.Trajectory;
-import goLA.model.TrajectoryQuery;
-import goLA.utils.DiscreteFrechet;
+import goLA.utils.DiscreteFrechetDistance;
 import goLA.utils.FrechetDistance;
 
 import java.util.ArrayList;
@@ -15,14 +15,14 @@ import java.util.stream.Collectors;
 public class DiscreteAndSimple implements QueryProcessor {
 
     @Override
-    public List<Trajectory> query(TrajectoryQuery query, List<Trajectory> trh) {
+    public List<Trajectory> query(Query query, List<Trajectory> trh) {
         if (trh.size() == 0) return new ArrayList<>();
 
-        DiscreteFrechet df = new DiscreteFrechet();
+        DiscreteFrechetDistance df = new DiscreteFrechetDistance();
         List<Trajectory> trajectories = trh
                 .stream()
-                .filter(t->
-                        t.isResult || (df.distance(query.q_tr, t) < query.dist) || FrechetDistance.decisionDP(query.q_tr, t, query.dist)
+                .filter(t ->
+                        t.isResult() || (df.distance(query.q_tr, t) < query.dist) || FrechetDistance.decisionDP(query.q_tr, t, query.dist)
                 )
                 .collect(Collectors.toList());
 

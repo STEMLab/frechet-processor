@@ -1,7 +1,7 @@
 package goLA.io;
 
 import goLA.model.Trajectory;
-import goLA.model.TrajectoryQuery;
+import goLA.model.Query;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -12,7 +12,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -76,7 +75,7 @@ public class DataExporter {
         // System.out.println("Content of StringBuffer written to File.");
     }
 
-    public void exportQuery(int index, TrajectoryQuery q, int size1, boolean b, int size2, int size3, Instant start, Instant middle1, Instant middle2, Instant end) {
+    public void exportQuery(int index, Query q, int size1, boolean b, int size2, int size3, Instant start, Instant middle1, Instant middle2, Instant end) {
         Path path = Paths.get(this.path + "QueryInfo.txt");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(path.toString(), true))) {
             writer.append("\n\n---- " + index + " -------\n");

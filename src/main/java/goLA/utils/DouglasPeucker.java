@@ -37,19 +37,19 @@ public class DouglasPeucker {
         return result;
     }
 
-    public static Trajectory getReducedMax(Trajectory trajectory){
-        if (trajectory.simple != null && trajectory.Simplemode == 1) return trajectory.simple;
+    public static Trajectory getReducedMax(Trajectory trajectory) {
+        if (trajectory.getSimplified() != null && trajectory.getSimpleMode() == 1) return trajectory.getSimplified();
         Trajectory ret = getReduced(trajectory, getMaxEpsilon(trajectory));
-        trajectory.simple = ret;
-        trajectory.Simplemode = 1;
+        trajectory.setSimplified(ret);
+        trajectory.setSimpleMode(1);
         return ret;
     }
 
-    public static Trajectory getReducedAvg(Trajectory trajectory){
-        if (trajectory.simple != null && trajectory.Simplemode == 2) return trajectory.simple;
+    public static Trajectory getReducedAvg(Trajectory trajectory) {
+        if (trajectory.getSimplified() != null && trajectory.getSimpleMode() == 2) return trajectory.getSimplified();
         Trajectory ret = getReduced(trajectory, getAvgEpsilon(trajectory));
-        trajectory.simple = ret;
-        trajectory.Simplemode = 2;
+        trajectory.setSimplified(ret);
+        trajectory.setSimpleMode(2);
         return ret;
     }
 
@@ -59,20 +59,20 @@ public class DouglasPeucker {
         Trajectory ret = new Trajectory();
         List<Coordinate> coordinates = reduce(trajectory.getCoordinates(), epsilon);
         ret.setCoordinates(coordinates);
-        trajectory.simple = ret;
+        trajectory.setSimplified(ret);
         return ret;
     }
 
     public static double getMaxEpsilon(Trajectory trajectory) {
-        if (trajectory.MaxEpsilon != null) return trajectory.MaxEpsilon;
-        trajectory.MaxEpsilon = max(deviations(trajectory.getCoordinates()));
-        return trajectory.MaxEpsilon;
+        if (trajectory.getMaxEpsilon() != null) return trajectory.getMaxEpsilon();
+        trajectory.setMaxEpsilon(max(deviations(trajectory.getCoordinates())));
+        return trajectory.getMaxEpsilon();
     }
 
     public static double getAvgEpsilon(Trajectory trajectory) {
-        if (trajectory.AvgEpsilon != null) return trajectory.AvgEpsilon;
-        trajectory.AvgEpsilon = avg(deviations(trajectory.getCoordinates()));
-        return trajectory.AvgEpsilon;
+        if (trajectory.getAvgEpsilon() != null) return trajectory.getAvgEpsilon();
+        trajectory.setAvgEpsilon(avg(deviations(trajectory.getCoordinates())));
+        return trajectory.getAvgEpsilon();
     }
 
     private static double[] deviations(List<Coordinate> coordinates) {

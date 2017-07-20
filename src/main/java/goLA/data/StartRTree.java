@@ -5,7 +5,7 @@ import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDListIter;
 import goLA.data.tree.ElkiRStarTree;
 import goLA.model.Coordinate;
 import goLA.model.Trajectory;
-import goLA.model.TrajectoryQuery;
+import goLA.model.Query;
 import goLA.utils.EuclideanDistance;
 
 import java.util.ArrayList;
@@ -44,7 +44,7 @@ public class StartRTree implements Tree {
     }
 
     @Override
-    public List<Trajectory> getPossible(TrajectoryQuery query) {
+    public List<Trajectory> getPossible(Query query) {
 
         Coordinate q_start = query.getTrajectory().getCoordinates().get(0);
         Coordinate q_end = query.getTrajectory().getCoordinates().get(query.getTrajectory().getCoordinates().size() - 1);

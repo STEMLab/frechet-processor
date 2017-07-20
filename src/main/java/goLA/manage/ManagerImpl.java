@@ -5,8 +5,8 @@ import goLA.data.Tree;
 import goLA.filter.Filter;
 import goLA.io.DataExporter;
 import goLA.io.DataImporter;
+import goLA.model.Query;
 import goLA.model.Trajectory;
-import goLA.model.TrajectoryQuery;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -45,12 +45,12 @@ public class ManagerImpl implements Manager {
     }
 
     @Override
-    public List<List<Trajectory>> findResult(String query_path, DataExporter de) {
+    public List<List<Trajectory>> findResult(String path, DataExporter de) {
         List<List<Trajectory>> result = new ArrayList<>();
-        List<TrajectoryQuery> query = di.getQueries(query_path);
+        List<Query> query = di.getQueries(path);
 
         int index = 0;
-        for (TrajectoryQuery q : query){
+        for (Query q : query) {
             Instant start = Instant.now();
             System.out.println("\n\n---- Query processing : " + q.getTrajectory().getName() + ", " + q.dist + " -------");
             List<Trajectory> possible_trajectoryHolder = tree.getPossible(q);
@@ -81,7 +81,7 @@ public class ManagerImpl implements Manager {
             Instant end = Instant.now();
             System.out.println("---- calculate Dist Time : " + Duration.between(middle2, end) + " -------");
             if (de != null)
-                de.exportQuery(index, 
+                de.exportQuery(index,
                         q, possible_trajectoryHolder.size(), this.filter != null,
                         filtered_list.size(), size2,
                         start, middle1, middle2, end

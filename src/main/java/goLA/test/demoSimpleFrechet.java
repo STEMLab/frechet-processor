@@ -1,6 +1,5 @@
 package goLA.test;
 
-import goLA.compute.DiscreteAndSimple;
 import goLA.compute.SimpleFrechet;
 import goLA.data.StartRTree;
 import goLA.filter.SimplificationFrechet;
@@ -9,7 +8,6 @@ import goLA.io.DataImporter;
 import goLA.manage.Manager;
 import goLA.manage.ManagerImpl;
 import goLA.model.Trajectory;
-import goLA.utils.FrechetDistance;
 
 import java.io.*;
 import java.nio.file.Path;
@@ -31,7 +29,7 @@ public class demoSimpleFrechet {
         Instant start = Instant.now();
         System.out.println("Start Program");
 
-        Manager manager = new ManagerImpl(new SimpleFrechet(), new StartRTree(), new DataImporter() , new SimplificationFrechet());
+        Manager manager = new ManagerImpl(new SimpleFrechet(), new StartRTree(), new DataImporter(), new SimplificationFrechet());
         manager.makeStructure(TEST_DATA_SET_PATH);
 
         //get all data trajectories
@@ -41,7 +39,7 @@ public class demoSimpleFrechet {
         List<List<Trajectory>> result = manager.findResult(QUERY_PATH, de);
 
         for (int index = 0; index < result.size(); index++) {
-            de.export(result.get(index), index);;
+            de.export(result.get(index), index);
         }
 
         Instant end = Instant.now();

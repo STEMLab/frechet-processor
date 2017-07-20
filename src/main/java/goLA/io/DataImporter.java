@@ -4,7 +4,7 @@ import goLA.data.Tree;
 import goLA.exceptions.CustomException;
 import goLA.model.Coordinate;
 import goLA.model.Trajectory;
-import goLA.model.TrajectoryQuery;
+import goLA.model.Query;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -60,8 +60,8 @@ public class DataImporter {
         return trajectoryHashMap;
     }
 
-    public List<TrajectoryQuery> getQueries(String path) {
-        List<TrajectoryQuery> list = new ArrayList<>();
+    public List<Query> getQueries(String path) {
+        List<Query> list = new ArrayList<>();
         try (Stream<String> stream = Files.lines(Paths.get(path))) {
             stream.forEach(e -> {
                         if (!e.isEmpty() && e != null) {
@@ -74,7 +74,7 @@ public class DataImporter {
                             q_tr.setCoordinates(getCoordList(lines[0]));
                             double dist = Double.parseDouble(lines[1]);
 
-                            TrajectoryQuery tq = new TrajectoryQuery(q_tr, dist);
+                            Query tq = new Query(q_tr, dist);
 
                             list.add(tq);
                         }
