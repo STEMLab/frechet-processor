@@ -2,6 +2,7 @@ package goLA.filter;
 
 import goLA.model.Trajectory;
 import goLA.model.Query;
+import goLA.utils.DiscreteFrechetDistance;
 import goLA.utils.DouglasPeucker;
 import goLA.utils.FrechetDistance;
 
@@ -28,7 +29,7 @@ public class SimplificationFrechet implements Filter {
                 .stream()
                 .forEach((t) -> {
                             t.setResult(false);
-                            if (FrechetDistance.decisionDP(q.getTrajectory(),
+                            if (DiscreteFrechetDistance.decisionDP(q.getTrajectory(),
                                     t.getSimplified(),
                                     q.dist - q_max_E)) {
                                 t.setResult(true);
