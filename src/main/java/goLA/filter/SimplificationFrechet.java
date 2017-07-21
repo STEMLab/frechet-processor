@@ -25,18 +25,19 @@ public class SimplificationFrechet implements Filter {
                                 q.dist + q_max_E * 2))
                 .collect(Collectors.toList());
 
-        trajectoryList
-                .stream()
-                .forEach((t) -> {
-                            t.setResult(false);
-                            if (DiscreteFrechetDistance.decisionDP(q.getTrajectory(),
-                                    t.getSimplified(),
-                                    q.dist - q_max_E)) {
-                                t.setResult(true);
+        if (q.dist - q_max_E >= 0) {
+            trajectoryList
+                    .stream()
+                    .forEach((t) -> {
+                                t.setResult(false);
+                                if (DiscreteFrechetDistance.decisionDP(q.getTrajectory(),
+                                        t.getSimplified(),
+                                        q.dist - q_max_E)) {
+                                    t.setResult(true);
+                                }
                             }
-                        }
-                );
-
+                    );
+        }
         //TODO : removed
         int isResult = 0;
         for (Trajectory tr : trajectoryList) {
