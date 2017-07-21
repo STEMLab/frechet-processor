@@ -19,16 +19,17 @@ public class DiscreteFrechetDistance {
         int q = q_coordinates.size();
 
         Double[][] ca = new Double[p][q];
+
         for (int pi = 0; pi < p; pi++) {
             for (int qi = 0; qi < q; qi++) {
                 ca[pi][qi] = -1.0;
             }
         }
-
         return calc(p - 1, q - 1, ca, p_coordinates, q_coordinates);
     }
 
     static private Double calc(int i, int j, Double[][] ca, List<Coordinate> p_coordinates, List<Coordinate> q_coordinates) {
+
         if (ca[i][j] != -1.0) return ca[i][j];
         else if (i == 0 && j == 0) {
             ca[i][j] = EuclideanDistance.distance(p_coordinates.get(i), q_coordinates.get(j));

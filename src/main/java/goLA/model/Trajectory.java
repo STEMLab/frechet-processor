@@ -1,22 +1,30 @@
 package goLA.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Trajectory {
 
-    //TODO : chagne variable
-    public boolean isResult = false;
-    public Double MaxEpsilon = null;
-    public Double AvgEpsilon = null;
-    public Integer Simplemode = 0; // 1 : Max, 2 : Avg
-    public Trajectory simple = null;
+    private boolean isResult;
+    private Double maxEpsilon;
+    private Double avgEpsilon;
 
+    //TODO remove
+    private int simpleMode; // 1 : Max, 2 : Avg
+
+    private Trajectory simplified;
     private String name;
     private List<Coordinate> coordinates;
 
+    public Trajectory() {
+        this.isResult = false;
+        this.maxEpsilon = null;
+        this.avgEpsilon = null;
+        this.simpleMode = 0; // 1 : Max, 2 : Avg
+        this.simplified = null;
+    }
+
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -24,19 +32,51 @@ public class Trajectory {
     }
 
     public List<Coordinate> getCoordinates() {
-        return coordinates;
+        return this.coordinates;
     }
 
     public void setCoordinates(List<Coordinate> coordinates) {
         this.coordinates = coordinates;
     }
 
-    public Trajectory makeStraight() {
-        Trajectory tr = new Trajectory();
-        List<Coordinate> coord = new ArrayList<>();
-        coord.add(this.coordinates.get(0));
-        coord.add(this.coordinates.get(this.coordinates.size() - 1));
-        tr.setCoordinates(coord);
-        return tr;
+    public boolean isResult() {
+        return this.isResult;
     }
+
+    public void setResult(boolean result) {
+        this.isResult = result;
+    }
+
+    public Double getMaxEpsilon() {
+        return maxEpsilon;
+    }
+
+    public void setMaxEpsilon(Double maxEpsilon) {
+        this.maxEpsilon = maxEpsilon;
+    }
+
+    public Double getAvgEpsilon() {
+        return avgEpsilon;
+    }
+
+    public void setAvgEpsilon(Double avgEpsilon) {
+        this.avgEpsilon = avgEpsilon;
+    }
+
+    public int getSimpleMode() {
+        return simpleMode;
+    }
+
+    public void setSimpleMode(int simpleMode) {
+        this.simpleMode = simpleMode;
+    }
+
+    public Trajectory getSimplified() {
+        return simplified;
+    }
+
+    public void setSimplified(Trajectory simplified) {
+        this.simplified = simplified;
+    }
+
 }

@@ -26,8 +26,9 @@ public class CompareResult {
         File[] f_sol = new File(solution).listFiles();
         File[] f_na = new File(new_answer).listFiles();
 
-        if (f_sol.length == 0 || f_na.length ==0) {
-            System.out.println("no files");return;
+        if (f_sol.length == 0 || f_na.length == 0) {
+            System.out.println("no files");
+            return;
         }
         int file_wrong_count = 0;
         for (int i = 0; i < f_sol.length; i++) {
@@ -94,8 +95,8 @@ public class CompareResult {
 
         if (right_b != b_list.size()) {
             tr_wrong_count += Math.abs(right_b - b_list.size());
-            System.out.println( " over : " + Math.abs(right_b - b_list.size()) );
-            for (String sb : b_list){
+            System.out.println(" over : " + Math.abs(right_b - b_list.size()));
+            for (String sb : b_list) {
                 boolean temp = false;
                 for (int i = 0; i < a_list.size(); i++) {
                     String sa = a_list.get(i);
