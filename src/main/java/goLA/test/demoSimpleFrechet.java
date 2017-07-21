@@ -1,6 +1,6 @@
 package goLA.test;
 
-import goLA.compute.SimpleFrechet;
+import goLA.compute.DiscreteAndReal;
 import goLA.data.StartRTree;
 import goLA.filter.SimplificationFrechet;
 import goLA.io.DataExporter;
@@ -21,7 +21,7 @@ public class demoSimpleFrechet {
     private static String TEST_DATA_SET_PATH = "dataset.txt";
     private static String QUERY_PATH = "queries.txt";
     private static String RESULT_PATH = "result/SampleData/";
-    private static String TAG = "v0.1.5";
+    private static String TAG = "v0.1.5.1";
 
     public static void main(String[] args) throws IOException {
         DataExporter de = new DataExporter(RESULT_PATH, TAG + "/");
@@ -29,7 +29,7 @@ public class demoSimpleFrechet {
         Instant start = Instant.now();
         System.out.println("Start Program");
 
-        Manager manager = new ManagerImpl(new SimpleFrechet(), new StartRTree(), new DataImporter(), new SimplificationFrechet());
+        Manager manager = new ManagerImpl(new DiscreteAndReal(), new StartRTree(), new DataImporter(), new SimplificationFrechet());
         manager.makeStructure(TEST_DATA_SET_PATH);
 
         //get all data trajectories

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-public class SimpleFrechet implements QueryProcessor {
+public class RealFrechet implements QueryProcessor {
 
     @Override
     public List<Trajectory> query(Query query, List<Trajectory> trh) {

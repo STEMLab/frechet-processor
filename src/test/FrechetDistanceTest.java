@@ -1,6 +1,6 @@
 package test;
 
-import goLA.compute.SimpleFrechet;
+import goLA.compute.DiscreteAndReal;
 import goLA.data.StartRTree;
 import goLA.filter.SimplificationFrechet;
 import goLA.io.DataImporter;
@@ -27,7 +27,7 @@ public class FrechetDistanceTest {
 
         int[] results = {5, 2, 4, 4, 3, 5, 4, 3, 3, 5};
 
-        Manager manager = new ManagerImpl(new SimpleFrechet(), new StartRTree(), new DataImporter(), new SimplificationFrechet());
+        Manager manager = new ManagerImpl(new DiscreteAndReal(), new StartRTree(), new DataImporter(), new SimplificationFrechet());
 
         manager.makeStructure(TEST_DATA_SET_PATH);
         List<List<Trajectory>> result = manager.findResult(TEST_QUERY_PATH, null);
