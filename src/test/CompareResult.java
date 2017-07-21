@@ -15,13 +15,13 @@ import java.util.stream.Stream;
  * Created by stem-dong-li on 17. 7. 5.
  */
 public class CompareResult {
-    private static String ROOT = "result/SampleData_2/";
+    private static String ROOT = "result/SampleData/";
     private static int tr_wrong_count = 0;
     private static int whole_sol_tr = 0;
 
     public static void main(String[] args) {
         String solution = ROOT + "answer";
-        String new_answer = ROOT + "v0.1.5.1/";
+        String new_answer = ROOT + "v0.1.5.2/";
 
         File[] f_sol = new File(solution).listFiles();
         File[] f_na = new File(new_answer).listFiles();
