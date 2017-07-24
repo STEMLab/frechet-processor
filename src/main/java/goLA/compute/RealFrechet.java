@@ -16,9 +16,7 @@ public class RealFrechet implements QueryProcessor {
         if (trh.size() == 0) return new ArrayList<>();
 
         List<Trajectory> trajectories =
-                trh
-                        .stream()
-                        .filter(t ->
+                trh.stream().filter(t ->
                                 t.isResult() || FrechetDistance.decisionDP(query.q_tr, t, query.dist)
                         )
                         .collect(Collectors.toList());

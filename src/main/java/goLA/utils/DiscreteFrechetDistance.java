@@ -9,6 +9,9 @@ import java.util.List;
  * Created by stem_dong on 2017-07-19.
  */
 public class DiscreteFrechetDistance {
+    /**
+     * Distance Calculation : Discrete Frechet distance
+     */
     static public Double distance(Trajectory q_tr, Trajectory t_tr) {
         List<Coordinate> p_coordinates = q_tr.getCoordinates();
         int p = p_coordinates.size();
@@ -42,6 +45,9 @@ public class DiscreteFrechetDistance {
         return ca[i][j];
     }
 
+    /**
+     * Decision Problem : Determine whether discrete Frechet Distance between two trajectories <= distance.
+     */
     static public boolean decisionDP(Trajectory pt, Trajectory qt, double dist){
         if (dist < 0.0) return false;
         List<Coordinate> p_coordinates = pt.getCoordinates();

@@ -6,6 +6,7 @@ import goLA.io.DataImporter;
 import goLA.model.Coordinate;
 import goLA.model.Query;
 import goLA.model.Trajectory;
+import goLA.utils.DiscreteFrechetDistance;
 import goLA.utils.DouglasPeucker;
 import goLA.utils.EuclideanDistance;
 import goLA.utils.FrechetDistance;
@@ -38,37 +39,25 @@ public class SimplificationFrechetTest {
             Query query = new Query(q, q_dist);
             List<Trajectory> ret = tree.getPossible(query);
 
-            Coordinate q_start = q.getCoordinates().get(0);
-            Coordinate q_end = q.getCoordinates().get(q.getCoordinates().size() - 1);
-
             ret.forEach(e -> {
                 Trajectory C = e;
-                Coordinate c_start = C.getCoordinates().get(0);
+                if (!FrechetDistance.decisionDP(q, DouglasPeucker.getReduced(C, q_maxEpsilon),
+                        q_dist + q_maxEpsilon)) {
+                    if (!FrechetDistance.decisionDP(q, C, q_dist)) {
 
-                Coordinate c_end = C.getCoordinates().get(C.getCoordinates().size() - 1);
-                if (EuclideanDistance.distance(c_start, q_start) <= q_dist) {
-                    if (EuclideanDistance.distance(c_end, q_end) <= q_dist) {
-                        if (!FrechetDistance.decisionDP(q, DouglasPeucker.getReduced(C, q_maxEpsilon),
-                                q_dist + q_maxEpsilon)) {
-                            if (!FrechetDistance.decisionDP(q, C, q_dist)) {
-
-                            } else {
-                                System.out.println("wrong");
-                            }
-                        }
-                        if (FrechetDistance.decisionDP(q,
-                                DouglasPeucker.getReduced(C, q_maxEpsilon),
-                                q_dist - q_maxEpsilon)) {
-                            if (FrechetDistance.decisionDP(q, C, q_dist)) {
-
-                            } else {
-                                System.out.println("is Result wrong");
-                            }
-                        }
-
+                    } else {
+                        System.out.println("wrong");
                     }
                 }
+                if (DiscreteFrechetDistance.decisionDP(q,
+                        DouglasPeucker.getReduced(C, q_maxEpsilon),
+                        q_dist - q_maxEpsilon)) {
+                    if (FrechetDistance.decisionDP(q, C, q_dist)) {
 
+                    } else {
+                        System.out.println("is Result wrong");
+                    }
+                }
             });
 
         }

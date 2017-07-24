@@ -9,6 +9,9 @@ import java.util.List;
  * Created by stem-dong-li on 17. 7. 5.
  */
 public class FrechetDistance {
+    /**
+     * Decision Problem : Determine whether Frechet Distance between two trajectories <= distance.
+     */
     static public boolean decisionDP(Trajectory q_tr, Trajectory t_tr, double dist) {
         if (dist < 0) return false;
         int p, q;

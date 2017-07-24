@@ -25,6 +25,7 @@ public class SimplificationFrechet implements Filter {
                                 q.dist + q_max_E * 2))
                 .collect(Collectors.toList());
 
+        //only process if query distance is longer than query's max Epsilon.
         if (q.dist - q_max_E >= 0) {
             trajectoryList
                     .stream()
