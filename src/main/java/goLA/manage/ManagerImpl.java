@@ -51,6 +51,12 @@ public class ManagerImpl implements Manager {
 
         int index = 0;
         for (Query q : query) {
+            if (q.dist == 0){
+                List<Trajectory> q_res = new ArrayList<>();
+                q_res.add(q.getTrajectory());
+                result.add(q_res);
+            }
+            
             Instant start = Instant.now();
             System.out.println("\n\n---- Query processing : " + q.getTrajectory().getName() + ", " + q.dist + " -------");
             List<Trajectory> possible_trajectoryHolder = tree.getPossible(q);
