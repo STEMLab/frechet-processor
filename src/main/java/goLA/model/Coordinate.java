@@ -23,11 +23,6 @@ public class Coordinate {
         this.pointY = pointY;
     }
 
-    public void setPoint(double x, double y) {
-        this.pointX = x;
-        this.pointY = y;
-    }
-
     public int getOrder() {
         return order;
     }

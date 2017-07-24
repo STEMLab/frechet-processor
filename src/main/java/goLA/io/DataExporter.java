@@ -19,10 +19,6 @@ public class DataExporter {
 
     private String path = "";
 
-    public DataExporter() {
-        path = "";
-    }
-
     public DataExporter(String root_path, String tag_path) {
         //TODO : remove
         File result = new File("result/");
@@ -79,7 +75,7 @@ public class DataExporter {
         Path path = Paths.get(this.path + "QueryInfo.txt");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(path.toString(), true))) {
             writer.append("\n\n---- " + index + " -------\n");
-            writer.append("\n\n---- Query processing : " + q.getTrajectory().getName() + ", " + q.dist + " -------\n");
+            writer.append("\n\n---- Query processing : " + q.getTrajectory().getName() + ", " + q.getDistance() + " -------\n");
             writer.append("---- candidate number : " + size1 + " -------\n");
             writer.append("---- getPossible Time : " + Duration.between(start, middle1) + "\n");
             if (b) {

@@ -1,16 +1,32 @@
 package goLA.model;
 
 public class Query {
-    public Trajectory q_tr;
-    public double dist;
+    private Trajectory queryTrajectory;
+    private double distance;
 
-    public Query(Trajectory q_tr, double dist) {
+    public Query(Trajectory queryTrajectory, double distance) {
         super();
-        this.q_tr = q_tr;
-        this.dist = dist;
+        this.queryTrajectory = queryTrajectory;
+        this.distance = distance;
     }
 
     public Trajectory getTrajectory() {
-        return q_tr;
+        return this.queryTrajectory;
+    }
+
+    public Trajectory getQueryTrajectory() {
+        return queryTrajectory;
+    }
+
+    public void setQueryTrajectory(Trajectory queryTrajectory) {
+        this.queryTrajectory = queryTrajectory;
+    }
+
+    public double getDistance() {
+        return this.distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
     }
 }

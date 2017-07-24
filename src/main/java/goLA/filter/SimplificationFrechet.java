@@ -22,18 +22,18 @@ public class SimplificationFrechet implements Filter {
                 .stream()
                 .filter(t ->
                         FrechetDistance.decisionDP(simple, DouglasPeucker.getReduced(t, q_max_E),
-                                q.dist + q_max_E * 2))
+                                q.getDistance() + q_max_E * 2))
                 .collect(Collectors.toList());
 
         //only process if query distance is longer than query's max Epsilon.
-        if (q.dist - q_max_E >= 0) {
+        if (q.getDistance() - q_max_E >= 0) {
             trajectoryList
                     .stream()
                     .forEach((t) -> {
                                 t.setResult(false);
                                 if (DiscreteFrechetDistance.decisionDP(q.getTrajectory(),
                                         t.getSimplified(),
-                                        q.dist - q_max_E)) {
+                                        q.getDistance() - q_max_E)) {
                                     t.setResult(true);
                                 }
                             }

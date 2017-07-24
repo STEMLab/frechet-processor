@@ -9,6 +9,7 @@ import goLA.model.Trajectory;
 import goLA.utils.EuclideanDistance;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -48,7 +49,7 @@ public class StartRTree implements Tree {
 
         Coordinate q_start = query.getTrajectory().getCoordinates().get(0);
         Coordinate q_end = query.getTrajectory().getCoordinates().get(query.getTrajectory().getCoordinates().size() - 1);
-        double dist = query.dist;
+        double dist = query.getDistance();
 
         DoubleDBIDList s_results = start_tree.search(new double[]{q_start.getPointX(), q_start.getPointY()}, dist);
 
@@ -62,11 +63,6 @@ public class StartRTree implements Tree {
                 poss.add(this.holder.get(key));
         }
         return poss;
-    }
-
-    @Override
-    public ConcurrentHashMap<String, Trajectory> getHolder() {
-        return holder;
     }
 
     @Override

@@ -35,11 +35,6 @@ public class ManagerImpl implements Manager {
     }
 
     @Override
-    public void setFilter(Filter ft) {
-        filter = ft;
-    }
-
-    @Override
     public void makeStructure(String path) {
         di.loadFiles(path, tree);
     }
@@ -52,7 +47,7 @@ public class ManagerImpl implements Manager {
         int index = 0;
         for (Query q : query) {
             Instant start = Instant.now();
-            System.out.println("\n\n---- Query processing : " + q.getTrajectory().getName() + ", " + q.dist + " -------");
+            System.out.println("\n\n---- Query processing : " + q.getTrajectory().getName() + ", " + q.getDistance() + " -------");
             List<Trajectory> possible_trajectoryHolder = tree.getPossible(q);
             int size1 = possible_trajectoryHolder.size();
             System.out.println("---- candidate number : " + size1 + " -------");

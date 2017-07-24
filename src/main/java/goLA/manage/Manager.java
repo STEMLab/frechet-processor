@@ -9,8 +9,6 @@ import java.util.List;
 
 public interface Manager {
 
-    void setFilter(Filter ft);
-
     void makeStructure(String path);
 
     List<List<Trajectory>> findResult(String path, DataExporter de);
