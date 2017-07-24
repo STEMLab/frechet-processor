@@ -1,7 +1,7 @@
 package goLA.data;
 
-import goLA.model.Trajectory;
 import goLA.model.Query;
+import goLA.model.Trajectory;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;

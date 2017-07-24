@@ -1,7 +1,7 @@
 package goLA.filter;
 
-import goLA.model.Trajectory;
 import goLA.model.Query;
+import goLA.model.Trajectory;
 import goLA.utils.DiscreteFrechetDistance;
 import goLA.utils.DouglasPeucker;
 import goLA.utils.FrechetDistance;

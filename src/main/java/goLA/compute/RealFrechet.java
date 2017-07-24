@@ -1,7 +1,7 @@
 package goLA.compute;
 
-import goLA.model.Trajectory;
 import goLA.model.Query;
+import goLA.model.Trajectory;
 import goLA.utils.FrechetDistance;
 
 import java.util.ArrayList;
@@ -17,8 +17,8 @@ public class RealFrechet implements QueryProcessor {
 
         List<Trajectory> trajectories =
                 trh.stream().filter(t ->
-                                t.isResult() || FrechetDistance.decisionDP(query.q_tr, t, query.dist)
-                        )
+                        t.isResult() || FrechetDistance.decisionDP(query.q_tr, t, query.dist)
+                )
                         .collect(Collectors.toList());
 
         return trajectories;

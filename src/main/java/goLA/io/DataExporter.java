@@ -1,7 +1,7 @@
 package goLA.io;
 
-import goLA.model.Trajectory;
 import goLA.model.Query;
+import goLA.model.Trajectory;
 
 import java.io.BufferedWriter;
 import java.io.File;

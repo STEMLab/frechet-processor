@@ -39,13 +39,13 @@ public class FrechetDistance {
         for (int i = 0; i < p; i++) {
             boolean sw = false;
             for (int j = 0; j < q; j++) {
-                if (!result_left[i][j] && !result_bottom[i][j]){
+                if (!result_left[i][j] && !result_bottom[i][j]) {
                     result_left[i + 1][j] = false;
                     result_bottom[i][j + 1] = false;
                 } else {
                     sw = true;
-                    result_bottom[i][j + 1] = (dist >= EuclideanDistance.pointAndLine(q_coordinates.get(j+1), p_coordinates.get(i), p_coordinates.get(i + 1)));
-                    result_left[i + 1][j] = (dist >= EuclideanDistance.pointAndLine(p_coordinates.get(i+1), q_coordinates.get(j), q_coordinates.get(j + 1)));
+                    result_bottom[i][j + 1] = (dist >= EuclideanDistance.pointAndLine(q_coordinates.get(j + 1), p_coordinates.get(i), p_coordinates.get(i + 1)));
+                    result_left[i + 1][j] = (dist >= EuclideanDistance.pointAndLine(p_coordinates.get(i + 1), q_coordinates.get(j), q_coordinates.get(j + 1)));
                 }
             }
             if (!sw) return false;

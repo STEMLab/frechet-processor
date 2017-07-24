@@ -3,12 +3,10 @@ package test;
 import goLA.data.StartRTree;
 import goLA.data.Tree;
 import goLA.io.DataImporter;
-import goLA.model.Coordinate;
 import goLA.model.Query;
 import goLA.model.Trajectory;
 import goLA.utils.DiscreteFrechetDistance;
 import goLA.utils.DouglasPeucker;
-import goLA.utils.EuclideanDistance;
 import goLA.utils.FrechetDistance;
 
 import java.util.List;

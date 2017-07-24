@@ -4,8 +4,8 @@ import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDList;
 import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDListIter;
 import goLA.data.tree.ElkiRStarTree;
 import goLA.model.Coordinate;
-import goLA.model.Trajectory;
 import goLA.model.Query;
+import goLA.model.Trajectory;
 import goLA.utils.EuclideanDistance;
 
 import java.util.ArrayList;
