@@ -7,11 +7,11 @@ import java.util.List;
 
 public interface QueryProcessor {
     /**
-     * Among trajectories in trh, only return Frechet distance with query trajectory is lower than query distance.
+     * Among trajectories in trajectories, only return Frechet distance with query trajectory is lower than query distance.
      *
      * @param query
-     * @param trh
+     * @param trajectories
      * @return
      */
-    List<Trajectory> query(Query query, List<Trajectory> trh);
+    List<Trajectory> query(Query query, List<Trajectory> trajectories);
 }

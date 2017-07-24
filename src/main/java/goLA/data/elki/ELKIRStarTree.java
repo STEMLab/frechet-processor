@@ -1,4 +1,4 @@
-package goLA.data.tree;
+package goLA.data.elki;
 
 import de.lmu.ifi.dbs.elki.data.DoubleVector;
 import de.lmu.ifi.dbs.elki.data.LabelList;
@@ -30,7 +30,7 @@ import static de.lmu.ifi.dbs.elki.database.AbstractDatabase.Parameterizer.INDEX_
 /**
  * Created by Azamat on 5/15/2017.
  */
-public class ElkiRStarTree {
+public class ELKIRStarTree {
 
     private ArrayList<double[]> tree = new ArrayList<>();
     private ArrayList<String> treeLabels = new ArrayList<>();
