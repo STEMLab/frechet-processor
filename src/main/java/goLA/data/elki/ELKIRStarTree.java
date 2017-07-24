@@ -20,8 +20,6 @@ import de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.strategies.split.Ang
 import de.lmu.ifi.dbs.elki.utilities.ClassGenericsUtil;
 import de.lmu.ifi.dbs.elki.utilities.optionhandling.parameterization.ListParameterization;
 
-import java.time.Duration;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -53,8 +51,6 @@ public class ELKIRStarTree {
 
     public void initialize() {
 
-        Instant start = Instant.now();
-
         double[][] d = new double[tree.size()][2];
         d = tree.toArray(d);
 
@@ -68,8 +64,6 @@ public class ELKIRStarTree {
         vectors = db.getRelation(TypeUtil.DOUBLE_VECTOR_FIELD);
         labelListRelation = db.getRelation(TypeUtil.STRING);
 
-        Instant end = Instant.now();
-        System.out.println("\nMake Tree time : " + Duration.between(start, end) + "\n");
     }
 
     private ListParameterization getParams() {
