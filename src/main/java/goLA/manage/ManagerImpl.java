@@ -56,7 +56,6 @@ public class ManagerImpl implements Manager {
                 q_res.add(q.getTrajectory());
                 result.add(q_res);
             }
-            
             Instant start = Instant.now();
             System.out.println("\n\n---- Query processing : " + q.getTrajectory().getName() + ", " + q.dist + " -------");
             List<Trajectory> possible_trajectoryHolder = tree.getPossible(q);
