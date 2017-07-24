@@ -21,7 +21,7 @@ public class DiscreteAndReal implements QueryProcessor {
         List<Trajectory> trajectories = trh
                 .stream()
                 .filter(t ->
-                        t.isResult() || DiscreteFrechetDistance.decisionDP(query.q_tr, t, query.dist) || FrechetDistance.decisionDP(query.q_tr, t, query.dist)
+                        t.isResult() || DiscreteFrechetDistance.decisionDP(query.getTrajectory(), t, query.getDistance()) || FrechetDistance.decisionDP(query.getTrajectory(), t, query.getDistance())
                 )
                 .collect(Collectors.toList());
 
