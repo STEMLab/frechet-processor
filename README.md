@@ -39,5 +39,5 @@ Some useful theory was applied to project :
 * Discrete Fréchet distance must be equal or longer than normal Fréchet distance.
 
 ## References 
-    - Alt, Helmut; Godau, Michael (1995), "Computing the Fréchet distance between two polygonal curves"
-    - Beckmann, N.; Kriegel, H. P.; Schneider, R.; Seeger, B. (1990). "The R*-tree: an efficient and robust access method for points and rectangles"
+   - Alt, Helmut; Godau, Michael (1995), "Computing the Fréchet distance between two polygonal curves"
+   - Beckmann, N.; Kriegel, H. P.; Schneider, R.; Seeger, B. (1990). "The R*-tree: an efficient and robust access method for points and rectangles"
