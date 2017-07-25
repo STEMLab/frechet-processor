@@ -3,7 +3,7 @@ package goLA.data.impl;
 import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDList;
 import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDListIter;
 import goLA.data.Tree;
-import goLA.data.tree.ElkiRStarTree;
+import goLA.data.elki.ELKIRStarTree;
 import goLA.model.Coordinate;
 import goLA.model.Query;
 import goLA.model.Trajectory;
@@ -17,57 +17,52 @@ import java.util.concurrent.ConcurrentHashMap;
  * Created by stem-dong-li on 17. 7. 5.
  */
 public class RTree implements Tree {
-    private ElkiRStarTree start_tree;
+    private ELKIRStarTree rStarTree;
     private ConcurrentHashMap<String, Trajectory> holder;
 
     private int size;
 
     public RTree() {
-        this.start_tree = new ElkiRStarTree();
+        this.rStarTree = new ELKIRStarTree();
         this.holder = new ConcurrentHashMap<>();
     }
 
     @Override
-    public void addTrajectory(String id, Trajectory tr) {
-        List<Coordinate> list = tr.getCoordinates();
+    public void addTrajectory(String id, Trajectory trajectory) {
+        List<Coordinate> list = trajectory.getCoordinates();
 
         Coordinate start = list.get(0);
-        start_tree.add(tr.getName(), new double[]{start.getPointX(), start.getPointY()});
+        rStarTree.add(trajectory.getName(), new double[]{start.getPointX(), start.getPointY()});
 
         size++;
 
-        holder.put(tr.getName(), tr);
+        holder.put(trajectory.getName(), trajectory);
     }
 
     @Override
     public void initialize() {
-        start_tree.initialize();
+        rStarTree.initialize();
     }
 
     @Override
     public List<Trajectory> getPossible(Query query) {
 
-        Coordinate q_start = query.getTrajectory().getCoordinates().get(0);
-        Coordinate q_end = query.getTrajectory().getCoordinates().get(query.getTrajectory().getCoordinates().size() - 1);
-        double dist = query.dist;
+        Coordinate start = query.getTrajectory().getCoordinates().get(0);
+        Coordinate end = query.getTrajectory().getCoordinates().get(query.getTrajectory().getCoordinates().size() - 1);
+        double dist = query.getDistance();
 
-        DoubleDBIDList s_results = start_tree.search(new double[]{q_start.getPointX(), q_start.getPointY()}, dist);
+        DoubleDBIDList result = rStarTree.search(new double[]{start.getPointX(), start.getPointY()}, dist);
 
         List<Trajectory> poss = new ArrayList<>();
 
-        for (DoubleDBIDListIter x = s_results.iter(); x.valid(); x.advance()) {
-            String key = start_tree.getRecordName(x);
-            List<Coordinate> coords = this.holder.get(key).getCoordinates();
-            Coordinate end = coords.get(coords.size() - 1);
-            if (EuclideanDistance.distance(end, q_end) <= dist)
+        for (DoubleDBIDListIter x = result.iter(); x.valid(); x.advance()) {
+            String key = rStarTree.getRecordName(x);
+            List<Coordinate> coordinates = this.holder.get(key).getCoordinates();
+            Coordinate last = coordinates.get(coordinates.size() - 1);
+            if (EuclideanDistance.distance(last, end) <= dist)
                 poss.add(this.holder.get(key));
         }
         return poss;
-    }
-
-    @Override
-    public ConcurrentHashMap<String, Trajectory> getHolder() {
-        return holder;
     }
 
     @Override

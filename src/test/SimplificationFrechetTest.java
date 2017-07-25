@@ -24,11 +24,11 @@ public class SimplificationFrechetTest {
         Tree tree = new RTree();
         DataImporter di = new DataImporter();
         di.loadFiles("dataset.txt", tree);
-        Object[] obj_list = tree.getHolder().values().toArray();
+        //Object[] obj_list = tree.getHolder().values().toArray();
         for (int i = 0; i < 300; i++) {
             int index = (int) (Math.random() * (tree.size() - 1));
             double q_dist = MIN_RAN + (Math.random() * MAX_RAN);
-            Trajectory q = (Trajectory) obj_list[index];
+            Trajectory q = makeFakeTrajectory();
             System.out.println("--- " + i + " : " + index + " ---");
             System.out.println("dist : " + q_dist);
             double q_maxEpsilon = DouglasPeucker.getMaxEpsilon(q);
@@ -59,5 +59,9 @@ public class SimplificationFrechetTest {
             });
 
         }
+    }
+
+    private static Trajectory makeFakeTrajectory(){
+        return null;
     }
 }

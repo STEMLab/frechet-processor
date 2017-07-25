@@ -16,7 +16,5 @@ public interface Tree {
 
     List<Trajectory> getPossible(Query query);
 
-    ConcurrentHashMap<String, Trajectory> getHolder();
-
     int size();
 }

@@ -22,7 +22,8 @@ public class QueryProcessorImpl implements QueryProcessor {
         List<String> trajectories = trh
                 .stream()
                 .filter(t ->
-                        t.isResult() || DiscreteFrechetDistance.decisionDP(query.q_tr, t, query.dist) || FrechetDistance.decisionDP(query.q_tr, t, query.dist)
+                        t.isResult() || DiscreteFrechetDistance.decisionDP(query.getTrajectory(), t, query.getDistance()) ||
+                                FrechetDistance.decisionDP(query.getTrajectory(), t, query.getDistance())
                 )
                 .map( e -> e.getName())
                 .collect(Collectors.toList());
