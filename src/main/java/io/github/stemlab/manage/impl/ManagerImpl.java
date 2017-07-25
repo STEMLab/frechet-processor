@@ -1,9 +1,9 @@
-package goLA.manage.impl;
+package io.github.stemlab.manage.impl;
 
-import goLA.data.Index;
-import goLA.io.DataImporter;
-import goLA.manage.Manager;
-import goLA.model.Query;
+import io.github.stemlab.data.Index;
+import io.github.stemlab.io.DataImporter;
+import io.github.stemlab.manage.Manager;
+import io.github.stemlab.model.Query;
 
 import java.util.ArrayList;
 import java.util.HashSet;

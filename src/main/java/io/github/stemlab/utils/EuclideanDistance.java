@@ -1,6 +1,6 @@
-package goLA.utils;
+package io.github.stemlab.utils;
 
-import goLA.model.Coordinate;
+import io.github.stemlab.model.Coordinate;
 
 /**
  * Created by Azamat on 7/4/2017.

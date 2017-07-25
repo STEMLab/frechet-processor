@@ -1,7 +1,7 @@
-package goLA.data;
+package io.github.stemlab.data;
 
-import goLA.model.Query;
-import goLA.model.Trajectory;
+import io.github.stemlab.model.Query;
+import io.github.stemlab.model.Trajectory;
 
 import java.util.HashSet;
 

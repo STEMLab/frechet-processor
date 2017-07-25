@@ -1,4 +1,4 @@
-package goLA.data.elki;
+package io.github.stemlab.data.elki;
 
 import de.lmu.ifi.dbs.elki.data.DoubleVector;
 import de.lmu.ifi.dbs.elki.data.LabelList;
@@ -97,10 +97,10 @@ public class ELKIRStarTree {
         return indexFactories;
     }
 
-    private int getPageSize(){
-        if(tree.size()<300){
+    private int getPageSize() {
+        if (tree.size() < 300) {
             return 300;
-        }else{
+        } else {
             return tree.size();
         }
     }

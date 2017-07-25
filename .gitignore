@@ -22,9 +22,9 @@ output
 goLA.iml
 
 #ignore Eclipse files
-goLA/.classpath
-goLA/.project
-goLA/.settings
+stemlab/.classpath
+stemlab/.project
+stemlab/.settings
 .settings
 .project
 .classpath

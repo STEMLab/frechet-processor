@@ -1,4 +1,4 @@
-package goLA.io;
+package io.github.stemlab.io;
 
 import java.io.BufferedWriter;
 import java.io.File;

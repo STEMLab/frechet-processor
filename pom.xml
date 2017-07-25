@@ -41,7 +41,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>goLA.test.FrechetProcessorLauncher</mainClass>
+                            <mainClass>io.github.stemlab.test.FrechetProcessorLauncher</mainClass>
                             <classpathPrefix>dependency-jars/</classpathPrefix>
                         </manifest>
                     </archive>

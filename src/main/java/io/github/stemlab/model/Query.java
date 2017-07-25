@@ -1,4 +1,4 @@
-package goLA.model;
+package io.github.stemlab.model;
 
 public class Query {
     private Trajectory queryTrajectory;

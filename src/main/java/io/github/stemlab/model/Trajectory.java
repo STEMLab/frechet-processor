@@ -1,17 +1,15 @@
-package goLA.model;
+package io.github.stemlab.model;
 
 import java.util.List;
 
 public class Trajectory {
 
-    private boolean isResult;
     private Double maxEpsilon;
     private Trajectory simplified;
     private String name;
     private List<Coordinate> coordinates;
 
     public Trajectory() {
-        this.isResult = false;
         this.maxEpsilon = null;
         this.simplified = null;
     }
@@ -30,14 +28,6 @@ public class Trajectory {
 
     public void setCoordinates(List<Coordinate> coordinates) {
         this.coordinates = coordinates;
-    }
-
-    public boolean isResult() {
-        return this.isResult;
-    }
-
-    public void setResult(boolean result) {
-        this.isResult = result;
     }
 
     public Double getMaxEpsilon() {

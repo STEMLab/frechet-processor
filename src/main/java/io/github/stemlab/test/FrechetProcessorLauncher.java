@@ -1,11 +1,11 @@
-package goLA.test;
+package io.github.stemlab.test;
 
-import goLA.data.impl.IndexImpl;
-import goLA.io.DataExporter;
-import goLA.io.DataImporter;
-import goLA.manage.Manager;
-import goLA.manage.impl.ManagerImpl;
-import goLA.utils.Validator;
+import io.github.stemlab.data.impl.IndexImpl;
+import io.github.stemlab.io.DataExporter;
+import io.github.stemlab.io.DataImporter;
+import io.github.stemlab.manage.Manager;
+import io.github.stemlab.manage.impl.ManagerImpl;
+import io.github.stemlab.utils.Validator;
 
 import java.io.IOException;
 import java.time.Duration;

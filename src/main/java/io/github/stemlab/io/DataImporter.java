@@ -1,10 +1,10 @@
-package goLA.io;
+package io.github.stemlab.io;
 
-import goLA.data.Index;
-import goLA.exceptions.CustomException;
-import goLA.model.Coordinate;
-import goLA.model.Query;
-import goLA.model.Trajectory;
+import io.github.stemlab.data.Index;
+import io.github.stemlab.exceptions.CustomException;
+import io.github.stemlab.model.Coordinate;
+import io.github.stemlab.model.Query;
+import io.github.stemlab.model.Trajectory;
 
 import java.io.IOException;
 import java.nio.file.Files;

@@ -1,16 +1,17 @@
-package goLA.data.impl;
+package io.github.stemlab.data.impl;
 
 import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDList;
 import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDListIter;
-import goLA.data.Index;
-import goLA.data.elki.ELKIRStarTree;
-import goLA.model.Coordinate;
-import goLA.model.Query;
-import goLA.model.Trajectory;
-import goLA.utils.DiscreteFrechetDistance;
-import goLA.utils.DouglasPeucker;
-import goLA.utils.EuclideanDistance;
-import goLA.utils.FrechetDistance;
+import io.github.stemlab.model.Query;
+import io.github.stemlab.data.Index;
+import io.github.stemlab.data.elki.ELKIRStarTree;
+import io.github.stemlab.model.Coordinate;
+import io.github.stemlab.model.Query;
+import io.github.stemlab.model.Trajectory;
+import io.github.stemlab.utils.DiscreteFrechetDistance;
+import io.github.stemlab.utils.DouglasPeucker;
+import io.github.stemlab.utils.EuclideanDistance;
+import io.github.stemlab.utils.FrechetDistance;
 
 import java.util.HashSet;
 import java.util.LinkedHashSet;

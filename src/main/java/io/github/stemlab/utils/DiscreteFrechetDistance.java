@@ -1,7 +1,7 @@
-package goLA.utils;
+package io.github.stemlab.utils;
 
-import goLA.model.Coordinate;
-import goLA.model.Trajectory;
+import io.github.stemlab.model.Coordinate;
+import io.github.stemlab.model.Trajectory;
 
 import java.util.List;
 

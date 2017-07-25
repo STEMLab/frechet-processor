@@ -1,6 +1,6 @@
-package goLA.utils;
+package io.github.stemlab.utils;
 
-import goLA.exceptions.CustomException;
+import io.github.stemlab.exceptions.CustomException;
 
 import java.io.File;
 

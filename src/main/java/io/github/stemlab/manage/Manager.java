@@ -1,6 +1,6 @@
-package goLA.manage;
+package io.github.stemlab.manage;
 
-import goLA.data.Index;
+import io.github.stemlab.data.Index;
 
 import java.util.HashSet;
 import java.util.List;

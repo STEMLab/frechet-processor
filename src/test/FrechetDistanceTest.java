@@ -1,9 +1,7 @@
-package test;
-
-import goLA.data.impl.IndexImpl;
-import goLA.io.DataImporter;
-import goLA.manage.Manager;
-import goLA.manage.impl.ManagerImpl;
+import io.github.stemlab.data.impl.IndexImpl;
+import io.github.stemlab.io.DataImporter;
+import io.github.stemlab.manage.Manager;
+import io.github.stemlab.manage.impl.ManagerImpl;
 
 import java.io.IOException;
 import java.util.HashSet;
