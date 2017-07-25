@@ -1,76 +1,50 @@
 package goLA.manage.impl;
 
-import goLA.compute.QueryProcessor;
-import goLA.data.Tree;
-import goLA.filter.Filter;
+import goLA.data.Index;
 import goLA.io.DataImporter;
 import goLA.manage.Manager;
 import goLA.model.Query;
-import goLA.model.Trajectory;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class ManagerImpl implements Manager {
 
     private DataImporter dataImporter;
-    private QueryProcessor queryProcessor;
-    private Tree tree;
-    private Filter filter = null;
+    private Index index;
 
-    //Determine How to calculate Query by using constructor parameter
-    public ManagerImpl(QueryProcessor queryProcessor, Tree tree, DataImporter dataImporter, Filter filter) {
-        this.queryProcessor = queryProcessor;
+    public ManagerImpl(Index index, DataImporter dataImporter) {
         this.dataImporter = dataImporter;
-        this.tree = tree;
-        this.filter = filter;
-    }
-
-    public ManagerImpl(QueryProcessor queryProcessor, Tree tree, DataImporter dataImporter) {
-        this.queryProcessor = queryProcessor;
-        this.dataImporter = dataImporter;
-        this.tree = tree;
+        this.index = index;
     }
 
     @Override
     public void makeStructure(String path) {
-        dataImporter.loadFiles(path, tree);
+        dataImporter.loadFiles(path, index);
     }
 
+    /**
+     * For each query get possible trajectories list from index, then
+     * filter list, then run query processor
+     *
+     * @param path
+     * @return list of result trajectories
+     */
     @Override
-    public List<List<String>> findResult(String path) {
-        List<List<String>> result = new ArrayList<>();
+    public List<HashSet<String>> findResult(String path) {
+        List<HashSet<String>> result = new ArrayList<>();
         List<Query> queries = dataImporter.getQueries(path);
-
         for (Query query : queries) {
-            if (query.getDistance() == 0) {
-                List<String> q_res = new ArrayList<>();
-                q_res.add(query.getTrajectory().getName());
-                result.add(q_res);
-            }
             System.out.println("\n\n---- Processing query: " + query.getTrajectory().getName() + ", with query distance: " + query.getDistance() + " -------");
-            List<Trajectory> possibleTrajectoryHolder = tree.getPossible(query);
-
-
-            List<Trajectory> filteredList;
-
-            if (this.filter != null) {
-                filteredList = filter.doFilter(query, possibleTrajectoryHolder);
-            } else {
-                filteredList = possibleTrajectoryHolder;
-            }
-
-            List<String> queryResult = queryProcessor.query(query, filteredList);
-            result.add(queryResult);
-
+            result.add(index.getQueryResult(query));
         }
 
         return result;
     }
 
-    @Override
-    public Tree getTree() {
-        return this.tree;
+    public Index getIndex() {
+        return this.index;
     }
 
 

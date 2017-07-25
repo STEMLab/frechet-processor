@@ -1,14 +1,12 @@
 package goLA.io;
 
-import goLA.model.Trajectory;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
+import java.util.HashSet;
 import java.util.stream.Collectors;
 
 public class DataExporter {
@@ -19,7 +17,7 @@ public class DataExporter {
         this.outputDirectory = outputDirectory;
     }
 
-    public void export(List<String> list, int number) throws IOException {
+    public void export(HashSet<String> list, int number) throws IOException {
 
         String output = list.stream()
                 .collect(Collectors.joining("\n"));

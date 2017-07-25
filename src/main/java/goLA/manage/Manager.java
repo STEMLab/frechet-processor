@@ -1,15 +1,15 @@
 package goLA.manage;
 
-import goLA.data.Tree;
-import goLA.model.Trajectory;
+import goLA.data.Index;
 
+import java.util.HashSet;
 import java.util.List;
 
 public interface Manager {
 
     void makeStructure(String path);
 
-    List<List<String>> findResult(String path);
+    List<HashSet<String>> findResult(String path);
 
-    Tree getTree();
+    Index getIndex();
 }

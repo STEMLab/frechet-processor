@@ -6,7 +6,7 @@
 
 # Central Idea
 
-In order to process given queries which try to find trajectories, we used not only frechet distance decision but also R*-tree about points, Douglas Peucker simplification, discrete frechet distance decision. 
+In order to process given queries which try to find trajectories, we used not only frechet distance decision but also R*-index about points, Douglas Peucker simplification, discrete frechet distance decision.
 We applied some useful theory to our project : 
 (1) Frechet distance between two trajectories is equal or longer than both distances which are between start points and between end points.
 (2) After simplification, frechet distance is bounded by simplification parameter.

@@ -1,6 +1,6 @@
 package goLA.io;
 
-import goLA.data.Tree;
+import goLA.data.Index;
 import goLA.exceptions.CustomException;
 import goLA.model.Coordinate;
 import goLA.model.Query;
@@ -16,14 +16,14 @@ import java.util.stream.Stream;
 
 public class DataImporter {
 
-    public void loadFiles(String src, Tree tree) {
+    public void loadFiles(String src, Index index) {
         try (Stream<String> stream = Files.lines(Paths.get(src))) {
             stream.forEach(e -> {
                         if (!e.isEmpty() && !e.equals(null)) {
                             Trajectory trajectory = new Trajectory();
                             trajectory.setName(e);
                             trajectory.setCoordinates(getCoordinateList(e));
-                            tree.addTrajectory(e, trajectory);
+                            index.addTrajectory(e, trajectory);
                         }
                     }
             );
@@ -33,7 +33,7 @@ public class DataImporter {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        tree.initialize();
+        index.initialize();
     }
 
     public List<Query> getQueries(String path) {

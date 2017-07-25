@@ -3,17 +3,15 @@ package goLA.data;
 import goLA.model.Query;
 import goLA.model.Trajectory;
 
-import java.util.List;
+import java.util.HashSet;
 
-/**
- * Created by stem_dong on 2017-05-02.
- */
-public interface Tree {
+
+public interface Index {
     void addTrajectory(String id, Trajectory trajectory);
 
     void initialize();
 
-    List<Trajectory> getPossible(Query query);
+    HashSet<String> getQueryResult(Query query);
 
     int size();
 }

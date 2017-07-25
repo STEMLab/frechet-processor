@@ -1,23 +1,21 @@
 package goLA.test;
 
-import goLA.compute.impl.QueryProcessorImpl;
-import goLA.data.impl.RTree;
-import goLA.filter.impl.SimplificationFilter;
+import goLA.data.impl.IndexImpl;
 import goLA.io.DataExporter;
 import goLA.io.DataImporter;
 import goLA.manage.Manager;
 import goLA.manage.impl.ManagerImpl;
-import goLA.model.Trajectory;
 import goLA.utils.Validator;
 
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.List;
 
 
 //change class name to new project name
-public class demoSimpleFrechet {
+public class FrechetProcessorLauncher {
 
     public static void main(String[] args) throws IOException {
 
@@ -28,15 +26,15 @@ public class demoSimpleFrechet {
         Instant start = Instant.now();
         System.out.println("Reading data...");
 
-        Manager manager = new ManagerImpl(new QueryProcessorImpl(), new RTree(), new DataImporter(), new SimplificationFilter());
+        Manager manager = new ManagerImpl(new IndexImpl(), new DataImporter());
         manager.makeStructure(args[0]);
 
         //get all data trajectories
         Instant middle = Instant.now();
-        System.out.println("\nGet " + manager.getTree().size() + " data and put into index data structure : " + Duration.between(start, middle));
+        System.out.println("\nGet " + manager.getIndex().size() + " data and put into index data structure : " + Duration.between(start, middle));
 
 
-        List<List<String>> result = manager.findResult(args[1]);
+        List<HashSet<String>> result = manager.findResult(args[1]);
 
         Instant queryTime = Instant.now();
         System.out.println("\nQuery Processing : " + Duration.between(middle, queryTime));

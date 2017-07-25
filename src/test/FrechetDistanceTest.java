@@ -1,14 +1,12 @@
 package test;
 
-import goLA.compute.impl.QueryProcessorImpl;
-import goLA.data.impl.RTree;
-import goLA.filter.impl.SimplificationFilter;
+import goLA.data.impl.IndexImpl;
 import goLA.io.DataImporter;
 import goLA.manage.Manager;
 import goLA.manage.impl.ManagerImpl;
-import goLA.model.Trajectory;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -27,10 +25,10 @@ public class FrechetDistanceTest {
 
         int[] results = {5, 2, 4, 4, 3, 5, 4, 3, 3, 5};
 
-        Manager manager = new ManagerImpl(new QueryProcessorImpl(), new RTree(), new DataImporter(), new SimplificationFilter());
+        Manager manager = new ManagerImpl(new IndexImpl(), new DataImporter());
 
         manager.makeStructure(TEST_DATA_SET_PATH);
-        List<List<String>> result = manager.findResult(TEST_QUERY_PATH);
+        List<HashSet<String>> result = manager.findResult(TEST_QUERY_PATH);
 
         System.out.println("\n");
         for (int i = 0; i < result.size(); i++) {

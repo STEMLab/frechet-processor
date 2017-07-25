@@ -31,7 +31,7 @@ ELKI Data Mining Toolkit https://elki-project.github.io/
 ## Main Idea
 
 In order to process queries to find trajectories in given Fréchet distance bounds, our solution use Fréchet distance decision algorithm
-, R*-tree indexing for trajectory start points, Douglas Peucker algorithm for line simplification, and discrete Fréchet distance decision algorithm too.
+, R*-index indexing for trajectory start points, Douglas Peucker algorithm for line simplification, and discrete Fréchet distance decision algorithm too.
 Some useful theory was applied to project : 
 
 * Fréchet distance between two trajectories is equal or longer than both distances between start points and end points.
@@ -40,4 +40,4 @@ Some useful theory was applied to project :
 
 ## References 
    - Alt, Helmut; Godau, Michael (1995), "Computing the Fréchet distance between two polygonal curves"
-   - Beckmann, N.; Kriegel, H. P.; Schneider, R.; Seeger, B. (1990). "The R*-tree: an efficient and robust access method for points and rectangles"
+   - Beckmann, N.; Kriegel, H. P.; Schneider, R.; Seeger, B. (1990). "The R*-index: an efficient and robust access method for points and rectangles"
