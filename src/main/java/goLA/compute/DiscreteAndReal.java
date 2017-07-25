@@ -15,14 +15,15 @@ import java.util.stream.Collectors;
 public class DiscreteAndReal implements QueryProcessor {
 
     @Override
-    public List<Trajectory> query(Query query, List<Trajectory> trh) {
+    public List<String> query(Query query, List<Trajectory> trh) {
         if (trh.size() == 0) return new ArrayList<>();
 
-        List<Trajectory> trajectories = trh
+        List<String> trajectories = trh
                 .stream()
                 .filter(t ->
                         t.isResult() || DiscreteFrechetDistance.decisionDP(query.q_tr, t, query.dist) || FrechetDistance.decisionDP(query.q_tr, t, query.dist)
                 )
+                .map( e -> e.getName())
                 .collect(Collectors.toList());
 
         return trajectories;

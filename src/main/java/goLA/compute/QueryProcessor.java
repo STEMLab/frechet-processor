@@ -13,5 +13,5 @@ public interface QueryProcessor {
      * @param trh
      * @return
      */
-    List<Trajectory> query(Query query, List<Trajectory> trh);
+    List<String> query(Query query, List<Trajectory> trh);
 }

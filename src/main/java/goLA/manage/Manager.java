@@ -13,7 +13,7 @@ public interface Manager {
 
     void makeStructure(String path);
 
-    List<List<Trajectory>> findResult(String path, DataExporter de);
+    List<List<String>> findResult(String path, DataExporter de);
 
     Tree getTree();
 }

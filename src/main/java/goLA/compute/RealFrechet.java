@@ -12,13 +12,14 @@ import java.util.stream.Collectors;
 public class RealFrechet implements QueryProcessor {
 
     @Override
-    public List<Trajectory> query(Query query, List<Trajectory> trh) {
+    public List<String> query(Query query, List<Trajectory> trh) {
         if (trh.size() == 0) return new ArrayList<>();
 
-        List<Trajectory> trajectories =
+        List<String> trajectories =
                 trh.stream().filter(t ->
                         t.isResult() || FrechetDistance.decisionDP(query.q_tr, t, query.dist)
                 )
+                        .map(e->e.getName())
                         .collect(Collectors.toList());
 
         return trajectories;

@@ -19,9 +19,9 @@ import java.util.List;
 
 public class demoSimpleFrechet {
     private static String TEST_DATA_SET_PATH = "dataset.txt";
-    private static String QUERY_PATH = "queries.txt";
-    private static String RESULT_PATH = "result/SampleData/";
-    private static String TAG = "v0.1.6";
+    private static String QUERY_PATH = "queries_2.txt";
+    private static String RESULT_PATH = "result/SampleData_2/";
+    private static String TAG = "v0.1.7";
 
     public static void main(String[] args) throws IOException {
         DataExporter de = new DataExporter(RESULT_PATH, TAG + "/");
@@ -36,7 +36,7 @@ public class demoSimpleFrechet {
         Instant middle = Instant.now();
         System.out.println("\nGet " + manager.getTree().size() + " data and put into data structure : " + Duration.between(start, middle));
 
-        List<List<Trajectory>> result = manager.findResult(QUERY_PATH, de);
+        List<List<String>> result = manager.findResult(QUERY_PATH, de);
 
         for (int index = 0; index < result.size(); index++) {
             de.export(result.get(index), index);

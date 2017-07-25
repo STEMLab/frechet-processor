@@ -45,15 +45,15 @@ public class ManagerImpl implements Manager {
     }
 
     @Override
-    public List<List<Trajectory>> findResult(String path, DataExporter de) {
-        List<List<Trajectory>> result = new ArrayList<>();
+    public List<List<String>> findResult(String path, DataExporter de) {
+        List<List<String>> result = new ArrayList<>();
         List<Query> query = di.getQueries(path);
 
         int index = 0;
         for (Query q : query) {
             if (q.dist == 0){
-                List<Trajectory> q_res = new ArrayList<>();
-                q_res.add(q.getTrajectory());
+                List<String> q_res = new ArrayList<>();
+                q_res.add(q.getTrajectory().getName());
                 result.add(q_res);
             }
             Instant start = Instant.now();
@@ -78,7 +78,7 @@ public class ManagerImpl implements Manager {
                 middle2 = middle1;
             }
 
-            List<Trajectory> q_res = q_processor.query(q, filtered_list);
+            List<String> q_res = q_processor.query(q, filtered_list);
             result.add(q_res);
             int size2 = q_res.size();
             System.out.println("---- result number : " + size2 + " -------");
