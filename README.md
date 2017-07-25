@@ -1,4 +1,4 @@
-# goLA
+# STEM Fréchet Processor
 [ACM SIGSPATIAL CUP 2017](http://sigspatial2017.sigspatial.org/giscup2017/)
 
 ## Developers
@@ -39,3 +39,5 @@ Some useful theory was applied to project :
 * Discrete Fréchet distance must be equal or longer than normal Fréchet distance.
 
 ## References 
+    - Alt, Helmut; Godau, Michael (1995), "Computing the Fréchet distance between two polygonal curves"
+    - Beckmann, N.; Kriegel, H. P.; Schneider, R.; Seeger, B. (1990). "The R*-tree: an efficient and robust access method for points and rectangles"
