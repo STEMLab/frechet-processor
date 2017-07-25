@@ -11,7 +11,7 @@ Bolat Azamat, Pusan National University
 
 ## Library
 
-ELKI
+ELKI Data Mining Toolkit https://elki-project.github.io/
 
 
 ## How to run
@@ -25,17 +25,17 @@ ELKI
 2. In target directory of project folder you will find run.jar. Run using line command:
 
 ```
-    java -jar run.jar {path to dataset.txt} {path to queries.txt} {path to result folder}
+    $ java -jar run.jar {path to dataset.txt} {path to queries.txt} {path to result folder}
 ```
 
 ## Main Idea
 
-In order to process given queries which try to find trajectories, we used not only frechet distance decision but also R*-tree about points, Douglas Peucker simplification, discrete frechet distance decision.
-We applied some useful theory to our project : 
+In order to process queries to find trajectories in given Fréchet distance bounds, our solution use Fréchet distance decision algorithm
+, R*-tree indexing for trajectory start points, Douglas Peucker algorithm for line simplification, and discrete Fréchet distance decision algorithm too.
+Some useful theory was applied to project : 
 
-* Frechet distance between two trajectories is equal or longer than both distances which are between start points and between end points.
-* After simplification, frechet distance is bounded by simplification parameter.
-* Discrete frechet distance must be equal or longer than normal frechet distance.
+* Fréchet distance between two trajectories is equal or longer than both distances between start points and end points.
+* After simplification, Fréchet distance is bounded by simplification parameter.
+* Discrete Fréchet distance must be equal or longer than normal Fréchet distance.
 
-
-## References
+## References 
