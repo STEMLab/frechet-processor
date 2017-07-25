@@ -19,10 +19,9 @@ public class DataExporter {
         this.outputDirectory = outputDirectory;
     }
 
-    public void export(List<Trajectory> list, int number) throws IOException {
+    public void export(List<String> list, int number) throws IOException {
 
-        String output = list.stream().map(entry ->
-                entry.getName())
+        String output = list.stream()
                 .collect(Collectors.joining("\n"));
 
         Path path = Paths.get(String.format(this.outputDirectory + File.separator + "result-%04d.txt", number));

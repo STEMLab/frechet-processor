@@ -38,14 +38,14 @@ public class ManagerImpl implements Manager {
     }
 
     @Override
-    public List<List<Trajectory>> findResult(String path) {
-        List<List<Trajectory>> result = new ArrayList<>();
+    public List<List<String>> findResult(String path) {
+        List<List<String>> result = new ArrayList<>();
         List<Query> queries = dataImporter.getQueries(path);
 
         for (Query query : queries) {
             if (query.getDistance() == 0) {
-                List<Trajectory> q_res = new ArrayList<>();
-                q_res.add(query.getTrajectory());
+                List<String> q_res = new ArrayList<>();
+                q_res.add(query.getTrajectory().getName());
                 result.add(q_res);
             }
             System.out.println("\n\n---- Processing query: " + query.getTrajectory().getName() + ", with query distance: " + query.getDistance() + " -------");
@@ -60,7 +60,7 @@ public class ManagerImpl implements Manager {
                 filteredList = possibleTrajectoryHolder;
             }
 
-            List<Trajectory> queryResult = queryProcessor.query(query, filteredList);
+            List<String> queryResult = queryProcessor.query(query, filteredList);
             result.add(queryResult);
 
         }

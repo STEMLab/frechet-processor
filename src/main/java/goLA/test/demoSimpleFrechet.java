@@ -36,7 +36,7 @@ public class demoSimpleFrechet {
         System.out.println("\nGet " + manager.getTree().size() + " data and put into index data structure : " + Duration.between(start, middle));
 
 
-        List<List<Trajectory>> result = manager.findResult(args[1]);
+        List<List<String>> result = manager.findResult(args[1]);
 
         Instant queryTime = Instant.now();
         System.out.println("\nQuery Processing : " + Duration.between(middle, queryTime));

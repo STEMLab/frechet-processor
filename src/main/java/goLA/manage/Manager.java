@@ -9,7 +9,7 @@ public interface Manager {
 
     void makeStructure(String path);
 
-    List<List<Trajectory>> findResult(String path);
+    List<List<String>> findResult(String path);
 
     Tree getTree();
 }

@@ -16,14 +16,15 @@ import java.util.stream.Collectors;
 public class QueryProcessorImpl implements QueryProcessor {
 
     @Override
-    public List<Trajectory> query(Query query, List<Trajectory> trajectories) {
+    public List<String> query(Query query, List<Trajectory> trajectories) {
         if (trajectories.size() == 0) return new ArrayList<>();
 
-        List<Trajectory> filteredTrajectories = trajectories
+        List<String> filteredTrajectories = trajectories
                 .stream()
                 .filter(trajectory ->
                         trajectory.isResult() || DiscreteFrechetDistance.decisionDP(query.getQueryTrajectory(), trajectory, query.getDistance()) || FrechetDistance.decisionDP(query.getQueryTrajectory(), trajectory, query.getDistance())
                 )
+                .map(e->e.getName())
                 .collect(Collectors.toList());
 
         return filteredTrajectories;
