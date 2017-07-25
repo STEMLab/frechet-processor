@@ -1,5 +1,6 @@
-package goLA.compute;
+package goLA.compute.impl;
 
+import goLA.compute.QueryProcessor;
 import goLA.model.Query;
 import goLA.model.Trajectory;
 import goLA.utils.DiscreteFrechetDistance;
@@ -12,7 +13,7 @@ import java.util.stream.Collectors;
 /**
  * Created by stem_dong on 2017-07-19.
  */
-public class DiscreteAndReal implements QueryProcessor {
+public class QueryProcessorImpl implements QueryProcessor {
 
     @Override
     public List<String> query(Query query, List<Trajectory> trh) {

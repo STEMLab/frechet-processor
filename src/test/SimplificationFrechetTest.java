@@ -1,6 +1,6 @@
 package test;
 
-import goLA.data.StartRTree;
+import goLA.data.impl.RTree;
 import goLA.data.Tree;
 import goLA.io.DataImporter;
 import goLA.model.Query;
@@ -21,7 +21,7 @@ public class SimplificationFrechetTest {
     private static double MIN_RAN = 5000;
 
     public static void main(String[] args) {
-        Tree tree = new StartRTree();
+        Tree tree = new RTree();
         DataImporter di = new DataImporter();
         di.loadFiles("dataset.txt", tree);
         Object[] obj_list = tree.getHolder().values().toArray();

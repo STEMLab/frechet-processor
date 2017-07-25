@@ -1,10 +1,11 @@
-package goLA.manage;
+package goLA.manage.impl;
 
 import goLA.compute.QueryProcessor;
 import goLA.data.Tree;
 import goLA.filter.Filter;
 import goLA.io.DataExporter;
 import goLA.io.DataImporter;
+import goLA.manage.Manager;
 import goLA.model.Query;
 import goLA.model.Trajectory;
 

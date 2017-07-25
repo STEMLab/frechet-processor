@@ -1,7 +1,8 @@
-package goLA.data;
+package goLA.data.impl;
 
 import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDList;
 import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDListIter;
+import goLA.data.Tree;
 import goLA.data.tree.ElkiRStarTree;
 import goLA.model.Coordinate;
 import goLA.model.Query;
@@ -15,13 +16,13 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Created by stem-dong-li on 17. 7. 5.
  */
-public class StartRTree implements Tree {
+public class RTree implements Tree {
     private ElkiRStarTree start_tree;
     private ConcurrentHashMap<String, Trajectory> holder;
 
     private int size;
 
-    public StartRTree() {
+    public RTree() {
         this.start_tree = new ElkiRStarTree();
         this.holder = new ConcurrentHashMap<>();
     }

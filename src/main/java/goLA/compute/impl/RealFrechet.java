@@ -1,5 +1,6 @@
-package goLA.compute;
+package goLA.compute.impl;
 
+import goLA.compute.QueryProcessor;
 import goLA.model.Query;
 import goLA.model.Trajectory;
 import goLA.utils.FrechetDistance;
