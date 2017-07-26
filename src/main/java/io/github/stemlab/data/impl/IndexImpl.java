@@ -49,7 +49,6 @@ public class IndexImpl implements Index {
 
     @Override
     public HashSet<String> getQueryResult(Query query) {
-
         Coordinate start = query.getTrajectory().getCoordinates().get(0);
         Coordinate end = query.getTrajectory().getCoordinates().get(query.getTrajectory().getCoordinates().size() - 1);
         double dist = query.getDistance();
@@ -59,26 +58,21 @@ public class IndexImpl implements Index {
         HashSet<String> resultSet = new LinkedHashSet<>();
 
         Trajectory simple = DouglasPeucker.getReduced(query.getTrajectory(), DouglasPeucker.getMaxEpsilon(query.getTrajectory()));
+        double q_dist = query.getDistance();
         double maxEpsilon = DouglasPeucker.getMaxEpsilon(query.getTrajectory());
 
         for (DoubleDBIDListIter x = result.iter(); x.valid(); x.advance()) {
             Trajectory trajectory = this.holder.get(rStarTree.getRecordName(x));
             Coordinate last = trajectory.getCoordinates().get(trajectory.getCoordinates().size() - 1);
             if (EuclideanDistance.distance(last, end) <= dist) {
-                if (FrechetDistance.decisionDP(simple, DouglasPeucker.getReduced(trajectory, maxEpsilon),
-                        query.getDistance() + maxEpsilon * 2)) {
-                    if (query.getDistance() - maxEpsilon >= 0) {
-                        if (DiscreteFrechetDistance.decisionDP(query.getTrajectory(),
-                                trajectory.getSimplified(),
-                                query.getDistance() - maxEpsilon)) {
-                            resultSet.add(trajectory.getName());
-                            continue;
-                        }
-                    }
-                    if (DiscreteFrechetDistance.decisionDP(query.getQueryTrajectory(), trajectory, query.getDistance())
-                            || FrechetDistance.decisionDP(query.getQueryTrajectory(), trajectory, query.getDistance())) {
+                if (isFiltered(simple, trajectory, q_dist, maxEpsilon)) {
+                    if (isResult(query, trajectory, maxEpsilon)) {
                         resultSet.add(trajectory.getName());
                     }
+                    else
+                        if (decision(query, trajectory)) {
+                            resultSet.add(trajectory.getName());
+                        }
                 }
             }
 
@@ -89,5 +83,28 @@ public class IndexImpl implements Index {
     @Override
     public int size() {
         return this.size;
+    }
+
+    private boolean isResult(Query q, Trajectory tr, double q_max_E) {
+        if (q.getDistance() - q_max_E >= 0){
+            return DiscreteFrechetDistance.decisionDP(q.getTrajectory(),
+                    tr.getSimplified(),q.getDistance() - q_max_E);
+        }
+        else
+            return false;
+    }
+
+    private boolean isFiltered(Trajectory simple, Trajectory tr, double dist, double q_max_E) {
+        return FrechetDistance.decisionDP(simple, DouglasPeucker.getReduced(tr, q_max_E),
+                dist + q_max_E * 2);
+    }
+
+
+    private boolean decision(Query q, Trajectory t) {
+        if (DiscreteFrechetDistance.decisionDP(q.getTrajectory(), t, q.getDistance())){
+            return true;
+        }
+        else
+            return FrechetDistance.decisionDP(q.getTrajectory(), t, q.getDistance());
     }
 }
