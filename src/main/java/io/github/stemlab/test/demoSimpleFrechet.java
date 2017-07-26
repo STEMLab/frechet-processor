@@ -14,9 +14,9 @@ import java.time.Instant;
 import java.util.Date;
 
 public class demoSimpleFrechet {
-    private static String TEST_DATA_SET_PATH = "T_dataset.txt";
-    private static String QUERY_PATH = "T_queries.txt";
-    private static String RESULT_PATH = "result/T_Drive/";
+    private static String TEST_DATA_SET_PATH = "dataset.txt";
+    private static String QUERY_PATH = "queries.txt";
+    private static String RESULT_PATH = "result/SampleData/";
     private static String TAG = "v0.1.8";
 
 

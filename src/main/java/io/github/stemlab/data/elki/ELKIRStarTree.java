@@ -84,7 +84,7 @@ public class ELKIRStarTree {
     private ListParameterization getParams() {
         ListParameterization params = new ListParameterization();
         params.addParameter(INDEX_ID, RStarTreeFactory.class);
-        //.addParameter(AbstractPageFileFactory.Parameterizer.PAGE_SIZE_ID, getPageSize());
+        params.addParameter(AbstractPageFileFactory.Parameterizer.PAGE_SIZE_ID, getPageSize());
         params.addParameter(RStarTreeFactory.Parameterizer.BULK_SPLIT_ID, SortTileRecursiveBulkSplit.class);
         return params;
     }
@@ -98,10 +98,6 @@ public class ELKIRStarTree {
     }
 
     private int getPageSize() {
-        if (tree.size() < 300) {
-            return 300;
-        } else {
-            return tree.size();
-        }
+        return tree.size() * (8 + 8 + treeLabels.get(0).length());
     }
 }

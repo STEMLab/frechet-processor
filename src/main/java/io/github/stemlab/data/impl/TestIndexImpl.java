@@ -61,7 +61,12 @@ public class TestIndexImpl implements Index{
 
         Instant start_time = Instant.now();
         System.out.println("\n\n---- Query processing : " + query.getTrajectory().getName() + ", " + query.getDistance() + " -------");
+
         DoubleDBIDList sp_result = rStarTree.search(new double[]{start.getPointX(), start.getPointY()}, dist);
+        Instant mid_time = Instant.now();
+        System.out.println("---- Range Query Time : " + Duration.between(start_time, mid_time) + " -------");
+
+
         int size1 = sp_result.size();
         System.out.println("---- candidate number for only start point : " + size1 + " -------");
 
@@ -90,7 +95,7 @@ public class TestIndexImpl implements Index{
         int size3 = resultSet.size();
         System.out.println("---- result number : " + size3 + " -------");
         Instant end_time = Instant.now();
-        System.out.println("---- calculate Dist Time : " + Duration.between(start_time, end_time) + " -------");
+        System.out.println("---- Filtering and Decision Time : " + Duration.between(mid_time, end_time) + " -------");
         return resultSet;
     }
 
