@@ -19,7 +19,8 @@ target/
 # ignore intellij IDEA files
 .idea/
 output
-stemlab-frechet-processor.iml
+*.iml
+
 
 #ignore Eclipse files
 stemlab/.classpath
