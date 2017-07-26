@@ -1,6 +1,5 @@
 package goLA.compute.impl;
 
-import goLA.compute.QueryProcessor;
 import goLA.data.Tree;
 import goLA.filter.Filter;
 import goLA.model.Query;
@@ -15,14 +14,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Created by stem_dong on 2017-07-19.
+ * Created by stem-dong-li on 17. 7. 26.
  */
-public class QueryProcessorImpl implements QueryProcessor {
-
+public class TestQueryProcessorImpl {
     @Override
     public List<String> query(Query query, Tree tree, Filter filter) {
-        if (trh.size() == 0) return new ArrayList<>();
-        List<Trajectory> possible_trajectoryHolder = tree.getPossible(q);
+        List<Trajectory> possible_trajectoryHolder = tree.getPossible(query);
         int size1 = possible_trajectoryHolder.size();
         System.out.println("---- candidate number : " + size1 + " -------");
 

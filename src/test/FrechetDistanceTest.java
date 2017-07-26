@@ -29,7 +29,7 @@ public class FrechetDistanceTest {
         Manager manager = new ManagerImpl(new QueryProcessorImpl(), new RTree(), new DataImporter(), new SimplificationFrechet());
 
         manager.makeStructure(TEST_DATA_SET_PATH);
-        List<List<String>> result = manager.findResult(TEST_QUERY_PATH, null);
+        List<List<String>> result = manager.process(TEST_QUERY_PATH, null);
 
         System.out.println("\n");
         for (int i = 0; i < result.size(); i++) {

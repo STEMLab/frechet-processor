@@ -5,6 +5,7 @@ import goLA.filter.Filter;
 import goLA.io.DataExporter;
 import goLA.model.Trajectory;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface Manager {
@@ -13,7 +14,7 @@ public interface Manager {
 
     void makeStructure(String path);
 
-    List<List<String>> findResult(String path, DataExporter de);
+    int process(String path, DataExporter de) throws IOException;
 
     Tree getTree();
 }

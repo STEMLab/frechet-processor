@@ -9,6 +9,7 @@ import goLA.manage.Manager;
 import goLA.model.Query;
 import goLA.model.Trajectory;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -29,12 +30,6 @@ public class ManagerImpl implements Manager {
         filter = ft;
     }
 
-    public ManagerImpl(QueryProcessor qp_impl, Tree trs, DataImporter pdi) {
-        q_processor = qp_impl;
-        di = pdi;
-        tree = trs;
-    }
-
     @Override
     public void setFilter(Filter ft) {
         filter = ft;
@@ -46,55 +41,32 @@ public class ManagerImpl implements Manager {
     }
 
     @Override
-    public List<List<String>> findResult(String path, DataExporter de) {
-        List<List<String>> result = new ArrayList<>();
+    public int process(String path, DataExporter de) throws IOException {
         List<Query> query = di.getQueries(path);
 
         int index = 0;
         for (Query q : query) {
-            if (q.getDistance() == 0){
-                List<String> q_res = new ArrayList<>();
-                q_res.add(q.getTrajectory().getName());
-                result.add(q_res);
-            }
             Instant start = Instant.now();
             System.out.println("\n\n---- Query processing : " + q.getTrajectory().getName() + ", " + q.getDistance() + " -------");
-            List<Trajectory> possible_trajectoryHolder = tree.getPossible(q);
-            int size1 = possible_trajectoryHolder.size();
-            System.out.println("---- candidate number : " + size1 + " -------");
+            List<String> q_res = q_processor.query(q, tree, filter);
 
-            Instant middle1 = Instant.now();
-            System.out.println("---- getPossible Time : " + Duration.between(start, middle1));
 
-            List<Trajectory> filtered_list;
-            Instant middle2;
-
-            if (this.filter != null) {
-                filtered_list = filter.doFilter(q, possible_trajectoryHolder);
-                middle2 = Instant.now();
-                System.out.println("---- Filtering Time : " + Duration.between(middle1, middle2));
-                System.out.println("---- After Filtering number : " + filtered_list.size() + " -------");
-            } else {
-                filtered_list = possible_trajectoryHolder;
-                middle2 = middle1;
-            }
-
-            List<String> q_res = q_processor.query(q, filtered_list);
-            result.add(q_res);
             int size2 = q_res.size();
             System.out.println("---- result number : " + size2 + " -------");
 
             Instant end = Instant.now();
             System.out.println("---- calculate Dist Time : " + Duration.between(middle2, end) + " -------");
-            if (de != null)
+            if (de != null) {
+                de.export(q_res, index);
                 de.exportQuery(index,
                         q, possible_trajectoryHolder.size(), this.filter != null,
                         filtered_list.size(), size2,
                         start, middle1, middle2, end
                 );
+            }
+            index++;
         }
-
-        return result;
+        return index;
     }
 
     @Override

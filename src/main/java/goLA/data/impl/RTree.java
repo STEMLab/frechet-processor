@@ -62,6 +62,9 @@ public class RTree implements Tree {
             if (EuclideanDistance.distance(last, end) <= dist)
                 poss.add(this.holder.get(key));
         }
+
+
+
         return poss;
     }
 
