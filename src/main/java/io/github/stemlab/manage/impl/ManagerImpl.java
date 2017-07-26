@@ -28,13 +28,6 @@ public class ManagerImpl implements Manager {
         dataImporter.loadFiles(path, index);
     }
 
-    /**
-     * For each query get possible trajectories list from index, then
-     * filter list, then run query processor
-     *
-     * @param path
-     * @return list of result trajectories
-     */
     @Override
     public void processQuery(String path) throws IOException {
         List<Query> queries = dataImporter.getQueries(path);
@@ -47,6 +40,11 @@ public class ManagerImpl implements Manager {
     }
 
     @Override
+    public Index getIndex() {
+        return this.index;
+    }
+
+    @Override
     public List<HashSet<String>> processQueryAndGetResult(String path) throws IOException {
         List<HashSet<String>> result = new ArrayList<>();
         List<Query> queries = dataImporter.getQueries(path);
@@ -56,10 +54,5 @@ public class ManagerImpl implements Manager {
         }
         return result;
     }
-
-    public Index getIndex() {
-        return this.index;
-    }
-
 
 }
