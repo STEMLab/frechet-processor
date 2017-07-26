@@ -1,14 +1,11 @@
-package test;
-
-import goLA.compute.DiscreteAndReal;
-import goLA.data.StartRTree;
-import goLA.filter.SimplificationFrechet;
-import goLA.io.DataImporter;
-import goLA.manage.Manager;
-import goLA.manage.ManagerImpl;
-import goLA.model.Trajectory;
+import io.github.stemlab.data.impl.TestIndexImpl;
+import io.github.stemlab.io.DataExporter;
+import io.github.stemlab.io.DataImporter;
+import io.github.stemlab.manage.Manager;
+import io.github.stemlab.manage.impl.ManagerImpl;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -27,10 +24,11 @@ public class FrechetDistanceTest {
 
         int[] results = {5, 2, 4, 4, 3, 5, 4, 3, 3, 5};
 
-        Manager manager = new ManagerImpl(new DiscreteAndReal(), new StartRTree(), new DataImporter(), new SimplificationFrechet());
+        Manager manager = new ManagerImpl(new TestIndexImpl(), new DataImporter(), new DataExporter(""));
 
         manager.makeStructure(TEST_DATA_SET_PATH);
-        List<List<Trajectory>> result = manager.findResult(TEST_QUERY_PATH, null);
+        List<HashSet<String>> result = manager.processQueryAndGetResult(TEST_QUERY_PATH);
+
 
         System.out.println("\n");
         for (int i = 0; i < result.size(); i++) {
