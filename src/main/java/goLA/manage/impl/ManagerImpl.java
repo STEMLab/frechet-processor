@@ -1,17 +1,26 @@
 package goLA.manage.impl;
 
+import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDList;
+import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDListIter;
 import goLA.compute.QueryProcessor;
 import goLA.data.Tree;
 import goLA.filter.Filter;
 import goLA.io.DataExporter;
 import goLA.io.DataImporter;
 import goLA.manage.Manager;
+import goLA.model.Coordinate;
 import goLA.model.Query;
 import goLA.model.Trajectory;
+import goLA.utils.DiscreteFrechetDistance;
+import goLA.utils.DouglasPeucker;
+import goLA.utils.EuclideanDistance;
+import goLA.utils.FrechetDistance;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class ManagerImpl implements Manager {
@@ -29,12 +38,6 @@ public class ManagerImpl implements Manager {
         filter = ft;
     }
 
-    public ManagerImpl(QueryProcessor qp_impl, Tree trs, DataImporter pdi) {
-        q_processor = qp_impl;
-        di = pdi;
-        tree = trs;
-    }
-
     @Override
     public void setFilter(Filter ft) {
         filter = ft;
@@ -46,20 +49,35 @@ public class ManagerImpl implements Manager {
     }
 
     @Override
-    public List<List<String>> findResult(String path, DataExporter de) {
+    public List<Trajectory> getPossible(Query query) {
+        DoubleDBIDList result = tree.rangeQuery(query);
+
+        Coordinate end = query.getTrajectory().getCoordinates().get(query.getTrajectory().getCoordinates().size() - 1);
+        List<Trajectory> poss = new ArrayList<>();
+
+        for (DoubleDBIDListIter x = result.iter(); x.valid(); x.advance()) {
+            String key = tree.getRecordName(x);
+            List<Coordinate> coordinates = tree.getTrajectory(key).getCoordinates();
+            Coordinate last = coordinates.get(coordinates.size() - 1);
+            if (EuclideanDistance.distance(last, end) <= query.getDistance())
+                poss.add(tree.getTrajectory(key));
+        }
+
+        return poss;
+    }
+
+
+    @Override
+    public List<List<String>> TestFindResult(String path, DataExporter de) {
         List<List<String>> result = new ArrayList<>();
         List<Query> query = di.getQueries(path);
 
         int index = 0;
         for (Query q : query) {
-            if (q.getDistance() == 0){
-                List<String> q_res = new ArrayList<>();
-                q_res.add(q.getTrajectory().getName());
-                result.add(q_res);
-            }
+
             Instant start = Instant.now();
             System.out.println("\n\n---- Query processing : " + q.getTrajectory().getName() + ", " + q.getDistance() + " -------");
-            List<Trajectory> possible_trajectoryHolder = tree.getPossible(q);
+            List<Trajectory> possible_trajectoryHolder = getPossible(q);
             int size1 = possible_trajectoryHolder.size();
             System.out.println("---- candidate number : " + size1 + " -------");
 
@@ -86,15 +104,72 @@ public class ManagerImpl implements Manager {
 
             Instant end = Instant.now();
             System.out.println("---- calculate Dist Time : " + Duration.between(middle2, end) + " -------");
-            if (de != null)
+            if (de != null) {
                 de.exportQuery(index,
                         q, possible_trajectoryHolder.size(), this.filter != null,
                         filtered_list.size(), size2,
                         start, middle1, middle2, end
                 );
+                try {
+                    de.export(q_res, index);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            index++;
         }
 
         return result;
+    }
+
+    @Override
+    public int process(String path, DataExporter de) throws IOException {
+        List<Query> query = di.getQueries(path);
+
+        int index = 0;
+        for (Query q : query) {
+            Instant start = Instant.now();
+            System.out.println("\n\n---- Query processing : " + q.getTrajectory().getName() + ", " + q.getDistance() + " -------");
+
+            DoubleDBIDList result = tree.rangeQuery(q);
+
+            Coordinate c_end = q.getTrajectory().getCoordinates().get(q.getTrajectory().getCoordinates().size() - 1);
+
+            HashSet<String> q_res = new HashSet<>();
+            Trajectory simple = DouglasPeucker.getReduced(q.getTrajectory(), DouglasPeucker.getMaxEpsilon(q.getTrajectory()));
+            double q_dist = q.getDistance();
+            double q_max_E = DouglasPeucker.getMaxEpsilon(q.getTrajectory());
+
+            for (DoubleDBIDListIter x = result.iter(); x.valid(); x.advance()) {
+                String key = tree.getRecordName(x);
+                List<Coordinate> coordinates = tree.getTrajectory(key).getCoordinates();
+                Coordinate last = coordinates.get(coordinates.size() - 1);
+                if (EuclideanDistance.distance(last, c_end) <= q.getDistance()) {
+                    Trajectory tr = tree.getTrajectory(key);
+                    if (filter.isFiltered(simple, tr, q_dist, q_max_E)){
+                        if (filter.isResult(q, tr, q_dist, q_max_E)){
+                            q_res.add(tr.getName());
+                        }
+                        else{
+                            if (q_processor.decision(q,tr) ){
+                                q_res.add(tr.getName());
+                            }
+                        }
+                    }
+                }
+            }
+
+            int size2 = q_res.size();
+            System.out.println("---- result number : " + size2 + " -------");
+
+            Instant end = Instant.now();
+            System.out.println("---- query processing Time : " + Duration.between(start, end) + " -------");
+            if (de != null) {
+                de.export(q_res, index);
+            }
+            index++;
+        }
+        return index;
     }
 
     @Override

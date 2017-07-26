@@ -26,19 +26,23 @@ public class DiscreteFrechetDistance {
                 ca[pi][qi] = -1.0;
             }
         }
-        return calc(p - 1, q - 1, ca, p_coordinates, q_coordinates);
+        return calculateDF(p - 1, q - 1, ca, p_coordinates, q_coordinates);
     }
 
-    static private Double calc(int i, int j, Double[][] ca, List<Coordinate> p_coordinates, List<Coordinate> q_coordinates) {
+
+    /**
+     *
+     */
+    static private Double calculateDF(int i, int j, Double[][] ca, List<Coordinate> p_coordinates, List<Coordinate> q_coordinates) {
         if (ca[i][j] != -1.0) return ca[i][j];
         else if (i == 0 && j == 0) {
             ca[i][j] = EuclideanDistance.distance(p_coordinates.get(i), q_coordinates.get(j));
         } else if (i > 0 && j == 0) {
-            ca[i][j] = Math.max(calc(i - 1, j, ca, p_coordinates, q_coordinates), EuclideanDistance.distance(p_coordinates.get(i), q_coordinates.get(j)));
+            ca[i][j] = Math.max(calculateDF(i - 1, j, ca, p_coordinates, q_coordinates), EuclideanDistance.distance(p_coordinates.get(i), q_coordinates.get(j)));
         } else if (i == 0 && j > 0) {
-            ca[i][j] = Math.max(calc(i, j - 1, ca, p_coordinates, q_coordinates), EuclideanDistance.distance(p_coordinates.get(i), q_coordinates.get(j)));
+            ca[i][j] = Math.max(calculateDF(i, j - 1, ca, p_coordinates, q_coordinates), EuclideanDistance.distance(p_coordinates.get(i), q_coordinates.get(j)));
         } else if (i > 0 && j > 0) {
-            ca[i][j] = Math.max(Math.min(Math.min(calc(i - 1, j, ca, p_coordinates, q_coordinates), calc(i - 1, j - 1, ca, p_coordinates, q_coordinates)), calc(i, j - 1, ca, p_coordinates, q_coordinates)),
+            ca[i][j] = Math.max(Math.min(Math.min(calculateDF(i - 1, j, ca, p_coordinates, q_coordinates), calculateDF(i - 1, j - 1, ca, p_coordinates, q_coordinates)), calculateDF(i, j - 1, ca, p_coordinates, q_coordinates)),
                     EuclideanDistance.distance(p_coordinates.get(i), q_coordinates.get(j)));
         } else
             ca[i][j] = -2.0;

@@ -1,4 +1,3 @@
-package test;
 
 import goLA.compute.impl.QueryProcessorImpl;
 import goLA.data.impl.RTree;
@@ -29,7 +28,7 @@ public class FrechetDistanceTest {
         Manager manager = new ManagerImpl(new QueryProcessorImpl(), new RTree(), new DataImporter(), new SimplificationFrechet());
 
         manager.makeStructure(TEST_DATA_SET_PATH);
-        List<List<String>> result = manager.findResult(TEST_QUERY_PATH, null);
+        List<List<String>> result = manager.TestFindResult(TEST_QUERY_PATH, null);
 
         System.out.println("\n");
         for (int i = 0; i < result.size(); i++) {

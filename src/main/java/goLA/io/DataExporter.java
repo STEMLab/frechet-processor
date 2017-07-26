@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -71,8 +72,19 @@ public class DataExporter {
         try (BufferedWriter writer = Files.newBufferedWriter(path)) {
             writer.write(output);
         }
-        // System.out.println("Content of StringBuffer written to File.");
     }
+
+    public void export(HashSet<String> list, int number) throws IOException {
+
+        String output = list.stream()
+                .collect(Collectors.joining("\n"));
+
+        Path path = Paths.get(String.format(this.path + "result-%04d.txt", number));
+        try (BufferedWriter writer = Files.newBufferedWriter(path)) {
+            writer.write(output);
+        }
+    }
+
 
     public void exportQuery(int index, Query q, int size1, boolean b, int size2, int size3, Instant start, Instant middle1, Instant middle2, Instant end) {
         Path path = Paths.get(this.path + "QueryInfo.txt");

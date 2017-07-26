@@ -1,5 +1,8 @@
 package goLA.data;
 
+import com.sun.xml.internal.ws.util.QNameMap;
+import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDList;
+import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDListIter;
 import goLA.model.Query;
 import goLA.model.Trajectory;
 
@@ -14,7 +17,14 @@ public interface Tree {
 
     void initialize();
 
-    List<Trajectory> getPossible(Query query);
+    DoubleDBIDList rangeQuery(Query query);
 
     int size();
+
+    String getRecordName(DoubleDBIDListIter x);
+
+    Trajectory getTrajectory(String key);
+
+    ConcurrentHashMap<String, Trajectory> getHolder();
+
 }

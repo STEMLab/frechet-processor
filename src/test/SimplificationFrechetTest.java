@@ -1,17 +1,19 @@
-package test;
 
+import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDList;
+import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDListIter;
 import goLA.data.impl.RTree;
 import goLA.data.Tree;
 import goLA.io.DataImporter;
+import goLA.model.Coordinate;
 import goLA.model.Query;
 import goLA.model.Trajectory;
 import goLA.utils.DiscreteFrechetDistance;
 import goLA.utils.DouglasPeucker;
+import goLA.utils.EuclideanDistance;
 import goLA.utils.FrechetDistance;
 
+import java.util.ArrayList;
 import java.util.List;
-
-//TODO : delete class
 
 /**
  * Created by stem-dong-li on 17. 7. 6.
@@ -24,23 +26,23 @@ public class SimplificationFrechetTest {
         Tree tree = new RTree();
         DataImporter di = new DataImporter();
         di.loadFiles("dataset.txt", tree);
-        //Object[] obj_list = tree.getHolder().values().toArray();
+        Object[] obj_list = tree.getHolder().values().toArray();
         for (int i = 0; i < 300; i++) {
             int index = (int) (Math.random() * (tree.size() - 1));
             double q_dist = MIN_RAN + (Math.random() * MAX_RAN);
-            Trajectory q = makeFakeTrajectory();
+            Trajectory q = (Trajectory)obj_list[index];
             System.out.println("--- " + i + " : " + index + " ---");
             System.out.println("dist : " + q_dist);
             double q_maxEpsilon = DouglasPeucker.getMaxEpsilon(q);
             Trajectory simple = DouglasPeucker.getReduced(q, q_maxEpsilon);
 
             Query query = new Query(q, q_dist);
-            List<Trajectory> ret = tree.getPossible(query);
+            List<Trajectory> ret = getPossible(tree, query);
 
             ret.forEach(e -> {
                 Trajectory C = e;
-                if (!FrechetDistance.decisionDP(q, DouglasPeucker.getReduced(C, q_maxEpsilon),
-                        q_dist + q_maxEpsilon)) {
+                if (!FrechetDistance.decisionDP(simple, DouglasPeucker.getReduced(C, q_maxEpsilon),
+                        q_dist + q_maxEpsilon * 2)) {
                     if (!FrechetDistance.decisionDP(q, C, q_dist)) {
 
                     } else {
@@ -61,7 +63,22 @@ public class SimplificationFrechetTest {
         }
     }
 
-    private static Trajectory makeFakeTrajectory(){
-        return null;
+    public static List<Trajectory> getPossible(Tree tree, Query query) {
+        DoubleDBIDList result = tree.rangeQuery(query);
+
+        Coordinate end = query.getTrajectory().getCoordinates().get(query.getTrajectory().getCoordinates().size() - 1);
+        List<Trajectory> poss = new ArrayList<>();
+
+        for (DoubleDBIDListIter x = result.iter(); x.valid(); x.advance()) {
+            String key = tree.getRecordName(x);
+            List<Coordinate> coordinates = tree.getTrajectory(key).getCoordinates();
+            Coordinate last = coordinates.get(coordinates.size() - 1);
+            if (EuclideanDistance.distance(last, end) <= query.getDistance())
+                poss.add(tree.getTrajectory(key));
+        }
+
+        return poss;
     }
+
+
 }

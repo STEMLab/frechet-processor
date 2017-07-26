@@ -1,5 +1,7 @@
 package goLA.compute;
 
+import goLA.data.Tree;
+import goLA.filter.Filter;
 import goLA.model.Query;
 import goLA.model.Trajectory;
 
@@ -9,9 +11,8 @@ public interface QueryProcessor {
     /**
      * Among trajectories in trh, only return Frechet distance with query trajectory is lower than query distance.
      *
-     * @param query
-     * @param trh
-     * @return
      */
     List<String> query(Query query, List<Trajectory> trh);
+
+    boolean decision(Query q, Trajectory t);
 }

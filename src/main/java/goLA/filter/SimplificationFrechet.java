@@ -15,14 +15,15 @@ import java.util.stream.Collectors;
 public class SimplificationFrechet implements Filter {
     @Override
     public List<Trajectory> doFilter(Query q, List<Trajectory> trh) {
+
         Trajectory simple = DouglasPeucker.getReduced(q.getTrajectory(), DouglasPeucker.getMaxEpsilon(q.getTrajectory()));
+        double q_dist = q.getDistance();
         double q_max_E = DouglasPeucker.getMaxEpsilon(q.getTrajectory());
 
         List<Trajectory> trajectoryList = trh
                 .stream()
-                .filter(t ->
-                        FrechetDistance.decisionDP(simple, DouglasPeucker.getReduced(t, q_max_E),
-                                q.getDistance() + q_max_E * 2))
+                .filter(t -> isFiltered(simple, t, q_dist, q_max_E)
+                        )
                 .collect(Collectors.toList());
 
         //only process if query distance is longer than query's max Epsilon.
@@ -31,9 +32,7 @@ public class SimplificationFrechet implements Filter {
                     .stream()
                     .forEach((t) -> {
                                 t.setResult(false);
-                                if (DiscreteFrechetDistance.decisionDP(q.getTrajectory(),
-                                        t.getSimplified(),
-                                        q.getDistance() - q_max_E)) {
+                                if (isResult(q, t, q_dist, q_max_E)) {
                                     t.setResult(true);
                                 }
                             }
@@ -48,5 +47,18 @@ public class SimplificationFrechet implements Filter {
 
 
         return trajectoryList;
+    }
+
+    @Override
+    public boolean isFiltered(Trajectory simple, Trajectory tr, double dist, double q_max_E) {
+        return FrechetDistance.decisionDP(simple, DouglasPeucker.getReduced(tr, q_max_E),
+                dist + q_max_E * 2);
+    }
+
+    @Override
+    public boolean isResult(Query q, Trajectory tr, double dist, double q_max_E) {
+        return DiscreteFrechetDistance.decisionDP(q.getTrajectory(),
+                tr.getSimplified(),
+                q.getDistance() - q_max_E);
     }
 }

@@ -1,7 +1,9 @@
 package goLA.data.impl;
 
+import com.sun.xml.internal.ws.util.QNameMap;
 import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDList;
 import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDListIter;
+import de.lmu.ifi.dbs.elki.index.tree.spatial.rstarvariants.rstar.RStarTree;
 import goLA.data.Tree;
 import goLA.data.elki.ELKIRStarTree;
 import goLA.model.Coordinate;
@@ -44,29 +46,34 @@ public class RTree implements Tree {
         rStarTree.initialize();
     }
 
-    @Override
-    public List<Trajectory> getPossible(Query query) {
 
+    @Override
+    public DoubleDBIDList rangeQuery(Query query) {
         Coordinate start = query.getTrajectory().getCoordinates().get(0);
-        Coordinate end = query.getTrajectory().getCoordinates().get(query.getTrajectory().getCoordinates().size() - 1);
         double dist = query.getDistance();
 
         DoubleDBIDList result = rStarTree.search(new double[]{start.getPointX(), start.getPointY()}, dist);
 
-        List<Trajectory> poss = new ArrayList<>();
-
-        for (DoubleDBIDListIter x = result.iter(); x.valid(); x.advance()) {
-            String key = rStarTree.getRecordName(x);
-            List<Coordinate> coordinates = this.holder.get(key).getCoordinates();
-            Coordinate last = coordinates.get(coordinates.size() - 1);
-            if (EuclideanDistance.distance(last, end) <= dist)
-                poss.add(this.holder.get(key));
-        }
-        return poss;
+        return result;
     }
 
     @Override
     public int size() {
         return this.size;
+    }
+
+    @Override
+    public String getRecordName(DoubleDBIDListIter x) {
+        return rStarTree.getRecordName(x);
+    }
+
+    @Override
+    public Trajectory getTrajectory(String key) {
+        return this.holder.get(key);
+    }
+
+    @Override
+    public ConcurrentHashMap<String, Trajectory> getHolder() {
+        return holder;
     }
 }
