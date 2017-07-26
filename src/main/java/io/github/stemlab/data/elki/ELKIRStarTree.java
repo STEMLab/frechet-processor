@@ -98,10 +98,6 @@ public class ELKIRStarTree {
     }
 
     private int getPageSize() {
-        if (tree.size() < 300) {
-            return 300;
-        } else {
-            return tree.size();
-        }
+        return tree.size() * (8 + 8 + treeLabels.get(0).length());
     }
 }
