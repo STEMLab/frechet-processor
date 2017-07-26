@@ -1,12 +1,11 @@
-
-import io.github.stemlab.compute.impl.QueryProcessorImpl;
-import io.github.stemlab.data.impl.RTree;
-import io.github.stemlab.filter.SimplificationFrechet;
+import io.github.stemlab.data.impl.TestIndexImpl;
+import io.github.stemlab.io.DataExporter;
 import io.github.stemlab.io.DataImporter;
 import io.github.stemlab.manage.Manager;
 import io.github.stemlab.manage.impl.ManagerImpl;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -25,10 +24,10 @@ public class FrechetDistanceTest {
 
         int[] results = {5, 2, 4, 4, 3, 5, 4, 3, 3, 5};
 
-        Manager manager = new ManagerImpl(new QueryProcessorImpl(), new RTree(), new DataImporter(), new SimplificationFrechet());
+        Manager manager = new ManagerImpl(new TestIndexImpl(), new DataImporter(), new DataExporter(""));
 
         manager.makeStructure(TEST_DATA_SET_PATH);
-        List<List<String>> result = manager.TestFindResult(TEST_QUERY_PATH, null);
+        List<HashSet<String>> result = manager.processQueryAndGetResult(TEST_QUERY_PATH);
 
 
         System.out.println("\n");

@@ -17,11 +17,7 @@ import java.util.stream.Collectors;
 
 public class DataExporter {
 
-    private String path = "";
-
-    public DataExporter() {
-        path = "";
-    }
+    private String outputDirectory;
 
     public DataExporter(String root_path, String tag_path) {
         //TODO : remove
@@ -37,10 +33,14 @@ public class DataExporter {
         if (!dir.exists())
             dir.mkdir();
 
-        path = root_path + tag_path;
+        outputDirectory = root_path + tag_path;
 
-        File info = new File(this.path + "QueryInfo.txt");
+        File info = new File(this.outputDirectory + "QueryInfo.txt");
         if (info.exists()) info.delete();
+    }
+
+    public DataExporter(String outputDirectory) {
+        this.outputDirectory = outputDirectory;
     }
 
     private void removeDIR(String source) {
@@ -62,23 +62,12 @@ public class DataExporter {
         }
     }
 
-    public void export(List<String> list, int number) throws IOException {
-
-        String output = list.stream()
-                .collect(Collectors.joining("\n"));
-
-        Path path = Paths.get(String.format(this.path + "result-%04d.txt", number));
-        try (BufferedWriter writer = Files.newBufferedWriter(path)) {
-            writer.write(output);
-        }
-    }
-
     public void export(HashSet<String> list, int number) throws IOException {
 
         String output = list.stream()
                 .collect(Collectors.joining("\n"));
 
-        Path path = Paths.get(String.format(this.path + "result-%04d.txt", number));
+        Path path = Paths.get(String.format(this.outputDirectory + File.separator + "result-%04d.txt", number));
         try (BufferedWriter writer = Files.newBufferedWriter(path)) {
             writer.write(output);
         }
@@ -86,7 +75,7 @@ public class DataExporter {
 
 
     public void exportQuery(int index, Query q, int size1, boolean b, int size2, int size3, Instant start, Instant middle1, Instant middle2, Instant end) {
-        Path path = Paths.get(this.path + "QueryInfo.txt");
+        Path path = Paths.get(this.outputDirectory + "QueryInfo.txt");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(path.toString(), true))) {
             writer.append("\n\n---- " + index + " -------\n");
             writer.append("\n\n---- Query processing : " + q.getTrajectory().getName() + ", " + q.getDistance() + " -------\n");

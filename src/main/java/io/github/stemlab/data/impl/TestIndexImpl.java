@@ -8,23 +8,30 @@ import io.github.stemlab.decision.DecisionMaker;
 import io.github.stemlab.model.Coordinate;
 import io.github.stemlab.model.Query;
 import io.github.stemlab.model.Trajectory;
+import io.github.stemlab.utils.DiscreteFrechetDistance;
 import io.github.stemlab.utils.DouglasPeucker;
 import io.github.stemlab.utils.EuclideanDistance;
+import io.github.stemlab.utils.FrechetDistance;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
-
-public class IndexImpl implements Index {
+/**
+ * Created by stem-dong-li on 17. 7. 26.
+ */
+public class TestIndexImpl implements Index{
 
     private final DecisionMaker decisionMaker = new DecisionMaker();
-    private ELKIRStarTree rStarTree;
-    private HashMap<String, Trajectory> holder;
+    public ELKIRStarTree rStarTree;
+    public HashMap<String, Trajectory> holder;
     private int size;
 
-    public IndexImpl() {
+    public TestIndexImpl() {
         this.rStarTree = new ELKIRStarTree();
         this.holder = new HashMap<>();
     }
@@ -52,23 +59,38 @@ public class IndexImpl implements Index {
         Coordinate end = query.getTrajectory().getCoordinates().get(query.getTrajectory().getCoordinates().size() - 1);
         double dist = query.getDistance();
 
-        DoubleDBIDList result = rStarTree.search(new double[]{start.getPointX(), start.getPointY()}, dist);
+        Instant start_time = Instant.now();
+        System.out.println("\n\n---- Query processing : " + query.getTrajectory().getName() + ", " + query.getDistance() + " -------");
+        DoubleDBIDList sp_result = rStarTree.search(new double[]{start.getPointX(), start.getPointY()}, dist);
+        int size1 = sp_result.size();
+        System.out.println("---- candidate number for only start point : " + size1 + " -------");
 
-        HashSet<String> resultSet = new LinkedHashSet<>();
+        HashSet<Trajectory> tr_set = new LinkedHashSet<>();
 
-        Trajectory simple = DouglasPeucker.getReduced(query.getTrajectory(), DouglasPeucker.getMaxEpsilon(query.getTrajectory()));
-        double maxEpsilon = DouglasPeucker.getMaxEpsilon(query.getTrajectory());
-
-        for (DoubleDBIDListIter x = result.iter(); x.valid(); x.advance()) {
+        for (DoubleDBIDListIter x = sp_result.iter(); x.valid(); x.advance()) {
             Trajectory trajectory = this.holder.get(rStarTree.getRecordName(x));
             Coordinate last = trajectory.getCoordinates().get(trajectory.getCoordinates().size() - 1);
             if (EuclideanDistance.distance(last, end) <= dist) {
-                if (decisionMaker.decisionIsInResult(query, simple, dist, maxEpsilon, trajectory)) {
-                    resultSet.add(trajectory.getName());
-                }
+                tr_set.add(trajectory);
             }
-
         }
+
+        int size2 = tr_set.size();
+        System.out.println("---- candidate number for start and end point : " + size2 + " -------");
+
+        Trajectory simple = DouglasPeucker.getReduced(query.getTrajectory(), DouglasPeucker.getMaxEpsilon(query.getTrajectory()));
+        double maxEpsilon = DouglasPeucker.getMaxEpsilon(query.getTrajectory());
+        HashSet<String> resultSet = new LinkedHashSet<>();
+        for (Trajectory tr : tr_set){
+            if (decisionMaker.decisionIsInResult(query, simple, dist, maxEpsilon, tr)){
+                resultSet.add(tr.getName());
+            }
+        }
+
+        int size3 = resultSet.size();
+        System.out.println("---- result number : " + size3 + " -------");
+        Instant end_time = Instant.now();
+        System.out.println("---- calculate Dist Time : " + Duration.between(start_time, end_time) + " -------");
         return resultSet;
     }
 
