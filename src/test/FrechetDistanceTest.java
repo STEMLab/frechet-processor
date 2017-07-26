@@ -1,4 +1,5 @@
 import io.github.stemlab.data.impl.IndexImpl;
+import io.github.stemlab.io.DataExporter;
 import io.github.stemlab.io.DataImporter;
 import io.github.stemlab.manage.Manager;
 import io.github.stemlab.manage.impl.ManagerImpl;
@@ -23,10 +24,10 @@ public class FrechetDistanceTest {
 
         int[] results = {5, 2, 4, 4, 3, 5, 4, 3, 3, 5};
 
-        Manager manager = new ManagerImpl(new IndexImpl(), new DataImporter());
+        Manager manager = new ManagerImpl(new IndexImpl(), new DataImporter(), new DataExporter(""));
 
         manager.makeStructure(TEST_DATA_SET_PATH);
-        List<HashSet<String>> result = manager.findResult(TEST_QUERY_PATH);
+        manager.processQuery(TEST_QUERY_PATH);
 
         System.out.println("\n");
         for (int i = 0; i < result.size(); i++) {

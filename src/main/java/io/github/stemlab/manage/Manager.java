@@ -2,6 +2,7 @@ package io.github.stemlab.manage;
 
 import io.github.stemlab.data.Index;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 
@@ -9,7 +10,9 @@ public interface Manager {
 
     void makeStructure(String path);
 
-    List<HashSet<String>> findResult(String path);
+    List<HashSet<String>> processQuery(String path) throws IOException;
+
+    void processQuery(String path) throws IOException;
 
     Index getIndex();
 }
