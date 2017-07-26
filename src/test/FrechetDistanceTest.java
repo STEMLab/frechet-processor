@@ -30,6 +30,7 @@ public class FrechetDistanceTest {
         manager.makeStructure(TEST_DATA_SET_PATH);
         List<List<String>> result = manager.TestFindResult(TEST_QUERY_PATH, null);
 
+
         System.out.println("\n");
         for (int i = 0; i < result.size(); i++) {
             if (result.get(i).size() != results[i]) {

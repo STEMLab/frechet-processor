@@ -74,13 +74,11 @@ public class ManagerImpl implements Manager {
 
         int index = 0;
         for (Query q : query) {
-
             Instant start = Instant.now();
             System.out.println("\n\n---- Query processing : " + q.getTrajectory().getName() + ", " + q.getDistance() + " -------");
             List<Trajectory> possible_trajectoryHolder = getPossible(q);
             int size1 = possible_trajectoryHolder.size();
             System.out.println("---- candidate number : " + size1 + " -------");
-
             Instant middle1 = Instant.now();
             System.out.println("---- getPossible Time : " + Duration.between(start, middle1));
 
@@ -98,7 +96,6 @@ public class ManagerImpl implements Manager {
             }
 
             List<String> q_res = q_processor.query(q, filtered_list);
-            result.add(q_res);
             int size2 = q_res.size();
             System.out.println("---- result number : " + size2 + " -------");
 
@@ -118,7 +115,6 @@ public class ManagerImpl implements Manager {
             }
             index++;
         }
-
         return result;
     }
 

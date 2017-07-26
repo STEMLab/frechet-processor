@@ -55,6 +55,7 @@ public class RTree implements Tree {
         DoubleDBIDList result = rStarTree.search(new double[]{start.getPointX(), start.getPointY()}, dist);
 
         return result;
+
     }
 
     @Override
