@@ -46,6 +46,17 @@ public class ManagerImpl implements Manager {
         }
     }
 
+    @Override
+    public List<HashSet<String>> processQueryAndGetResult(String path) throws IOException {
+        List<HashSet<String>> result = new ArrayList<>();
+        List<Query> queries = dataImporter.getQueries(path);
+        for (Query query : queries) {
+            System.out.println("\n\n---- Processing query: " + query.getTrajectory().getName() + ", with query distance: " + query.getDistance() + " -------");
+            result.add(index.getQueryResult(query));
+        }
+        return result;
+    }
+
     public Index getIndex() {
         return this.index;
     }

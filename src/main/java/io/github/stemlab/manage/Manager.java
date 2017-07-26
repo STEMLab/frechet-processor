@@ -10,7 +10,7 @@ public interface Manager {
 
     void makeStructure(String path);
 
-    List<HashSet<String>> processQuery(String path) throws IOException;
+    List<HashSet<String>> processQueryAndGetResult(String path) throws IOException;
 
     void processQuery(String path) throws IOException;
 
