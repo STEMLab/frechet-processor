@@ -1,10 +1,10 @@
 
-import goLA.compute.impl.QueryProcessorImpl;
-import goLA.data.impl.RTree;
-import goLA.filter.SimplificationFrechet;
-import goLA.io.DataImporter;
-import goLA.manage.Manager;
-import goLA.manage.impl.ManagerImpl;
+import io.github.stemlab.compute.impl.QueryProcessorImpl;
+import io.github.stemlab.data.impl.RTree;
+import io.github.stemlab.filter.SimplificationFrechet;
+import io.github.stemlab.io.DataImporter;
+import io.github.stemlab.manage.Manager;
+import io.github.stemlab.manage.impl.ManagerImpl;
 
 import java.io.IOException;
 import java.util.List;

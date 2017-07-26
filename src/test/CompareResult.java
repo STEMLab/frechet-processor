@@ -1,6 +1,5 @@
 
-
-import goLA.exceptions.CustomException;
+import io.github.stemlab.exceptions.CustomException;
 
 import java.io.File;
 import java.io.IOException;
