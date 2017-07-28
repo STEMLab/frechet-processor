@@ -8,7 +8,6 @@ import io.github.stemlab.model.Coordinate;
 import io.github.stemlab.model.Query;
 import io.github.stemlab.model.Trajectory;
 import io.github.stemlab.utils.EuclideanDistance;
-import io.github.stemlab.utils.StraightFoward;
 import io.github.stemlab.utils.StraightSimpleFrechetDecision;
 
 
@@ -34,7 +33,6 @@ public class IndexImpl implements Index {
 
         Coordinate start = list.get(0);
         tree.add(trajectory.getName(), new double[]{start.getPointX(), start.getPointY()});
-
         holder.put(trajectory.getName(), trajectory);
 
         size++;
