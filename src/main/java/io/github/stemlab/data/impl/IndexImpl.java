@@ -8,9 +8,7 @@ import io.github.stemlab.model.Coordinate;
 import io.github.stemlab.model.Query;
 import io.github.stemlab.model.Trajectory;
 import io.github.stemlab.utils.EuclideanDistance;
-import io.github.stemlab.utils.StraightFoward;
 import io.github.stemlab.utils.StraightSimpleFrechetDecision;
-
 
 import java.util.HashMap;
 import java.util.HashSet;

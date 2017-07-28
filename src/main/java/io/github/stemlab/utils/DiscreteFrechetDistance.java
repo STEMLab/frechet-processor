@@ -26,23 +26,23 @@ public class DiscreteFrechetDistance {
                 ca[pi][qi] = -1.0;
             }
         }
-        return calculateDF(p_size - 1, q_size - 1, ca, p_coordinates, q_coordinates);
+        return calculate(p_size - 1, q_size - 1, ca, p_coordinates, q_coordinates);
     }
 
 
     /**
      * calculate and put value into dynamic programming array recursively
      */
-    static private Double calculateDF(int i, int j, Double[][] cache, List<Coordinate> p_coordinates, List<Coordinate> q_coordinates) {
+    static private Double calculate(int i, int j, Double[][] cache, List<Coordinate> p_coordinates, List<Coordinate> q_coordinates) {
         if (cache[i][j] != -1.0) return cache[i][j];
         else if (i == 0 && j == 0) {
             cache[i][j] = EuclideanDistance.distance(p_coordinates.get(i), q_coordinates.get(j));
         } else if (i > 0 && j == 0) {
-            cache[i][j] = Math.max(calculateDF(i - 1, j, cache, p_coordinates, q_coordinates), EuclideanDistance.distance(p_coordinates.get(i), q_coordinates.get(j)));
+            cache[i][j] = Math.max(calculate(i - 1, j, cache, p_coordinates, q_coordinates), EuclideanDistance.distance(p_coordinates.get(i), q_coordinates.get(j)));
         } else if (i == 0 && j > 0) {
-            cache[i][j] = Math.max(calculateDF(i, j - 1, cache, p_coordinates, q_coordinates), EuclideanDistance.distance(p_coordinates.get(i), q_coordinates.get(j)));
+            cache[i][j] = Math.max(calculate(i, j - 1, cache, p_coordinates, q_coordinates), EuclideanDistance.distance(p_coordinates.get(i), q_coordinates.get(j)));
         } else if (i > 0 && j > 0) {
-            cache[i][j] = Math.max(Math.min(Math.min(calculateDF(i - 1, j, cache, p_coordinates, q_coordinates), calculateDF(i - 1, j - 1, cache, p_coordinates, q_coordinates)), calculateDF(i, j - 1, cache, p_coordinates, q_coordinates)),
+            cache[i][j] = Math.max(Math.min(Math.min(calculate(i - 1, j, cache, p_coordinates, q_coordinates), calculate(i - 1, j - 1, cache, p_coordinates, q_coordinates)), calculate(i, j - 1, cache, p_coordinates, q_coordinates)),
                     EuclideanDistance.distance(p_coordinates.get(i), q_coordinates.get(j)));
         } else
             cache[i][j] = -2.0;

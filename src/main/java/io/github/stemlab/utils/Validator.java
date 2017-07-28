@@ -4,9 +4,6 @@ import io.github.stemlab.exceptions.CustomException;
 
 import java.io.File;
 
-/**
- * Created by Azamat on 7/24/2017.
- */
 public class Validator {
     public static void checkArguments(String... args) {
         if (args.length != 3) new CustomException("Number of arguments are wrong");
