@@ -9,7 +9,7 @@ import java.util.List;
 
 public class StraightForwardSimplification {
 
-    public static double EPSILON = 0.05;
+    public static double EPSILON = 0.0625;
     public static double CONSTANT = 1;
 
     public static Trajectory getReduced(Trajectory trajectory, Double distance) {
