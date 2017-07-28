@@ -1,9 +1,11 @@
 package io.github.stemlab.utils;
 
 import io.github.stemlab.model.Coordinate;
+import io.github.stemlab.model.Query;
 import io.github.stemlab.model.Trajectory;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class StraightForward {
@@ -20,6 +22,13 @@ public class StraightForward {
         return ret;
     }
 
+    /**
+     * Simplify coordinates of trajectory by using StraightForward Simplification.
+     * The simplified curve has the useful property that all its segments are of length at least param, except for the last edge that might be shorter.
+     * @param coordinates
+     * @param param
+     * @return : simplified curve's coordinates
+     */
     private static List<Coordinate> reduce(List<Coordinate> coordinates, Double param) {
         List<Coordinate> result = new ArrayList<>();
         result.add(coordinates.get(0));

@@ -10,16 +10,19 @@ public class StraightSimpleFrechetDecision {
     public static boolean decisionIsInResult(Query query, Trajectory trajectory) {
         Trajectory simplifiedQuery = StraightForward.getReduced(query.getTrajectory(), query.getDistance());
         Trajectory simplifiedTrajectory = StraightForward.getReduced(trajectory, query.getDistance());
-        if (isFiltered(simplifiedQuery, simplifiedTrajectory, query.getDistance())) {
-            if (isResult(simplifiedQuery, trajectory, query.getDistance())) {
+        if (isFiltered(simplifiedQuery, simplifiedTrajectory, query.getDistance())) { // Decide whether simple_trajectory is sure in out of result.
+            if (isResult(simplifiedQuery, trajectory, query.getDistance())) { // Decide whether trajectory is sure in result by using simplification.
                 return true;
-            } else if (isTrajectoryInQueryRange(query, trajectory)) {
+            } else if (isTrajectoryInQueryRange(query, trajectory)) { // Decide whether frechet distance is lower than query distance.
                 return true;
             }
         }
         return false;
     }
 
+    public static boolean isResult(Trajectory simple_query, Trajectory trajectory, double dist) {
+        double modified_dist_2 = dist - 1 * dist * StraightForward.Epsilon * StraightForward.Constant;
+        if (DiscreteFrechetDistance.decision(simple_query, trajectory, modified_dist_2)) {
 
     /**
      * Decide whether trajectory is sure in result by using simplification.
@@ -28,6 +31,8 @@ public class StraightSimpleFrechetDecision {
         double modifiedDistance = distance - (1 * distance * StraightForward.Epslion * StraightForward.Constant);
         if (DiscreteFrechetDistance.decision(simpleQuery, trajectory, modifiedDistance)) {
             return true;
+        } else {
+            return FrechetDistance.decision(simple_query, trajectory, modified_dist_2);
         } else {
             return FrechetDistance.decision(simpleQuery, trajectory, modifiedDistance);
         }
@@ -47,7 +52,6 @@ public class StraightSimpleFrechetDecision {
      *
      * @param query
      * @param trajectory
-     * @return
      */
     public static boolean isTrajectoryInQueryRange(Query query, Trajectory trajectory) {
         if (DiscreteFrechetDistance.decision(query.getTrajectory(), trajectory, query.getDistance())) {
