@@ -4,7 +4,7 @@ import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDList;
 import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDListIter;
 import io.github.stemlab.data.Index;
 import io.github.stemlab.data.elki.ELKIRStarTree;
-import io.github.stemlab.decision.DecisionMaker;
+import io.github.stemlab.utils.SimplificationFrechetDecision;
 import io.github.stemlab.model.Coordinate;
 import io.github.stemlab.model.Query;
 import io.github.stemlab.model.Trajectory;
@@ -18,8 +18,6 @@ import java.util.List;
 
 
 public class IndexImpl implements Index {
-
-    private final DecisionMaker decisionMaker = new DecisionMaker();
     private ELKIRStarTree rStarTree;
     private HashMap<String, Trajectory> holder;
     private int size;
@@ -63,7 +61,7 @@ public class IndexImpl implements Index {
             Trajectory trajectory = this.holder.get(rStarTree.getRecordName(x));
             Coordinate last = trajectory.getCoordinates().get(trajectory.getCoordinates().size() - 1);
             if (EuclideanDistance.distance(last, end) <= dist) {
-                if (decisionMaker.decisionIsInResult(query, simple, dist, maxEpsilon, trajectory)) {
+                if (SimplificationFrechetDecision.decisionIsInResult(query, dist, maxEpsilon, trajectory)) {
                     resultSet.add(trajectory.getName());
                 }
             }

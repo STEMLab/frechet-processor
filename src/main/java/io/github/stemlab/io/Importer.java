@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class DataImporter {
+public class Importer {
 
     public void loadFiles(String src, Index index) {
         try (Stream<String> stream = Files.lines(Paths.get(src))) {

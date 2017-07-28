@@ -9,11 +9,10 @@ import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.stream.Collectors;
 
-public class DataExporter {
+public class Exporter {
 
     private String outputDirectory;
-
-    public DataExporter(String outputDirectory) {
+    public Exporter(String outputDirectory) {
         this.outputDirectory = outputDirectory;
     }
 
