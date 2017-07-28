@@ -1,8 +1,8 @@
-package io.github.stemlab.test;
+package io.github.stemlab;
 
 import io.github.stemlab.data.impl.IndexImpl;
-import io.github.stemlab.io.DataExporter;
-import io.github.stemlab.io.DataImporter;
+import io.github.stemlab.io.Exporter;
+import io.github.stemlab.io.Importer;
 import io.github.stemlab.manage.Manager;
 import io.github.stemlab.manage.impl.ManagerImpl;
 import io.github.stemlab.utils.Validator;
@@ -16,14 +16,12 @@ import java.time.Instant;
 public class FrechetProcessorLauncher {
 
     public static void main(String[] args) throws IOException {
-
         Validator.checkArguments(args);
-
 
         Instant start = Instant.now();
         System.out.println("Reading data...");
 
-        Manager manager = new ManagerImpl(new IndexImpl(), new DataImporter(), new DataExporter(args[2]));
+        Manager manager = new ManagerImpl(new IndexImpl(), new Importer(), new Exporter(args[2]));
         manager.makeStructure(args[0]);
 
         //get all data trajectories

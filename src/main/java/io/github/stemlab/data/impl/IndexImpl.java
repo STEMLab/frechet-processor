@@ -54,14 +54,14 @@ public class IndexImpl implements Index {
 
         HashSet<String> resultSet = new LinkedHashSet<>();
 
-        Trajectory simple = DouglasPeucker.getReduced(query.getTrajectory(), DouglasPeucker.getMaxEpsilon(query.getTrajectory()));
+        DouglasPeucker.getReduced(query.getTrajectory(), DouglasPeucker.getMaxEpsilon(query.getTrajectory()));
         double maxEpsilon = DouglasPeucker.getMaxEpsilon(query.getTrajectory());
 
         for (DoubleDBIDListIter x = result.iter(); x.valid(); x.advance()) {
             Trajectory trajectory = this.holder.get(rStarTree.getRecordName(x));
             Coordinate last = trajectory.getCoordinates().get(trajectory.getCoordinates().size() - 1);
             if (EuclideanDistance.distance(last, end) <= dist) {
-                if (SimplificationFrechetDecision.decisionIsInResult(query, dist, maxEpsilon, trajectory)) {
+                if (SimplificationFrechetDecision.decisionIsInResult(query, maxEpsilon, trajectory)) {
                     resultSet.add(trajectory.getName());
                 }
             }
