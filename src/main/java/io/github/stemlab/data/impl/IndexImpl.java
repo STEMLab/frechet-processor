@@ -55,9 +55,6 @@ public class IndexImpl implements Index {
 
         HashSet<String> resultSet = new LinkedHashSet<>();
 
-        query.getTrajectory().setSimplified(StraightFoward.getReduced(query.getTrajectory(), dist) );
-
-
         for (DoubleDBIDListIter x = result.iter(); x.valid(); x.advance()) {
             Trajectory trajectory = this.holder.get(tree.getRecordName(x));
             Coordinate last = trajectory.getCoordinates().get(trajectory.getCoordinates().size() - 1);

@@ -3,14 +3,11 @@ package io.github.stemlab.model;
 import java.util.List;
 
 public class Trajectory {
-
-    private Double maxEpsilon;
     private Trajectory simplified;
     private String name;
     private List<Coordinate> coordinates;
 
     public Trajectory() {
-        this.maxEpsilon = null;
         this.simplified = null;
     }
 
@@ -28,14 +25,6 @@ public class Trajectory {
 
     public void setCoordinates(List<Coordinate> coordinates) {
         this.coordinates = coordinates;
-    }
-
-    public Double getMaxEpsilon() {
-        return maxEpsilon;
-    }
-
-    public void setMaxEpsilon(Double maxEpsilon) {
-        this.maxEpsilon = maxEpsilon;
     }
 
     public Trajectory getSimplified() {

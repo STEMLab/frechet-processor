@@ -9,20 +9,9 @@ import java.util.HashSet;
  * Created by dong on 2017. 7. 28..
  */
 public class StraightSimpleFrechetDecision {
-    public static void query(Query query, HashSet<Trajectory> trajectories, HashSet<String> resultSet) {
-        double dist = query.getDistance();
-        query.getTrajectory().setSimplified(StraightFoward.getReduced(query.getTrajectory(), dist) );
-        for (Trajectory trajectory : trajectories){
-            if (StraightSimpleFrechetDecision.decisionIsInResult(query, trajectory)){
-                resultSet.add(trajectory.getName());
-            }
-        }
-    }
-
     public static boolean decisionIsInResult(Query query, Trajectory trajectory){
-        Trajectory simplified_query = query.getTrajectory().getSimplified();
+        Trajectory simplified_query = StraightFoward.getReduced(query.getTrajectory(), query.getDistance());
         Trajectory simplified_trajectory = StraightFoward.getReduced(trajectory, query.getDistance());
-        trajectory.setSimplified(simplified_trajectory);
         if (isFiltered(simplified_query, simplified_trajectory, query.getDistance())) {
             if (isResult(simplified_query, trajectory, query.getDistance())) {
                 return true;

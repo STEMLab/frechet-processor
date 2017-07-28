@@ -12,8 +12,7 @@ $ java -jar run.jar {path to dataset.txt} {path to queries.txt} {path to result 
 
 ## Main Idea
 
-In order to process queries to find trajectories in given Fréchet distance bounds, our solution use Fréchet distance decision algorithm
-, R*-index indexing for trajectory start points, Douglas Peucker algorithm for line simplification, and discrete Fréchet distance decision algorithm too.
+In order to process queries to find trajectories in given Fréchet distance bounds, our solution use Fréchet distance decision algorithm, R*-index indexing for trajectory start points, Straight Foward Simplification algorithm for line simplification, and discrete Fréchet distance decision algorithm too.
 Some useful theory was applied to project :
 
 * Fréchet distance between two trajectories is equal or longer than both distances between start points and end points.
