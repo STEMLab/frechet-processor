@@ -15,11 +15,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class DataExporter {
+public class Exporter {
 
     private String outputDirectory;
 
-    public DataExporter(String root_path, String tag_path) {
+    public Exporter(String root_path, String tag_path) {
         //TODO : remove
         File result = new File("result/");
         if (!result.exists()) result.mkdir();
@@ -39,7 +39,7 @@ public class DataExporter {
         if (info.exists()) info.delete();
     }
 
-    public DataExporter(String outputDirectory) {
+    public Exporter(String outputDirectory) {
         this.outputDirectory = outputDirectory;
     }
 

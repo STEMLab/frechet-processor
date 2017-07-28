@@ -1,7 +1,6 @@
 package io.github.stemlab.manage;
 
 import io.github.stemlab.data.Index;
-import io.github.stemlab.io.DataExporter;
 
 import java.io.IOException;
 import java.util.HashSet;

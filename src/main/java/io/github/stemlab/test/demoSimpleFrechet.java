@@ -1,8 +1,8 @@
 package io.github.stemlab.test;
 
 import io.github.stemlab.data.impl.TestIndexImpl;
-import io.github.stemlab.io.DataExporter;
-import io.github.stemlab.io.DataImporter;
+import io.github.stemlab.io.Exporter;
+import io.github.stemlab.io.Importer;
 import io.github.stemlab.manage.Manager;
 import io.github.stemlab.manage.impl.ManagerImpl;
 
@@ -24,7 +24,7 @@ public class demoSimpleFrechet {
         Instant start = Instant.now();
         System.out.println("Start Program");
 
-        Manager manager = new ManagerImpl(new TestIndexImpl(), new DataImporter(), new DataExporter(RESULT_PATH, TAG + "/"));
+        Manager manager = new ManagerImpl(new TestIndexImpl(), new Importer(), new Exporter(RESULT_PATH, TAG + "/"));
         manager.makeStructure(TEST_DATA_SET_PATH);
 
         //get all data trajectories
