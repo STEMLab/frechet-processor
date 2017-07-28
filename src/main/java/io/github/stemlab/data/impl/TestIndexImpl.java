@@ -81,7 +81,7 @@ public class TestIndexImpl implements Index{
         System.out.println("---- candidate number for start and end point : " + size2 + " -------");
 
         HashSet<String> resultSet = new LinkedHashSet<>();
-        DouglasSimpleDecision.query(query, tr_set, resultSet);
+        StraightSimpleFrechetDecision.query(query, tr_set, resultSet);
 
         int size3 = resultSet.size();
         System.out.println("---- result number : " + size3 + " -------");

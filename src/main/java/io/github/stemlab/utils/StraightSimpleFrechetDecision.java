@@ -37,12 +37,12 @@ public class StraightSimpleFrechetDecision {
      * Decide whether trajectory is sure in result by using simplification.
      */
     public static boolean isResult(Trajectory simple_query, Trajectory simple_trajectory, double dist) {
-      if(DiscreteFrechetDistance.decisionDP(simple_query,
+      if(DiscreteFrechetDistance.decision(simple_query,
                     simple_trajectory, dist)){
           return true;
       }
       else{
-          return FrechetDistance.decisionDP(simple_query, simple_trajectory, dist);
+          return FrechetDistance.decision(simple_query, simple_trajectory, dist);
       }
 
     }
@@ -53,7 +53,7 @@ public class StraightSimpleFrechetDecision {
      */
     public static boolean isFiltered(Trajectory simple_query, Trajectory simple_trajectory, double dist) {
         double modified_dist = dist + 2 * dist * StraightFowrad.Epslion * StraightFowrad.Constant;
-        return FrechetDistance.decisionDP(simple_query, simple_trajectory,
+        return FrechetDistance.decision(simple_query, simple_trajectory,
                 modified_dist);
     }
 
@@ -64,10 +64,10 @@ public class StraightSimpleFrechetDecision {
      * @return
      */
     public static boolean isTrajectoryInQueryRange(Query q, Trajectory t) {
-        if (DiscreteFrechetDistance.decisionDP(q.getTrajectory(), t, q.getDistance())) {
+        if (DiscreteFrechetDistance.decision(q.getTrajectory(), t, q.getDistance())) {
             return true;
         } else
-            return FrechetDistance.decisionDP(q.getTrajectory(), t, q.getDistance());
+            return FrechetDistance.decision(q.getTrajectory(), t, q.getDistance());
     }
 
 }

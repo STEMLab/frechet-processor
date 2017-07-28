@@ -29,7 +29,7 @@ public class DouglasSimpleDecision {
      */
     public static boolean isResult(Query query, Trajectory trajectory, double q_max_E) {
         if (query.getDistance() - q_max_E >= 0) {
-            return DiscreteFrechetDistance.decisionDP(query.getTrajectory(),
+            return DiscreteFrechetDistance.decision(query.getTrajectory(),
                     trajectory.getSimplified(), query.getDistance() - q_max_E);
         } else
             return false;
@@ -37,25 +37,26 @@ public class DouglasSimpleDecision {
 
     /**
      * Decide whether trajectory is sure in out of result.
-     *
+     * @param maxEpsilon : In simplification, epsilon value.
      */
-    public static boolean isFiltered(Trajectory simple, Trajectory trajectory, double dist, double q_max_E) {
-        trajectory.setSimplified(DouglasPeucker.getReduced(trajectory, q_max_E));
-        return FrechetDistance.decisionDP(simple, trajectory.getSimplified(),
-                dist + q_max_E * 2);
+
+    public static boolean isFiltered(Trajectory simple, Trajectory trajectory, double dist, double maxEpsilon) {
+        trajectory.setSimplified(DouglasPeucker.getReduced(trajectory, maxEpsilon));
+        return FrechetDistance.decision(simple, trajectory.getSimplified(),
+                dist + maxEpsilon * 2);
     }
 
     /**
      * First, decide whether discrete Frechet Distance is lower than parameter, if not check real Frechet Distance.
-     * @param q
-     * @param t
+     * @param query
+     * @param trajectory
      * @return
      */
-    public static boolean isTrajectoryInQueryRange(Query q, Trajectory t) {
-        if (DiscreteFrechetDistance.decisionDP(q.getTrajectory(), t, q.getDistance())) {
+    public static boolean isTrajectoryInQueryRange(Query query, Trajectory trajectory) {
+        if (DiscreteFrechetDistance.decision(query.getTrajectory(), trajectory, query.getDistance())) {
             return true;
         } else
-            return FrechetDistance.decisionDP(q.getTrajectory(), t, q.getDistance());
+            return FrechetDistance.decision(query.getTrajectory(), trajectory, query.getDistance());
     }
 
     public static void query(Query query, HashSet<Trajectory> trajectories, HashSet<String> resultSet) {
