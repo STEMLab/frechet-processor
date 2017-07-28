@@ -3,13 +3,16 @@ package io.github.stemlab.utils;
 import io.github.stemlab.model.Query;
 import io.github.stemlab.model.Trajectory;
 
-public class SimplificationFrechetDecision {
+import java.util.HashSet;
+
+public class DouglasSimpleDecision {
 
     /**
      * Decide whether trajectory is in query range.
      */
     public static boolean decisionIsInResult(Query query, double maxEpsilon, Trajectory trajectory) {
         Trajectory simple = query.getTrajectory().getSimplified();
+        query.getTrajectory().setSimplified(simple);
         double q_dist = query.getDistance();
         if (isFiltered(simple, trajectory, q_dist, maxEpsilon)) {
             if (isResult(query, trajectory, maxEpsilon)) {
@@ -36,8 +39,10 @@ public class SimplificationFrechetDecision {
      * Decide whether trajectory is sure in out of result.
      * @param maxEpsilon : In simplification, epsilon value.
      */
+
     public static boolean isFiltered(Trajectory simple, Trajectory trajectory, double dist, double maxEpsilon) {
-        return FrechetDistance.decision(simple, DouglasPeucker.getReduced(trajectory, maxEpsilon),
+        trajectory.setSimplified(DouglasPeucker.getReduced(trajectory, maxEpsilon));
+        return FrechetDistance.decision(simple, trajectory.getSimplified(),
                 dist + maxEpsilon * 2);
     }
 
@@ -52,5 +57,16 @@ public class SimplificationFrechetDecision {
             return true;
         } else
             return FrechetDistance.decision(query.getTrajectory(), trajectory, query.getDistance());
+    }
+
+    public static void query(Query query, HashSet<Trajectory> trajectories, HashSet<String> resultSet) {
+        double maxEpsilon = DouglasPeucker.getMaxEpsilon(query.getTrajectory());
+        query.getTrajectory().setSimplified(DouglasPeucker.getReduced(query.getTrajectory(), maxEpsilon) );
+
+        for (Trajectory trajectory : trajectories){
+            if (DouglasSimpleDecision.decisionIsInResult(query, maxEpsilon, trajectory)){
+                resultSet.add(trajectory.getName());
+            }
+        }
     }
 }

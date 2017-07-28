@@ -4,12 +4,13 @@ import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDList;
 import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDListIter;
 import io.github.stemlab.data.Index;
 import io.github.stemlab.data.elki.ELKIRStarTree;
-import io.github.stemlab.utils.SimplificationFrechetDecision;
+import io.github.stemlab.utils.DouglasSimpleDecision;
 import io.github.stemlab.model.Coordinate;
 import io.github.stemlab.model.Query;
 import io.github.stemlab.model.Trajectory;
-import io.github.stemlab.utils.DouglasPeucker;
 import io.github.stemlab.utils.EuclideanDistance;
+import io.github.stemlab.utils.StraightFowrad;
+import io.github.stemlab.utils.StraightSimpleFrechetDecision;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -79,14 +80,8 @@ public class TestIndexImpl implements Index{
         int size2 = tr_set.size();
         System.out.println("---- candidate number for start and end point : " + size2 + " -------");
 
-        Trajectory simple = DouglasPeucker.getReduced(query.getTrajectory(), DouglasPeucker.getMaxEpsilon(query.getTrajectory()));
-        double maxEpsilon = DouglasPeucker.getMaxEpsilon(query.getTrajectory());
         HashSet<String> resultSet = new LinkedHashSet<>();
-        for (Trajectory tr : tr_set){
-            if (SimplificationFrechetDecision.decisionIsInResult(query, maxEpsilon, tr)){
-                resultSet.add(tr.getName());
-            }
-        }
+        DouglasSimpleDecision.query(query, tr_set, resultSet);
 
         int size3 = resultSet.size();
         System.out.println("---- result number : " + size3 + " -------");

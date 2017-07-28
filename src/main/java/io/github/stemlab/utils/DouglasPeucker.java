@@ -2,6 +2,7 @@ package io.github.stemlab.utils;
 
 import io.github.stemlab.model.Coordinate;
 import io.github.stemlab.model.Trajectory;
+import io.github.stemlab.utils.EuclideanDistance;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,6 @@ public class DouglasPeucker {
         Trajectory ret = new Trajectory();
         List<Coordinate> coordinates = reduce(trajectory.getCoordinates(), epsilon);
         ret.setCoordinates(coordinates);
-        trajectory.setSimplified(ret);
         return ret;
     }
 
