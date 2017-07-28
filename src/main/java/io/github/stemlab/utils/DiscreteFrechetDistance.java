@@ -12,75 +12,79 @@ public class DiscreteFrechetDistance {
     /**
      * Distance Calculation : Discrete Frechet distance
      */
-    static public Double distance(Trajectory q_tr, Trajectory t_tr) {
-        List<Coordinate> p_coordinates = q_tr.getCoordinates();
-        int p = p_coordinates.size();
+    static public Double distance(Trajectory p_trajectory, Trajectory q_trajectory) {
+        List<Coordinate> p_coordinates = p_trajectory.getCoordinates();
+        int p_size = p_coordinates.size();
 
-        List<Coordinate> q_coordinates = t_tr.getCoordinates();
-        int q = q_coordinates.size();
+        List<Coordinate> q_coordinates = q_trajectory.getCoordinates();
+        int q_size = q_coordinates.size();
 
-        Double[][] ca = new Double[p][q];
+        Double[][] ca = new Double[p_size][q_size];
 
-        for (int pi = 0; pi < p; pi++) {
-            for (int qi = 0; qi < q; qi++) {
+        for (int pi = 0; pi < p_size; pi++) {
+            for (int qi = 0; qi < q_size; qi++) {
                 ca[pi][qi] = -1.0;
             }
         }
-        return calculateDF(p - 1, q - 1, ca, p_coordinates, q_coordinates);
+        return calculateDF(p_size - 1, q_size - 1, ca, p_coordinates, q_coordinates);
     }
 
 
     /**
-     *
+     * calculate and put value into dynamic programming array recursively
      */
-    static private Double calculateDF(int i, int j, Double[][] ca, List<Coordinate> p_coordinates, List<Coordinate> q_coordinates) {
-        if (ca[i][j] != -1.0) return ca[i][j];
+    static private Double calculateDF(int i, int j, Double[][] cache, List<Coordinate> p_coordinates, List<Coordinate> q_coordinates) {
+        if (cache[i][j] != -1.0) return cache[i][j];
         else if (i == 0 && j == 0) {
-            ca[i][j] = EuclideanDistance.distance(p_coordinates.get(i), q_coordinates.get(j));
+            cache[i][j] = EuclideanDistance.distance(p_coordinates.get(i), q_coordinates.get(j));
         } else if (i > 0 && j == 0) {
-            ca[i][j] = Math.max(calculateDF(i - 1, j, ca, p_coordinates, q_coordinates), EuclideanDistance.distance(p_coordinates.get(i), q_coordinates.get(j)));
+            cache[i][j] = Math.max(calculateDF(i - 1, j, cache, p_coordinates, q_coordinates), EuclideanDistance.distance(p_coordinates.get(i), q_coordinates.get(j)));
         } else if (i == 0 && j > 0) {
-            ca[i][j] = Math.max(calculateDF(i, j - 1, ca, p_coordinates, q_coordinates), EuclideanDistance.distance(p_coordinates.get(i), q_coordinates.get(j)));
+            cache[i][j] = Math.max(calculateDF(i, j - 1, cache, p_coordinates, q_coordinates), EuclideanDistance.distance(p_coordinates.get(i), q_coordinates.get(j)));
         } else if (i > 0 && j > 0) {
-            ca[i][j] = Math.max(Math.min(Math.min(calculateDF(i - 1, j, ca, p_coordinates, q_coordinates), calculateDF(i - 1, j - 1, ca, p_coordinates, q_coordinates)), calculateDF(i, j - 1, ca, p_coordinates, q_coordinates)),
+            cache[i][j] = Math.max(Math.min(Math.min(calculateDF(i - 1, j, cache, p_coordinates, q_coordinates), calculateDF(i - 1, j - 1, cache, p_coordinates, q_coordinates)), calculateDF(i, j - 1, cache, p_coordinates, q_coordinates)),
                     EuclideanDistance.distance(p_coordinates.get(i), q_coordinates.get(j)));
         } else
-            ca[i][j] = -2.0;
-        return ca[i][j];
+            cache[i][j] = -2.0;
+        return cache[i][j];
     }
 
     /**
-     * Decision Problem : Determine whether discrete Frechet Distance between two trajectories <= distance.
+     * Decision Problem using Dynamic Programming : Determine whether discrete Frechet Distance between two trajectories <= distance.
      */
-    static public boolean decisionDP(Trajectory pt, Trajectory qt, double dist) {
+    static public boolean decision(Trajectory p_trajectory, Trajectory q_trajectory, double dist) {
         if (dist < 0.0) return false;
-        List<Coordinate> p_coordinates = pt.getCoordinates();
-        int p = p_coordinates.size() - 1;
+        List<Coordinate> p_coordinates = p_trajectory.getCoordinates();
+        int p_size = p_coordinates.size() - 1;
 
-        List<Coordinate> q_coordinates = qt.getCoordinates();
-        int q = q_coordinates.size() - 1;
+        List<Coordinate> q_coordinates = q_trajectory.getCoordinates();
+        int q_size = q_coordinates.size() - 1;
 
-        if (EuclideanDistance.distance(p_coordinates.get(p), q_coordinates.get(q)) > dist || EuclideanDistance.distance(p_coordinates.get(0), q_coordinates.get(0)) > dist)
+        if (EuclideanDistance.distance(p_coordinates.get(p_size), q_coordinates.get(q_size)) > dist
+                || EuclideanDistance.distance(p_coordinates.get(0), q_coordinates.get(0)) > dist)
             return false;
 
-        boolean[][] map = new boolean[p + 1][q + 1];
+        boolean[][] map = new boolean[p_size + 1][q_size + 1];
         map[0][0] = true;
-        for (int i = 1; i < p + 1; i++) {
+        for (int i = 1; i < p_size + 1; i++) {
             map[i][0] = (map[i - 1][0] && EuclideanDistance.distance(p_coordinates.get(i), q_coordinates.get(0)) <= dist);
         }
-        for (int j = 1; j < q + 1; j++) {
+        for (int j = 1; j < q_size + 1; j++) {
             map[0][j] = (map[0][j - 1] && EuclideanDistance.distance(p_coordinates.get(0), q_coordinates.get(j)) <= dist);
         }
 
-        for (int i = 1; i < p + 1; i++) {
-            for (int j = 1; j < q + 1; j++) {
+        for (int i = 1; i < p_size + 1; i++) {
+            boolean sw = false;
+            for (int j = 1; j < q_size + 1; j++) {
                 if ((map[i][j - 1] || map[i - 1][j]) && (EuclideanDistance.distance(p_coordinates.get(i), q_coordinates.get(j)) <= dist)) {
+                    sw = true;
                     map[i][j] = true;
                 } else
                     map[i][j] = false;
             }
+            if (!sw) return false;
         }
 
-        return map[p][q];
+        return map[p_size][q_size];
     }
 }

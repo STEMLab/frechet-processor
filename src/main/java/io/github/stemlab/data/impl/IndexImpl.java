@@ -4,7 +4,7 @@ import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDList;
 import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDListIter;
 import io.github.stemlab.data.Index;
 import io.github.stemlab.data.elki.ELKIRStarTree;
-import io.github.stemlab.decision.DecisionMaker;
+import io.github.stemlab.utils.DouglasSimpleDecision;
 import io.github.stemlab.model.Coordinate;
 import io.github.stemlab.model.Query;
 import io.github.stemlab.model.Trajectory;
@@ -18,14 +18,12 @@ import java.util.List;
 
 
 public class IndexImpl implements Index {
-
-    private final DecisionMaker decisionMaker = new DecisionMaker();
-    private ELKIRStarTree rStarTree;
+    private ELKIRStarTree tree;
     private HashMap<String, Trajectory> holder;
     private int size;
 
     public IndexImpl() {
-        this.rStarTree = new ELKIRStarTree();
+        this.tree = new ELKIRStarTree();
         this.holder = new HashMap<>();
     }
 
@@ -34,7 +32,7 @@ public class IndexImpl implements Index {
         List<Coordinate> list = trajectory.getCoordinates();
 
         Coordinate start = list.get(0);
-        rStarTree.add(trajectory.getName(), new double[]{start.getPointX(), start.getPointY()});
+        tree.add(trajectory.getName(), new double[]{start.getPointX(), start.getPointY()});
 
         holder.put(trajectory.getName(), trajectory);
 
@@ -43,7 +41,7 @@ public class IndexImpl implements Index {
 
     @Override
     public void initialize() {
-        rStarTree.initialize();
+        tree.initialize();
     }
 
     @Override
@@ -52,18 +50,18 @@ public class IndexImpl implements Index {
         Coordinate end = query.getTrajectory().getCoordinates().get(query.getTrajectory().getCoordinates().size() - 1);
         double dist = query.getDistance();
 
-        DoubleDBIDList result = rStarTree.search(new double[]{start.getPointX(), start.getPointY()}, dist);
+        DoubleDBIDList result = tree.search(new double[]{start.getPointX(), start.getPointY()}, dist);
 
         HashSet<String> resultSet = new LinkedHashSet<>();
 
-        Trajectory simple = DouglasPeucker.getReduced(query.getTrajectory(), DouglasPeucker.getMaxEpsilon(query.getTrajectory()));
         double maxEpsilon = DouglasPeucker.getMaxEpsilon(query.getTrajectory());
+        query.getTrajectory().setSimplified(DouglasPeucker.getReduced(query.getTrajectory(), maxEpsilon));
 
         for (DoubleDBIDListIter x = result.iter(); x.valid(); x.advance()) {
-            Trajectory trajectory = this.holder.get(rStarTree.getRecordName(x));
+            Trajectory trajectory = this.holder.get(tree.getRecordName(x));
             Coordinate last = trajectory.getCoordinates().get(trajectory.getCoordinates().size() - 1);
             if (EuclideanDistance.distance(last, end) <= dist) {
-                if (decisionMaker.decisionIsInResult(query, simple, dist, maxEpsilon, trajectory)) {
+                if (DouglasSimpleDecision.decisionIsInResult(query, maxEpsilon, trajectory)) {
                     resultSet.add(trajectory.getName());
                 }
             }

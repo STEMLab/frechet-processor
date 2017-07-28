@@ -1,0 +1,10 @@
+## System requirements:
+ - Operation system with installed Java 8 or higher
+
+## Required to compile:
+ Software project management and comprehension tool - Apache Maven https://maven.apache.org/
+
+## Required libraries:
+ - Operation system with installed Java 8 or higher
+ - elki-0.7.1.jar - ELKI Data Mining Toolkit https://elki-project.github.io/
+ - trove4j-3.0.3.jar - ELKI uses regular and primitive collections for Java - Trove library.
