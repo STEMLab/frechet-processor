@@ -31,7 +31,7 @@ public class DiscreteFrechetDistance {
 
 
     /**
-     * calculate and put value into dynamic programming array recursively
+     * Calculate and put value into dynamic programming array recursively
      */
     static private Double calculateDF(int i, int j, Double[][] cache, List<Coordinate> p_coordinates, List<Coordinate> q_coordinates) {
         if (cache[i][j] != -1.0) return cache[i][j];
@@ -84,7 +84,6 @@ public class DiscreteFrechetDistance {
             }
             if (!sw) return false;
         }
-
         return map[p_size][q_size];
     }
 }
