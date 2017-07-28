@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StraightForward {
-    public static double EPSILON = 0.25;
-    public static double CONSTANT = 0.25;
+    public static double EPSILON = 0.0625;
+    public static double CONSTANT = 0.99;
 
     public static Trajectory getReduced(Trajectory trajectory, Double distance) {
         if (distance == 0.0) return trajectory;

@@ -22,7 +22,7 @@ public class StraightSimpleFrechetDecision {
 
 
     public static boolean isResult(Trajectory simpleQuery, Trajectory trajectory, double distance) {
-        double modifiedDistance = distance - (1 * distance * StraightForward.EPSILON * StraightForward.CONSTANT);
+        double modifiedDistance = distance - (2 * distance * StraightForward.EPSILON * StraightForward.CONSTANT);
         if (DiscreteFrechetDistance.decision(simpleQuery, trajectory, modifiedDistance)) {
             return true;
         } else {
