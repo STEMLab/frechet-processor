@@ -42,7 +42,6 @@ public class StraightForwardSimplification {
             }
         }
 
-        result.add(coordinates.get(coordinates.size() - 1));
         return result;
     }
 }
