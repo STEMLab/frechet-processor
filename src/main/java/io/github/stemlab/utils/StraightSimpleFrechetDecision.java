@@ -3,30 +3,17 @@ package io.github.stemlab.utils;
 import io.github.stemlab.model.Query;
 import io.github.stemlab.model.Trajectory;
 
-import java.util.HashSet;
-
 /**
  * Created by dong on 2017. 7. 28..
  */
 public class StraightSimpleFrechetDecision {
-    public static void query(Query query, HashSet<Trajectory> trajectories, HashSet<String> resultSet) {
-        double dist = query.getDistance();
-        query.getTrajectory().setSimplified(StraightFowrad.getReduced(query.getTrajectory(), dist) );
-        for (Trajectory trajectory : trajectories){
-            if (StraightSimpleFrechetDecision.decisionIsInResult(query, trajectory)){
-                resultSet.add(trajectory.getName());
-            }
-        }
-    }
-
-    private static boolean decisionIsInResult(Query query, Trajectory trajectory){
-        Trajectory simplified_query = query.getTrajectory().getSimplified();
-        Trajectory simplified_trajectory = StraightFowrad.getReduced(trajectory, query.getDistance());
-        trajectory.setSimplified(simplified_trajectory);
-        if (isFiltered(simplified_query, simplified_trajectory, query.getDistance())) {
-            if (isResult(simplified_query, trajectory, query.getDistance())) {
+    public static boolean decisionIsInResult(Query query, Trajectory trajectory) {
+        Trajectory simplifiedQuery = StraightForward.getReduced(query.getTrajectory(), query.getDistance());
+        Trajectory simplifiedTrajectory = StraightForward.getReduced(trajectory, query.getDistance());
+        if (isFiltered(simplifiedQuery, simplifiedTrajectory, query.getDistance())) { // Decide whether simple_trajectory is sure in out of result.
+            if (isResult(simplifiedQuery, trajectory, query.getDistance())) { // Decide whether trajectory is sure in result by using simplification.
                 return true;
-            } else if (isTrajectoryInQueryRange(query, trajectory)) {
+            } else if (isTrajectoryInQueryRange(query, trajectory)) { // Decide whether frechet distance is lower than query distance.
                 return true;
             }
         }
@@ -34,34 +21,25 @@ public class StraightSimpleFrechetDecision {
     }
 
 
-    /**
-     * Decide whether trajectory is sure in result by using simplification.
-     */
-    public static boolean isResult(Trajectory simple_query, Trajectory trajectory, double dist) {
-        double modified_dist_2 = dist - 1 * dist * StraightFowrad.Epslion * StraightFowrad.Constant;
-        if(DiscreteFrechetDistance.decision(simple_query, trajectory, modified_dist_2)){
+    public static boolean isResult(Trajectory simpleQuery, Trajectory trajectory, double distance) {
+        double modifiedDistance = distance - (1 * distance * StraightForward.EPSILON * StraightForward.CONSTANT);
+        if (DiscreteFrechetDistance.decision(simpleQuery, trajectory, modifiedDistance)) {
             return true;
-        }
-        else{
-            //return false;
-            return FrechetDistance.decision(simple_query, trajectory, modified_dist_2);
+        } else {
+            return FrechetDistance.decision(simpleQuery, trajectory, modifiedDistance);
         }
     }
 
-    /**
-     * Decide whether simple_trajectory is sure in out of result.
-     *
-     */
-    public static boolean isFiltered(Trajectory simple_query, Trajectory simple_trajectory, double dist) {
-        double modified_dist = dist + 2 * dist * StraightFowrad.Epslion * StraightFowrad.Constant;
-        return FrechetDistance.decision(simple_query, simple_trajectory, modified_dist);
+    public static boolean isFiltered(Trajectory simpleQuery, Trajectory simpleTrajectory, double distance) {
+        double modifiedDistance = distance + (2 * distance * StraightForward.EPSILON * StraightForward.CONSTANT);
+        return FrechetDistance.decision(simpleQuery, simpleTrajectory, modifiedDistance);
     }
 
     /**
      * First, decide whether discrete Frechet Distance is lower than parameter, if not check real Frechet Distance.
+     *
      * @param query
      * @param trajectory
-     * @return
      */
     public static boolean isTrajectoryInQueryRange(Query query, Trajectory trajectory) {
         if (DiscreteFrechetDistance.decision(query.getTrajectory(), trajectory, query.getDistance())) {

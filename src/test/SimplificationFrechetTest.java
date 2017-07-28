@@ -32,16 +32,16 @@ public class SimplificationFrechetTest {
 
             DoubleDBIDList result = tree.rStarTree.search(new double[]{start.getPointX(), start.getPointY()}, dist);
 
-            Trajectory simple = StraightFowrad.getReduced(query.getTrajectory(), dist);
+            Trajectory simple = StraightForward.getReduced(query.getTrajectory(), dist);
             q.setSimplified(simple);
             for (DoubleDBIDListIter x = result.iter(); x.valid(); x.advance()) {
                 Trajectory trajectory = tree.holder.get(tree.rStarTree.getRecordName(x));
                 Coordinate last = trajectory.getCoordinates().get(trajectory.getCoordinates().size() - 1);
                 if (EuclideanDistance.distance(last, end) <= dist) {
                     Trajectory simple_query = query.getTrajectory().getSimplified();
-                    Trajectory simple_trajectory = StraightFowrad.getReduced(trajectory, query.getDistance());
-                    double modified_dist = dist + 2 * dist * StraightFowrad.Epslion * StraightFowrad.Constant;
-                    double modified_dist2 = dist - 1 * dist * StraightFowrad.Epslion * StraightFowrad.Constant;
+                    Trajectory simple_trajectory = StraightForward.getReduced(trajectory, query.getDistance());
+                    double modified_dist = dist + 2 * dist * StraightForward.EPSILON * StraightForward.CONSTANT;
+                    double modified_dist2 = dist - 1 * dist * StraightForward.EPSILON * StraightForward.CONSTANT;
                     if (!FrechetDistance.decision(simple_query, simple_trajectory, modified_dist)){
                         if (!FrechetDistance.decision(q, trajectory, dist)) {
 

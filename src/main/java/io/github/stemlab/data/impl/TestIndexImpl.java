@@ -4,12 +4,10 @@ import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDList;
 import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDListIter;
 import io.github.stemlab.data.Index;
 import io.github.stemlab.data.elki.ELKIRStarTree;
-import io.github.stemlab.utils.DouglasSimpleDecision;
 import io.github.stemlab.model.Coordinate;
 import io.github.stemlab.model.Query;
 import io.github.stemlab.model.Trajectory;
 import io.github.stemlab.utils.EuclideanDistance;
-import io.github.stemlab.utils.StraightFowrad;
 import io.github.stemlab.utils.StraightSimpleFrechetDecision;
 
 import java.time.Duration;
@@ -67,21 +65,19 @@ public class TestIndexImpl implements Index{
         int size1 = sp_result.size();
         System.out.println("---- candidate number for only start point : " + size1 + " -------");
 
-        HashSet<Trajectory> tr_set = new LinkedHashSet<>();
+        HashSet<String> resultSet = new LinkedHashSet<>();
+
 
         for (DoubleDBIDListIter x = sp_result.iter(); x.valid(); x.advance()) {
             Trajectory trajectory = this.holder.get(rStarTree.getRecordName(x));
             Coordinate last = trajectory.getCoordinates().get(trajectory.getCoordinates().size() - 1);
             if (EuclideanDistance.distance(last, end) <= dist) {
-                tr_set.add(trajectory);
+                if (StraightSimpleFrechetDecision.isTrajectoryInQueryRange(query, trajectory)){
+                    resultSet.add(trajectory.getName());
+                }
             }
         }
 
-        int size2 = tr_set.size();
-        System.out.println("---- candidate number for start and end point : " + size2 + " -------");
-
-        HashSet<String> resultSet = new LinkedHashSet<>();
-        StraightSimpleFrechetDecision.query(query, tr_set, resultSet);
 
         int size3 = resultSet.size();
         System.out.println("---- result number : " + size3 + " -------");

@@ -12,14 +12,14 @@ public class FrechetDistance {
     /**
      * Decision Problem : Determine whether Frechet Distance between two trajectories <= distance.
      */
-    static public boolean decision(Trajectory p_trajecotry, Trajectory q_trajectory, double dist) {
+    static public boolean decision(Trajectory trajectory, Trajectory query, double dist) {
         if (dist < 0) return false;
         int p, q;
 
-        List<Coordinate> p_coordinates = p_trajecotry.getCoordinates();
+        List<Coordinate> p_coordinates = trajectory.getCoordinates();
         p = p_coordinates.size() - 1;
 
-        List<Coordinate> q_coordinates = q_trajectory.getCoordinates();
+        List<Coordinate> q_coordinates = query.getCoordinates();
         q = q_coordinates.size() - 1;
 
         if (EuclideanDistance.distance(p_coordinates.get(p), q_coordinates.get(q)) > dist || EuclideanDistance.distance(p_coordinates.get(0), q_coordinates.get(0)) > dist)
