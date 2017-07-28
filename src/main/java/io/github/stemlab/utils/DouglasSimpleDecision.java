@@ -59,14 +59,4 @@ public class DouglasSimpleDecision {
             return FrechetDistance.decision(query.getTrajectory(), trajectory, query.getDistance());
     }
 
-    public static void query(Query query, HashSet<Trajectory> trajectories, HashSet<String> resultSet) {
-        double maxEpsilon = DouglasPeucker.getMaxEpsilon(query.getTrajectory());
-        query.getTrajectory().setSimplified(DouglasPeucker.getReduced(query.getTrajectory(), maxEpsilon) );
-
-        for (Trajectory trajectory : trajectories){
-            if (DouglasSimpleDecision.decisionIsInResult(query, maxEpsilon, trajectory)){
-                resultSet.add(trajectory.getName());
-            }
-        }
-    }
 }

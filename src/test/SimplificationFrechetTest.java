@@ -40,16 +40,16 @@ public class SimplificationFrechetTest {
                 if (EuclideanDistance.distance(last, end) <= dist) {
                     Trajectory simple_query = query.getTrajectory().getSimplified();
                     Trajectory simple_trajectory = StraightForward.getReduced(trajectory, query.getDistance());
-                    double modified_dist = dist + 2 * dist * StraightForward.EPSILON * StraightForward.CONSTANT;
-                    double modified_dist2 = dist - 1 * dist * StraightForward.EPSILON * StraightForward.CONSTANT;
-                    if (!FrechetDistance.decision(simple_query, simple_trajectory, modified_dist)){
+                    double modified_dist = dist + 1 * dist * ( dist / simple_query.getCoordinates().size());
+                    double modified_dist2 = dist - 1 * dist * ( dist / simple_query.getCoordinates().size());
+                    if (!FrechetDistance.decision(simple_query, trajectory, modified_dist)){
                         if (!FrechetDistance.decision(q, trajectory, dist)) {
 
                         } else {
                             System.out.println("wrong");
                         }
                     }
-                    if (DiscreteFrechetDistance.decision(q, simple_trajectory, modified_dist2) ){
+                    if (DiscreteFrechetDistance.decision(q, trajectory, modified_dist2) ){
                         if (FrechetDistance.decision(q, trajectory, dist)) {
 
                         } else {

@@ -22,7 +22,7 @@ public class StraightSimpleFrechetDecision {
 
 
     public static boolean isResult(Trajectory simpleQuery, Trajectory trajectory, double distance) {
-        double modifiedDistance = distance - (1 * distance * StraightForward.EPSILON * StraightForward.CONSTANT);
+        double modifiedDistance = distance - (distance * ( simpleQuery.getCoordinates().size() / distance));
         if (DiscreteFrechetDistance.decision(simpleQuery, trajectory, modifiedDistance)) {
             return true;
         } else {
@@ -31,7 +31,7 @@ public class StraightSimpleFrechetDecision {
     }
 
     public static boolean isFiltered(Trajectory simpleQuery, Trajectory simpleTrajectory, double distance) {
-        double modifiedDistance = distance + (2 * distance * StraightForward.EPSILON * StraightForward.CONSTANT);
+        double modifiedDistance = distance + (2 * distance * ( simpleQuery.getCoordinates().size() / distance));
         return FrechetDistance.decision(simpleQuery, simpleTrajectory, modifiedDistance);
     }
 

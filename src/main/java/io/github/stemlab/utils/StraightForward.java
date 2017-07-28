@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StraightForward {
-    public static double EPSILON = 0.25;
-    public static double CONSTANT = 0.25;
+    //public static double EPSILON = 0.25;
+    //public static double CONSTANT = 0.25;
 
     public static Trajectory getReduced(Trajectory trajectory, Double distance) {
         if (distance == 0.0) return trajectory;
-        double param = distance * EPSILON * CONSTANT;
+        double param = distance * ( trajectory.getCoordinates().size() / distance);
         Trajectory ret = new Trajectory();
         List<Coordinate> coordinates = reduce(trajectory.getCoordinates(), param);
         ret.setCoordinates(coordinates);

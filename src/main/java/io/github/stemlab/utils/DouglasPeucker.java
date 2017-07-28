@@ -46,13 +46,6 @@ public class DouglasPeucker {
         return ret;
     }
 
-    public static double getMaxEpsilon(Trajectory trajectory) {
-        if (trajectory.getMaxEpsilon() != null) return trajectory.getMaxEpsilon();
-        trajectory.setMaxEpsilon(max(deviations(trajectory.getCoordinates())));
-        return trajectory.getMaxEpsilon();
-    }
-
-
     private static double[] deviations(List<Coordinate> coordinates) {
         double[] deviations = new double[Math.max(0, coordinates.size() - 2)];
         for (int i = 2; i < coordinates.size(); i++) {
