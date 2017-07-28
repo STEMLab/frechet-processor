@@ -86,7 +86,8 @@ public class TestIndexImpl implements Index{
 //                    resultSet.add(trajectory.getName());
 //                }
                 Trajectory simplifiedQuery = query.getTrajectory().getSimplified();
-                if (StraightSimpleFrechetDecision.isResult(simplifiedQuery, trajectory, query.getDistance())) { // Decide whether trajectory is sure in result by using simplification.
+                Trajectory simplifiedTra = StraightForward.getReduced(trajectory, dist);
+                if (StraightSimpleFrechetDecision.isResult(simplifiedQuery, simplifiedTra, query.getDistance())) { // Decide whether trajectory is sure in result by using simplification.
                     isResult++;
                     resultSet.add(trajectory.getName());
                 } else if (StraightSimpleFrechetDecision.isTrajectoryInQueryRange(query, trajectory)) { // Decide whether frechet distance is lower than query distance.
