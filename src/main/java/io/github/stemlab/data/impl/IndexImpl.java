@@ -4,6 +4,7 @@ import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDList;
 import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDListIter;
 import io.github.stemlab.data.Index;
 import io.github.stemlab.data.elki.ELKIRStarTree;
+import io.github.stemlab.logic.StraightForwardSimplification;
 import io.github.stemlab.model.Coordinate;
 import io.github.stemlab.model.Query;
 import io.github.stemlab.model.Trajectory;
@@ -51,13 +52,13 @@ public class IndexImpl implements Index {
         DoubleDBIDList result = tree.search(new double[]{start.getPointX(), start.getPointY()}, dist);
 
         HashSet<String> resultSet = new LinkedHashSet<>();
-        query.getTrajectory().setSimplified(StraightForward.getReduced(query.getTrajectory(), dist));
+        query.getTrajectory().setSimplified(StraightForwardSimplification.getReduced(query.getTrajectory(), dist));
 
         for (DoubleDBIDListIter x = result.iter(); x.valid(); x.advance()) {
             Trajectory trajectory = this.holder.get(tree.getRecordName(x));
             Coordinate last = trajectory.getCoordinates().get(trajectory.getCoordinates().size() - 1);
             if (EuclideanDistance.distance(last, end) <= dist) {
-                if (FrechetDecision.isInResult(query, trajectory)) {
+                if (FrechetDecision.isResult(query, trajectory)) {
                     resultSet.add(trajectory.getName());
                 }
             }

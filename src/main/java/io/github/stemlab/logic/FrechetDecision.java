@@ -6,12 +6,12 @@ import io.github.stemlab.model.Trajectory;
 /**
  * Created by dong on 2017. 7. 28..
  */
-public class StraightSimpleFrechetDecision {
-    public static boolean decisionIsInResult(Query query, Trajectory trajectory) {
+public class FrechetDecision {
+    public static boolean isResult(Query query, Trajectory trajectory) {
         Trajectory simplifiedQuery = query.getTrajectory().getSimplified();
-        Trajectory simplifiedTrajectory = StraightForward.getReduced(trajectory, query.getDistance());
+        Trajectory simplifiedTrajectory = StraightForwardSimplification.getReduced(trajectory, query.getDistance());
         if (isFiltered(simplifiedQuery, simplifiedTrajectory, query.getDistance())) { // Decide whether simple_trajectory is sure in out of result.
-            if (isResult(simplifiedQuery, trajectory, query.getDistance())) { // Decide whether trajectory is sure in result by using simplification.
+            if (isAbsoluteResult(simplifiedQuery, trajectory, query.getDistance())) { // Decide whether trajectory is sure in result by using simplification.
                 return true;
             } else if (isTrajectoryInQueryRange(query, trajectory)) { // Decide whether frechet distance is lower than query distance.
                 return true;
@@ -21,7 +21,7 @@ public class StraightSimpleFrechetDecision {
     }
 
 
-    public static boolean isResult(Trajectory simpleQuery, Trajectory trajectory, double distance) {
+    public static boolean isAbsoluteResult(Trajectory simpleQuery, Trajectory trajectory, double distance) {
         double modifiedDistance = distance - (1 * distance * StraightForwardSimplification.EPSILON * StraightForwardSimplification.CONSTANT);
         if (DiscreteFrechet.decision(simpleQuery, trajectory, modifiedDistance)) {
             return true;
