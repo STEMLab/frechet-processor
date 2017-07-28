@@ -4,7 +4,7 @@ import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDList;
 import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDListIter;
 import io.github.stemlab.data.Index;
 import io.github.stemlab.data.elki.ELKIRStarTree;
-import io.github.stemlab.utils.SimplificationFrechetDecision;
+import io.github.stemlab.utils.DouglasSimpleDecision;
 import io.github.stemlab.model.Coordinate;
 import io.github.stemlab.model.Query;
 import io.github.stemlab.model.Trajectory;
@@ -54,14 +54,14 @@ public class IndexImpl implements Index {
 
         HashSet<String> resultSet = new LinkedHashSet<>();
 
-        DouglasPeucker.getReduced(query.getTrajectory(), DouglasPeucker.getMaxEpsilon(query.getTrajectory()));
         double maxEpsilon = DouglasPeucker.getMaxEpsilon(query.getTrajectory());
+        query.getTrajectory().setSimplified(DouglasPeucker.getReduced(query.getTrajectory(), maxEpsilon));
 
         for (DoubleDBIDListIter x = result.iter(); x.valid(); x.advance()) {
             Trajectory trajectory = this.holder.get(rStarTree.getRecordName(x));
             Coordinate last = trajectory.getCoordinates().get(trajectory.getCoordinates().size() - 1);
             if (EuclideanDistance.distance(last, end) <= dist) {
-                if (SimplificationFrechetDecision.decisionIsInResult(query, maxEpsilon, trajectory)) {
+                if (DouglasSimpleDecision.decisionIsInResult(query, maxEpsilon, trajectory)) {
                     resultSet.add(trajectory.getName());
                 }
             }

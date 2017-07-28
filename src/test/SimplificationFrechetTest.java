@@ -1,7 +1,6 @@
 
 import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDList;
 import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDListIter;
-import io.github.stemlab.data.Index;
 import io.github.stemlab.data.impl.TestIndexImpl;
 import io.github.stemlab.io.Importer;
 import io.github.stemlab.model.Coordinate;
@@ -11,11 +10,6 @@ import io.github.stemlab.utils.DiscreteFrechetDistance;
 import io.github.stemlab.utils.DouglasPeucker;
 import io.github.stemlab.utils.EuclideanDistance;
 import io.github.stemlab.utils.FrechetDistance;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
 
 /**
  * Created by stem-dong-li on 17. 7. 6.

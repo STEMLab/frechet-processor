@@ -20,7 +20,6 @@ public class Exporter {
     private String outputDirectory;
 
     public Exporter(String root_path, String tag_path) {
-        //TODO : remove
         File result = new File("result/");
         if (!result.exists()) result.mkdir();
 
