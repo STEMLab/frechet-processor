@@ -19,7 +19,7 @@ public class CompareResult {
     private static int whole_sol_tr = 0;
 
     public static void main(String[] args) {
-        String solution = ROOT + "v0.1.7";
+        String solution = ROOT + "master";
         String new_answer = ROOT + "v0.1.8.1";
 
         File[] f_sol = new File(solution).listFiles();
