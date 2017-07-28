@@ -2,9 +2,7 @@ package io.github.stemlab.utils;
 
 import io.github.stemlab.model.Coordinate;
 
-/**
- * Created by Azamat on 7/4/2017.
- */
+
 public class EuclideanDistance {
     public static double pointAndLine(Coordinate point, Coordinate lineStart, Coordinate lineEnd) {
         double lineLen = distance(lineStart, lineEnd);

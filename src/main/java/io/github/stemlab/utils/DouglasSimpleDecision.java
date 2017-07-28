@@ -38,6 +38,7 @@ public class DouglasSimpleDecision {
     /**
      * Decide whether trajectory is sure in out of result.
      * @param maxEpsilon : In simplification, epsilon value.
+
      */
 
     public static boolean isFiltered(Trajectory simple, Trajectory trajectory, double dist, double maxEpsilon) {

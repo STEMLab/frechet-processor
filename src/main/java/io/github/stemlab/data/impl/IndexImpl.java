@@ -18,12 +18,12 @@ import java.util.List;
 
 
 public class IndexImpl implements Index {
-    private ELKIRStarTree rStarTree;
+    private ELKIRStarTree tree;
     private HashMap<String, Trajectory> holder;
     private int size;
 
     public IndexImpl() {
-        this.rStarTree = new ELKIRStarTree();
+        this.tree = new ELKIRStarTree();
         this.holder = new HashMap<>();
     }
 
@@ -32,7 +32,7 @@ public class IndexImpl implements Index {
         List<Coordinate> list = trajectory.getCoordinates();
 
         Coordinate start = list.get(0);
-        rStarTree.add(trajectory.getName(), new double[]{start.getPointX(), start.getPointY()});
+        tree.add(trajectory.getName(), new double[]{start.getPointX(), start.getPointY()});
 
         holder.put(trajectory.getName(), trajectory);
 
@@ -41,7 +41,7 @@ public class IndexImpl implements Index {
 
     @Override
     public void initialize() {
-        rStarTree.initialize();
+        tree.initialize();
     }
 
     @Override
@@ -50,7 +50,7 @@ public class IndexImpl implements Index {
         Coordinate end = query.getTrajectory().getCoordinates().get(query.getTrajectory().getCoordinates().size() - 1);
         double dist = query.getDistance();
 
-        DoubleDBIDList result = rStarTree.search(new double[]{start.getPointX(), start.getPointY()}, dist);
+        DoubleDBIDList result = tree.search(new double[]{start.getPointX(), start.getPointY()}, dist);
 
         HashSet<String> resultSet = new LinkedHashSet<>();
 
@@ -58,7 +58,7 @@ public class IndexImpl implements Index {
         query.getTrajectory().setSimplified(DouglasPeucker.getReduced(query.getTrajectory(), maxEpsilon));
 
         for (DoubleDBIDListIter x = result.iter(); x.valid(); x.advance()) {
-            Trajectory trajectory = this.holder.get(rStarTree.getRecordName(x));
+            Trajectory trajectory = this.holder.get(tree.getRecordName(x));
             Coordinate last = trajectory.getCoordinates().get(trajectory.getCoordinates().size() - 1);
             if (EuclideanDistance.distance(last, end) <= dist) {
                 if (DouglasSimpleDecision.decisionIsInResult(query, maxEpsilon, trajectory)) {
