@@ -19,12 +19,13 @@ target/
 # ignore intellij IDEA files
 .idea/
 output
-goLA.iml
+*.iml
+
 
 #ignore Eclipse files
-goLA/.classpath
-goLA/.project
-goLA/.settings
+stemlab/.classpath
+stemlab/.project
+stemlab/.settings
 .settings
 .project
 .classpath
