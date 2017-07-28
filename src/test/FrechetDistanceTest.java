@@ -27,6 +27,7 @@ public class FrechetDistanceTest {
 
         Manager manager = new ManagerImpl(new TestIndexImpl(), new Importer(), new Exporter(""));
 
+
         manager.makeStructure(TEST_DATA_SET_PATH);
         List<HashSet<String>> result = manager.processQueryAndGetResult(TEST_QUERY_PATH);
 

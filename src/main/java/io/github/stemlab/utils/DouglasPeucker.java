@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Azamat on 7/4/2017.
  * Implemented from pseudo code on https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm
  */
 public class DouglasPeucker {
