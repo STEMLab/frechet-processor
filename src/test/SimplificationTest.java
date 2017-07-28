@@ -10,7 +10,7 @@ import io.github.stemlab.utils.*;
 /**
  * Created by stem-dong-li on 17. 7. 6.
  */
-public class SimplificationFrechetTest {
+public class SimplificationTest {
     private static double MAX_RAN = 40000;
     private static double MIN_RAN = 45000;
 

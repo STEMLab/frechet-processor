@@ -20,7 +20,7 @@ public class CompareResult {
 
     public static void main(String[] args) {
         String solution = ROOT + "answer";
-        String new_answer = ROOT + "v0.1.8.2";
+        String new_answer = ROOT + "v0.1.8.3";
 
         File[] f_sol = new File(solution).listFiles();
         File[] f_na = new File(new_answer).listFiles();

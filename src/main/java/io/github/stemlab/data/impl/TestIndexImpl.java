@@ -8,6 +8,7 @@ import io.github.stemlab.model.Coordinate;
 import io.github.stemlab.model.Query;
 import io.github.stemlab.model.Trajectory;
 import io.github.stemlab.utils.EuclideanDistance;
+import io.github.stemlab.utils.FrechetDistance;
 import io.github.stemlab.utils.StraightForward;
 import io.github.stemlab.utils.StraightSimpleFrechetDecision;
 
@@ -72,23 +73,29 @@ public class TestIndexImpl implements Index{
         int endPoint = 0, isResult=0, finalResult=0, inFilterNotAnswer = 0;
         for (DoubleDBIDListIter x = sp_result.iter(); x.valid(); x.advance()) {
             Trajectory trajectory = this.holder.get(rStarTree.getRecordName(x));
+            if (trajectory.getName().equals("files/file-015717.dat")){
+                System.out.println();
+            }
+            if (trajectory.getName().equals("files/file-010259.dat")){
+                System.out.println();
+            }
             Coordinate last = trajectory.getCoordinates().get(trajectory.getCoordinates().size() - 1);
             if (EuclideanDistance.distance(last, end) <= dist) {
                 endPoint++;
+//                if (FrechetDistance.decision(query.getTrajectory(), trajectory, query.getDistance())){
+//                    resultSet.add(trajectory.getName());
+//                }
                 Trajectory simplifiedQuery = query.getTrajectory().getSimplified();
-                //Trajectory simplifiedTrajectory = StraightForward.getReduced(trajectory, query.getDistance());
-                //if (StraightSimpleFrechetDecision.isFiltered(simplifiedQuery, simplifiedTrajectory, query.getDistance())) { // Decide whether simple_trajectory is sure in out of result.
-                    if (StraightSimpleFrechetDecision.isResult(simplifiedQuery, trajectory, query.getDistance())) { // Decide whether trajectory is sure in result by using simplification.
-                        isResult++;
-                        resultSet.add(trajectory.getName());
-                    } else if (StraightSimpleFrechetDecision.isTrajectoryInQueryRange(query, trajectory)) { // Decide whether frechet distance is lower than query distance.
-                        finalResult++;
-                        resultSet.add(trajectory.getName());
-                    }
-                    else{
-                        inFilterNotAnswer++;
-                    }
-               // }
+                if (StraightSimpleFrechetDecision.isResult(simplifiedQuery, trajectory, query.getDistance())) { // Decide whether trajectory is sure in result by using simplification.
+                    isResult++;
+                    resultSet.add(trajectory.getName());
+                } else if (StraightSimpleFrechetDecision.isTrajectoryInQueryRange(query, trajectory)) { // Decide whether frechet distance is lower than query distance.
+                    finalResult++;
+                    resultSet.add(trajectory.getName());
+                }
+                else{
+                    inFilterNotAnswer++;
+                }
             }
         }
 

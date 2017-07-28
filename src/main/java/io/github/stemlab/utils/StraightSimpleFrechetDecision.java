@@ -29,8 +29,7 @@ public class StraightSimpleFrechetDecision {
         if (DiscreteFrechetDistance.decision(simpleQuery, trajectory, modifiedDistance)) {
             return true;
         } else {
-            //return FrechetDistance.decision(simpleQuery, trajectory, modifiedDistance);
-            return false;
+            return FrechetDistance.decision(simpleQuery, trajectory, modifiedDistance);
         }
     }
 

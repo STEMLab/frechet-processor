@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Just simple test class. If algorithm changed, run it to check result validity.
  */
-public class FrechetDistanceTest {
+public class AlgorithmValidityTest {
 
     private static String TEST_DATA_SET_PATH = "src/test/data/dataset.txt";
     private static String TEST_QUERY_PATH = "src/test/data/queries.txt";

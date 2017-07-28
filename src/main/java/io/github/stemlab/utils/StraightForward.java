@@ -6,8 +6,10 @@ import io.github.stemlab.model.Trajectory;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javafx.application.Platform.exit;
+
 public class StraightForward {
-    public static double EPSILON = 0.1;
+    public static double EPSILON = 0.05;
     public static double CONSTANT = 0.99;
 
     public static Trajectory getReduced(Trajectory trajectory, Double distance) {
@@ -28,7 +30,7 @@ public class StraightForward {
      * @return : simplified curve's coordinates
      */
     private static List<Coordinate> reduce(List<Coordinate> coordinates, Double param) {
-        if (coordinates.size() == 0 ) System.out.println("wrong coordinates in reduce");
+        if (coordinates.size() == 0 ) { System.out.println("wrong coordinates in reduce"); exit(); }
 
         List<Coordinate> result = new ArrayList<>();
         result.add(coordinates.get(0));
@@ -43,7 +45,7 @@ public class StraightForward {
             }
         }
 
-        result.add(coordinates.get(coordinates.size() - 1));
+//        result.add(coordinates.get(coordinates.size() - 1));
         return result;
     }
 }
