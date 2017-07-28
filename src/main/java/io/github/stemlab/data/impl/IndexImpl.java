@@ -8,12 +8,9 @@ import io.github.stemlab.model.Coordinate;
 import io.github.stemlab.model.Query;
 import io.github.stemlab.model.Trajectory;
 import io.github.stemlab.utils.EuclideanDistance;
-<<<<<<< HEAD
 import io.github.stemlab.utils.StraightFoward;
 import io.github.stemlab.utils.StraightSimpleFrechetDecision;
-=======
-import io.github.stemlab.utils.SimplificationFrechetDecision;
->>>>>>> 2bad58c6b66fc386ed885eca3ae1edfc3e6883c4
+
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -22,11 +19,7 @@ import java.util.List;
 
 
 public class IndexImpl implements Index {
-<<<<<<< HEAD
-    private ELKIRStarTree rStarTree;
-=======
     private ELKIRStarTree tree;
->>>>>>> 2bad58c6b66fc386ed885eca3ae1edfc3e6883c4
     private HashMap<String, Trajectory> holder;
     private int size;
 
