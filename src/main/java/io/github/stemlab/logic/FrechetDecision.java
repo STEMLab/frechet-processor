@@ -3,10 +3,13 @@ package io.github.stemlab.logic;
 import io.github.stemlab.model.Query;
 import io.github.stemlab.model.Trajectory;
 
-public class FrechetDecision {
-    public static boolean isInResult(Query query, Trajectory trajectory) {
-        Trajectory simplifiedQuery = StraightForwardSimplification.getReduced(query.getTrajectory(), query.getDistance());
-        Trajectory simplifiedTrajectory = StraightForwardSimplification.getReduced(trajectory, query.getDistance());
+/**
+ * Created by dong on 2017. 7. 28..
+ */
+public class StraightSimpleFrechetDecision {
+    public static boolean decisionIsInResult(Query query, Trajectory trajectory) {
+        Trajectory simplifiedQuery = query.getTrajectory().getSimplified();
+        Trajectory simplifiedTrajectory = StraightForward.getReduced(trajectory, query.getDistance());
         if (isFiltered(simplifiedQuery, simplifiedTrajectory, query.getDistance())) { // Decide whether simple_trajectory is sure in out of result.
             if (isResult(simplifiedQuery, trajectory, query.getDistance())) { // Decide whether trajectory is sure in result by using simplification.
                 return true;

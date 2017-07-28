@@ -51,6 +51,7 @@ public class IndexImpl implements Index {
         DoubleDBIDList result = tree.search(new double[]{start.getPointX(), start.getPointY()}, dist);
 
         HashSet<String> resultSet = new LinkedHashSet<>();
+        query.getTrajectory().setSimplified(StraightForward.getReduced(query.getTrajectory(), dist));
 
         for (DoubleDBIDListIter x = result.iter(); x.valid(); x.advance()) {
             Trajectory trajectory = this.holder.get(tree.getRecordName(x));
