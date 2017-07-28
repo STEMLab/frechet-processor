@@ -1,12 +1,13 @@
-package io.github.stemlab.utils;
+package io.github.stemlab.logic;
 
 import io.github.stemlab.model.Coordinate;
 import io.github.stemlab.model.Trajectory;
+import io.github.stemlab.utils.EuclideanDistance;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class StraightForward {
+public class StraightForwardSimplification {
 
     public static double EPSILON = 0.5;
     public static double CONSTANT = 0.25;
@@ -21,7 +22,7 @@ public class StraightForward {
     }
 
     /**
-     * Simplify coordinates of trajectory by using StraightForward Simplification.
+     * Simplify coordinates of trajectory by using StraightForwardSimplification Simplification.
      * The simplified curve has the useful property that all its segments are of length at least param, except for the last edge that might be shorter.
      *
      * @param coordinates

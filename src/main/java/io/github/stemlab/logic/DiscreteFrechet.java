@@ -1,14 +1,12 @@
-package io.github.stemlab.utils;
+package io.github.stemlab.logic;
 
 import io.github.stemlab.model.Coordinate;
 import io.github.stemlab.model.Trajectory;
+import io.github.stemlab.utils.EuclideanDistance;
 
 import java.util.List;
 
-/**
- * Created by stem_dong on 2017-07-19.
- */
-public class DiscreteFrechetDistance {
+public class DiscreteFrechet {
     /**
      * Distance Calculation : Discrete Frechet distance
      */
