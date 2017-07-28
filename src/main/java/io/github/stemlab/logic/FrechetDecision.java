@@ -20,7 +20,7 @@ public class FrechetDecision {
 
 
     public static boolean isAbsoluteResult(Trajectory simpleQuery, Trajectory trajectory, double distance) {
-        double modifiedDistance = distance - (2 * distance * StraightForwardSimplification.EPSILON * StraightForwardSimplification.CONSTANT);
+        double modifiedDistance = distance - (2 * distance * StraightForwardSimplification.EPSILON);
         if (DiscreteFrechet.decision(simpleQuery, trajectory, modifiedDistance)) {
             return true;
         } else {

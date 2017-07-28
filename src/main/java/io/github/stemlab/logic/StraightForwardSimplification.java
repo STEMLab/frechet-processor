@@ -10,11 +10,10 @@ import java.util.List;
 public class StraightForwardSimplification {
 
     public static double EPSILON = 0.0625;
-    public static double CONSTANT = 1;
 
     public static Trajectory getReduced(Trajectory trajectory, Double distance) {
         if (distance == 0.0) return trajectory;
-        double param = distance * EPSILON * CONSTANT;
+        double param = distance * EPSILON;
         Trajectory ret = new Trajectory();
         List<Coordinate> coordinates = reduce(trajectory.getCoordinates(), param);
         ret.setCoordinates(coordinates);
