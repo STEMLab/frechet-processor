@@ -69,15 +69,33 @@ public class TestIndexImpl implements Index{
         HashSet<String> resultSet = new LinkedHashSet<>();
         query.getTrajectory().setSimplified(StraightForward.getReduced(query.getTrajectory(), dist));
 
+        int endPoint = 0, isResult=0, finalResult=0, inFilterNotAnswer = 0;
         for (DoubleDBIDListIter x = sp_result.iter(); x.valid(); x.advance()) {
             Trajectory trajectory = this.holder.get(rStarTree.getRecordName(x));
             Coordinate last = trajectory.getCoordinates().get(trajectory.getCoordinates().size() - 1);
             if (EuclideanDistance.distance(last, end) <= dist) {
-                if (StraightSimpleFrechetDecision.decisionIsInResult(query, trajectory)){
-                    resultSet.add(trajectory.getName());
-                }
+                endPoint++;
+                Trajectory simplifiedQuery = query.getTrajectory().getSimplified();
+                //Trajectory simplifiedTrajectory = StraightForward.getReduced(trajectory, query.getDistance());
+                //if (StraightSimpleFrechetDecision.isFiltered(simplifiedQuery, simplifiedTrajectory, query.getDistance())) { // Decide whether simple_trajectory is sure in out of result.
+                    if (StraightSimpleFrechetDecision.isResult(simplifiedQuery, trajectory, query.getDistance())) { // Decide whether trajectory is sure in result by using simplification.
+                        isResult++;
+                        resultSet.add(trajectory.getName());
+                    } else if (StraightSimpleFrechetDecision.isTrajectoryInQueryRange(query, trajectory)) { // Decide whether frechet distance is lower than query distance.
+                        finalResult++;
+                        resultSet.add(trajectory.getName());
+                    }
+                    else{
+                        inFilterNotAnswer++;
+                    }
+                //}
             }
         }
+
+        System.out.println("---- total candidate : " + endPoint + "-------");
+        System.out.println("---- filtered  : " + (endPoint - isResult - finalResult - inFilterNotAnswer) + "-------");
+        System.out.println("---- isResult : " + isResult + "-------");
+        System.out.println("---- finalResult : " + finalResult + "-------");
 
 
         int size3 = resultSet.size();
