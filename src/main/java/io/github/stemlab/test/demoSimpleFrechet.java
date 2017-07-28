@@ -17,8 +17,7 @@ public class demoSimpleFrechet {
     private static String TEST_DATA_SET_PATH = "dataset.txt";
     private static String QUERY_PATH = "queries.txt";
     private static String RESULT_PATH = "result/SampleData/";
-    private static String TAG = "v0.1.8";
-
+    private static String TAG = "v0.1.9";
 
     public static void main(String[] args) throws IOException {
         Instant start = Instant.now();
