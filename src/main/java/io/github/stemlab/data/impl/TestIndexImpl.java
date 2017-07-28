@@ -8,6 +8,7 @@ import io.github.stemlab.model.Coordinate;
 import io.github.stemlab.model.Query;
 import io.github.stemlab.model.Trajectory;
 import io.github.stemlab.utils.EuclideanDistance;
+import io.github.stemlab.utils.StraightForward;
 import io.github.stemlab.utils.StraightSimpleFrechetDecision;
 
 import java.time.Duration;
@@ -66,13 +67,13 @@ public class TestIndexImpl implements Index{
         System.out.println("---- candidate number for only start point : " + size1 + " -------");
 
         HashSet<String> resultSet = new LinkedHashSet<>();
-
+        query.getTrajectory().setSimplified(StraightForward.getReduced(query.getTrajectory(), dist));
 
         for (DoubleDBIDListIter x = sp_result.iter(); x.valid(); x.advance()) {
             Trajectory trajectory = this.holder.get(rStarTree.getRecordName(x));
             Coordinate last = trajectory.getCoordinates().get(trajectory.getCoordinates().size() - 1);
             if (EuclideanDistance.distance(last, end) <= dist) {
-                if (StraightSimpleFrechetDecision.isTrajectoryInQueryRange(query, trajectory)){
+                if (StraightSimpleFrechetDecision.decisionIsInResult(query, trajectory)){
                     resultSet.add(trajectory.getName());
                 }
             }
