@@ -26,7 +26,7 @@ public class SimplificationFrechetDecision {
      */
     public static boolean isResult(Query query, Trajectory trajectory, double q_max_E) {
         if (query.getDistance() - q_max_E >= 0) {
-            return DiscreteFrechetDistance.decisionDP(query.getTrajectory(),
+            return DiscreteFrechetDistance.decision(query.getTrajectory(),
                     trajectory.getSimplified(), query.getDistance() - q_max_E);
         } else
             return false;
@@ -36,7 +36,7 @@ public class SimplificationFrechetDecision {
      * Decide whether trajectory is sure in out of result.
      */
     public static boolean isFiltered(Trajectory simple, Trajectory trajectory, double dist, double q_max_E) {
-        return FrechetDistance.decisionDP(simple, DouglasPeucker.getReduced(trajectory, q_max_E),
+        return FrechetDistance.decision(simple, DouglasPeucker.getReduced(trajectory, q_max_E),
                 dist + q_max_E * 2);
     }
 
@@ -48,9 +48,9 @@ public class SimplificationFrechetDecision {
      * @return
      */
     public static boolean isTrajectoryInQueryRange(Query q, Trajectory t) {
-        if (DiscreteFrechetDistance.decisionDP(q.getTrajectory(), t, q.getDistance())) {
+        if (DiscreteFrechetDistance.decision(q.getTrajectory(), t, q.getDistance())) {
             return true;
         } else
-            return FrechetDistance.decisionDP(q.getTrajectory(), t, q.getDistance());
+            return FrechetDistance.decision(q.getTrajectory(), t, q.getDistance());
     }
 }
