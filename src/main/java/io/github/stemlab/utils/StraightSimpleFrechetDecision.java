@@ -9,24 +9,28 @@ import io.github.stemlab.model.Trajectory;
 public class StraightSimpleFrechetDecision {
     public static boolean decisionIsInResult(Query query, Trajectory trajectory) {
         Trajectory simplifiedQuery = query.getTrajectory().getSimplified();
-        Trajectory simplifiedTrajectory = StraightForward.getReduced(trajectory, query.getDistance());
-        if (isFiltered(simplifiedQuery, simplifiedTrajectory, query.getDistance())) { // Decide whether simple_trajectory is sure in out of result.
-            if (isResult(simplifiedQuery, trajectory, query.getDistance())) { // Decide whether trajectory is sure in result by using simplification.
-                return true;
-            } else if (isTrajectoryInQueryRange(query, trajectory)) { // Decide whether frechet distance is lower than query distance.
-                return true;
-            }
+        //Trajectory simplifiedTrajectory = StraightForward.getReduced(trajectory, query.getDistance());
+        //if (StraightSimpleFrechetDecision.isFiltered(simplifiedQuery, simplifiedTrajectory, query.getDistance())) { // Decide whether simple_trajectory is sure in out of result.
+        if (StraightSimpleFrechetDecision.isResult(simplifiedQuery, trajectory, query.getDistance())) { // Decide whether trajectory is sure in result by using simplification.
+            return true;
+        } else if (StraightSimpleFrechetDecision.isTrajectoryInQueryRange(query, trajectory)) { // Decide whether frechet distance is lower than query distance.
+            return true;
         }
+        else{
+
+        }
+        // }
         return false;
     }
 
 
     public static boolean isResult(Trajectory simpleQuery, Trajectory trajectory, double distance) {
-        double modifiedDistance = distance - (2 * distance * StraightForward.EPSILON * StraightForward.CONSTANT);
+        double modifiedDistance = distance - (1 * distance * StraightForward.EPSILON * StraightForward.CONSTANT);
         if (DiscreteFrechetDistance.decision(simpleQuery, trajectory, modifiedDistance)) {
             return true;
         } else {
-            return FrechetDistance.decision(simpleQuery, trajectory, modifiedDistance);
+            //return FrechetDistance.decision(simpleQuery, trajectory, modifiedDistance);
+            return false;
         }
     }
 

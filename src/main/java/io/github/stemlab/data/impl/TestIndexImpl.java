@@ -76,9 +76,9 @@ public class TestIndexImpl implements Index{
             if (EuclideanDistance.distance(last, end) <= dist) {
                 endPoint++;
                 Trajectory simplifiedQuery = query.getTrajectory().getSimplified();
-                Trajectory simplifiedTrajectory = StraightForward.getReduced(trajectory, query.getDistance());
+                //Trajectory simplifiedTrajectory = StraightForward.getReduced(trajectory, query.getDistance());
                 //if (StraightSimpleFrechetDecision.isFiltered(simplifiedQuery, simplifiedTrajectory, query.getDistance())) { // Decide whether simple_trajectory is sure in out of result.
-                    if (StraightSimpleFrechetDecision.isResult(simplifiedQuery, simplifiedTrajectory, query.getDistance())) { // Decide whether trajectory is sure in result by using simplification.
+                    if (StraightSimpleFrechetDecision.isResult(simplifiedQuery, trajectory, query.getDistance())) { // Decide whether trajectory is sure in result by using simplification.
                         isResult++;
                         resultSet.add(trajectory.getName());
                     } else if (StraightSimpleFrechetDecision.isTrajectoryInQueryRange(query, trajectory)) { // Decide whether frechet distance is lower than query distance.

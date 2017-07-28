@@ -12,7 +12,7 @@ import io.github.stemlab.utils.*;
  */
 public class SimplificationFrechetTest {
     private static double MAX_RAN = 40000;
-    private static double MIN_RAN = 5000;
+    private static double MIN_RAN = 45000;
 
     public static void main(String[] args) {
         TestIndexImpl tree = new TestIndexImpl();
@@ -42,6 +42,13 @@ public class SimplificationFrechetTest {
                     Trajectory simple_trajectory = StraightForward.getReduced(trajectory, query.getDistance());
                     double modified_dist = dist + 2 * dist * StraightForward.EPSILON * StraightForward.CONSTANT;
                     double modified_dist2 = dist - 1 * dist * StraightForward.EPSILON * StraightForward.CONSTANT;
+                    if (DiscreteFrechetDistance.decision(simple_query, trajectory, modified_dist2)){
+                        if (FrechetDistance.decision(q, trajectory, dist)) {
+
+                        } else {
+                            System.out.println("DiscreteFrechetDistance is Result wrong");
+                        }
+                    }
                     if (!FrechetDistance.decision(simple_query, simple_trajectory, modified_dist)){
                         if (!FrechetDistance.decision(q, trajectory, dist)) {
 
@@ -49,12 +56,11 @@ public class SimplificationFrechetTest {
                             System.out.println("wrong");
                         }
                     }
-                    if (DiscreteFrechetDistance.decision(q, simple_trajectory, modified_dist2) ){
+                    if (FrechetDistance.decision(simple_query, trajectory, modified_dist2) ){
                         if (FrechetDistance.decision(q, trajectory, dist)) {
 
                         } else {
-
-                            System.out.println("is Result wrong");
+                            System.out.println("FrechetDistance is Result wrong");
                         }
                     }
 

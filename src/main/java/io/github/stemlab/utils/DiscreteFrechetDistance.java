@@ -10,6 +10,41 @@ import java.util.List;
  */
 public class DiscreteFrechetDistance {
     /**
+     * Decision Problem using Dynamic Programming : Determine whether discrete Frechet Distance between two trajectories <= distance.
+     */
+    static public boolean decision(Trajectory p_trajectory, Trajectory q_trajectory, double dist) {
+        if (dist < 0.0) return false;
+        List<Coordinate> p_coordinates = p_trajectory.getCoordinates();
+        int p_size = p_coordinates.size() - 1;
+
+        List<Coordinate> q_coordinates = q_trajectory.getCoordinates();
+        int q_size = q_coordinates.size() - 1;
+
+        if (EuclideanDistance.distance(p_coordinates.get(p_size), q_coordinates.get(q_size)) > dist
+                || EuclideanDistance.distance(p_coordinates.get(0), q_coordinates.get(0)) > dist)
+            return false;
+
+        boolean[][] map = new boolean[p_size + 1][q_size + 1];
+        map[0][0] = true;
+        for (int i = 1; i < p_size + 1; i++) {
+            map[i][0] = (map[i - 1][0] && EuclideanDistance.distance(p_coordinates.get(i), q_coordinates.get(0)) <= dist);
+        }
+        for (int j = 1; j < q_size + 1; j++) {
+            map[0][j] = (map[0][j - 1] && EuclideanDistance.distance(p_coordinates.get(0), q_coordinates.get(j)) <= dist);
+        }
+
+        for (int i = 1; i < p_size + 1; i++) {
+            for (int j = 1; j < q_size + 1; j++) {
+                if ((map[i][j - 1] || map[i - 1][j]) && (EuclideanDistance.distance(p_coordinates.get(i), q_coordinates.get(j)) <= dist)) {
+                    map[i][j] = true;
+                } else
+                    map[i][j] = false;
+            }
+        }
+        return map[p_size][q_size];
+    }
+
+    /**
      * Distance Calculation : Discrete Frechet distance
      */
     static public Double distance(Trajectory p_trajectory, Trajectory q_trajectory) {
@@ -49,41 +84,5 @@ public class DiscreteFrechetDistance {
         return cache[i][j];
     }
 
-    /**
-     * Decision Problem using Dynamic Programming : Determine whether discrete Frechet Distance between two trajectories <= distance.
-     */
-    static public boolean decision(Trajectory p_trajectory, Trajectory q_trajectory, double dist) {
-        if (dist < 0.0) return false;
-        List<Coordinate> p_coordinates = p_trajectory.getCoordinates();
-        int p_size = p_coordinates.size() - 1;
 
-        List<Coordinate> q_coordinates = q_trajectory.getCoordinates();
-        int q_size = q_coordinates.size() - 1;
-
-        if (EuclideanDistance.distance(p_coordinates.get(p_size), q_coordinates.get(q_size)) > dist
-                || EuclideanDistance.distance(p_coordinates.get(0), q_coordinates.get(0)) > dist)
-            return false;
-
-        boolean[][] map = new boolean[p_size + 1][q_size + 1];
-        map[0][0] = true;
-        for (int i = 1; i < p_size + 1; i++) {
-            map[i][0] = (map[i - 1][0] && EuclideanDistance.distance(p_coordinates.get(i), q_coordinates.get(0)) <= dist);
-        }
-        for (int j = 1; j < q_size + 1; j++) {
-            map[0][j] = (map[0][j - 1] && EuclideanDistance.distance(p_coordinates.get(0), q_coordinates.get(j)) <= dist);
-        }
-
-        for (int i = 1; i < p_size + 1; i++) {
-            boolean sw = false;
-            for (int j = 1; j < q_size + 1; j++) {
-                if ((map[i][j - 1] || map[i - 1][j]) && (EuclideanDistance.distance(p_coordinates.get(i), q_coordinates.get(j)) <= dist)) {
-                    sw = true;
-                    map[i][j] = true;
-                } else
-                    map[i][j] = false;
-            }
-            if (!sw) return false;
-        }
-        return map[p_size][q_size];
-    }
 }

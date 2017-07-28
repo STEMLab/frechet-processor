@@ -17,23 +17,23 @@ public class FrechetDistance {
         int p, q;
 
         List<Coordinate> p_coordinates = trajectory.getCoordinates();
-        p = p_coordinates.size() - 1;
+        p = p_coordinates.size();
 
         List<Coordinate> q_coordinates = query.getCoordinates();
-        q = q_coordinates.size() - 1;
+        q = q_coordinates.size();
 
-        if (EuclideanDistance.distance(p_coordinates.get(p), q_coordinates.get(q)) > dist || EuclideanDistance.distance(p_coordinates.get(0), q_coordinates.get(0)) > dist)
+        if (EuclideanDistance.distance(p_coordinates.get(p-1), q_coordinates.get(q-1)) > dist || EuclideanDistance.distance(p_coordinates.get(0), q_coordinates.get(0)) > dist)
             return false;
 
         //array for white space
         boolean[][] bottom = new boolean[p + 1][q + 1];
         boolean[][] left = new boolean[p + 1][q + 1];
 
-        for (int i = 0; i < p; i++) {
+        for (int i = 0; i < p - 1; i++) {
             bottom[i][0] = (dist >= EuclideanDistance.pointAndLine(q_coordinates.get(0), p_coordinates.get(i), p_coordinates.get(i + 1)));
         }
 
-        for (int j = 0; j < q; j++) {
+        for (int j = 0; j < q - 1; j++) {
             left[0][j] = (dist >= EuclideanDistance.pointAndLine(p_coordinates.get(0), q_coordinates.get(j), q_coordinates.get(j + 1)));
         }
 
@@ -44,15 +44,21 @@ public class FrechetDistance {
                     left[i + 1][j] = false;
                     bottom[i][j + 1] = false;
                 } else {
-                    sw = true;
-                    bottom[i][j + 1] = (dist >= EuclideanDistance.pointAndLine(q_coordinates.get(j + 1), p_coordinates.get(i), p_coordinates.get(i + 1)));
-                    left[i + 1][j] = (dist >= EuclideanDistance.pointAndLine(p_coordinates.get(i + 1), q_coordinates.get(j), q_coordinates.get(j + 1)));
+                    if (i+1 < p && j + 1 < q){
+                        bottom[i][j + 1] = (dist >= EuclideanDistance.pointAndLine(q_coordinates.get(j + 1), p_coordinates.get(i), p_coordinates.get(i + 1)));
+                        left[i + 1][j] = (dist >= EuclideanDistance.pointAndLine(p_coordinates.get(i + 1), q_coordinates.get(j), q_coordinates.get(j + 1)));
+                        sw = true;
+                    }
+
+
+
+
                 }
             }
             if (!sw) return false;
         }
         if (left[p][q - 1] && bottom[p - 1][q]) {
-            if (EuclideanDistance.distance(p_coordinates.get(p), q_coordinates.get(q)) <= dist && EuclideanDistance.distance(p_coordinates.get(0), q_coordinates.get(0)) <= dist)
+            if (EuclideanDistance.distance(p_coordinates.get(p-1), q_coordinates.get(q-1)) <= dist && EuclideanDistance.distance(p_coordinates.get(0), q_coordinates.get(0)) <= dist)
                 return true;
         }
         return false;

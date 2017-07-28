@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StraightForward {
-    public static double EPSILON = 0.0625;
+    public static double EPSILON = 0.1;
     public static double CONSTANT = 0.99;
 
     public static Trajectory getReduced(Trajectory trajectory, Double distance) {
@@ -28,6 +28,8 @@ public class StraightForward {
      * @return : simplified curve's coordinates
      */
     private static List<Coordinate> reduce(List<Coordinate> coordinates, Double param) {
+        if (coordinates.size() == 0 ) System.out.println("wrong coordinates in reduce");
+
         List<Coordinate> result = new ArrayList<>();
         result.add(coordinates.get(0));
         Coordinate start = coordinates.get(0);
