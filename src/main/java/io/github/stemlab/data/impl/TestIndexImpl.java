@@ -83,7 +83,7 @@ public class TestIndexImpl implements Index{
         double maxEpsilon = DouglasPeucker.getMaxEpsilon(query.getTrajectory());
         HashSet<String> resultSet = new LinkedHashSet<>();
         for (Trajectory tr : tr_set){
-            if (SimplificationFrechetDecision.decisionIsInResult(query, dist, maxEpsilon, tr)){
+            if (SimplificationFrechetDecision.decisionIsInResult(query, maxEpsilon, tr)){
                 resultSet.add(tr.getName());
             }
         }

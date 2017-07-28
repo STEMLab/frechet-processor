@@ -3,7 +3,7 @@ import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDList;
 import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDListIter;
 import io.github.stemlab.data.Index;
 import io.github.stemlab.data.impl.TestIndexImpl;
-import io.github.stemlab.io.DataImporter;
+import io.github.stemlab.io.Importer;
 import io.github.stemlab.model.Coordinate;
 import io.github.stemlab.model.Query;
 import io.github.stemlab.model.Trajectory;
@@ -26,7 +26,7 @@ public class SimplificationFrechetTest {
 
     public static void main(String[] args) {
         TestIndexImpl tree = new TestIndexImpl();
-        DataImporter di = new DataImporter();
+        Importer di = new Importer();
         di.loadFiles("dataset.txt", tree);
         System.out.println("--- Complete put All data in Tree ---");
         for (int i = 0; i < 300; i++) {
