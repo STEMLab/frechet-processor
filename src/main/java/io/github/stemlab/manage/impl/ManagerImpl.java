@@ -1,8 +1,8 @@
 package io.github.stemlab.manage.impl;
 
 import io.github.stemlab.data.Index;
-import io.github.stemlab.io.DataExporter;
-import io.github.stemlab.io.DataImporter;
+import io.github.stemlab.io.Exporter;
+import io.github.stemlab.io.Importer;
 import io.github.stemlab.manage.Manager;
 import io.github.stemlab.model.Query;
 
@@ -13,28 +13,28 @@ import java.util.List;
 
 public class ManagerImpl implements Manager {
 
-    private DataImporter dataImporter;
-    private DataExporter dataExporter;
+    private Importer importer;
+    private Exporter exporter;
     private Index index;
 
-    public ManagerImpl(Index index, DataImporter dataImporter, DataExporter dataExporter) {
-        this.dataImporter = dataImporter;
+    public ManagerImpl(Index index, Importer importer, Exporter exporter) {
+        this.importer = importer;
         this.index = index;
-        this.dataExporter = dataExporter;
+        this.exporter = exporter;
     }
 
     @Override
     public void makeStructure(String path) {
-        dataImporter.loadFiles(path, index);
+        importer.loadFiles(path, index);
     }
 
     @Override
     public void processQuery(String path) throws IOException {
-        List<Query> queries = dataImporter.getQueries(path);
+        List<Query> queries = importer.getQueries(path);
         int counter = 0;
         for (Query query : queries) {
             System.out.println("\n\n---- Processing query: " + query.getTrajectory().getName() + ", with query distance: " + query.getDistance() + " -------");
-            dataExporter.export(index.getQueryResult(query), counter);
+            exporter.export(index.getQueryResult(query), counter);
             counter++;
         }
     }
@@ -47,7 +47,7 @@ public class ManagerImpl implements Manager {
     @Override
     public List<HashSet<String>> processQueryAndGetResult(String path) throws IOException {
         List<HashSet<String>> result = new ArrayList<>();
-        List<Query> queries = dataImporter.getQueries(path);
+        List<Query> queries = importer.getQueries(path);
         for (Query query : queries) {
             System.out.println("\n\n---- Processing query: " + query.getTrajectory().getName() + ", with query distance: " + query.getDistance() + " -------");
             result.add(index.getQueryResult(query));

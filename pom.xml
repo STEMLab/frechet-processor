@@ -17,7 +17,6 @@
             <groupId>de.lmu.ifi.dbs.elki</groupId>
             <artifactId>elki</artifactId>
             <version>0.7.1</version>
-
         </dependency>
     </dependencies>
 
@@ -41,7 +40,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>io.github.stemlab.test.FrechetProcessorLauncher</mainClass>
+                            <mainClass>io.github.stemlab.FrechetProcessorLauncher</mainClass>
                             <classpathPrefix>dependency-jars/</classpathPrefix>
                         </manifest>
                     </archive>

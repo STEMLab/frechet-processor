@@ -26,10 +26,11 @@ import static de.lmu.ifi.dbs.elki.database.AbstractDatabase.Parameterizer.INDEX_
 
 public class ELKIRStarTree {
 
+    private static final int DOUBLE_SIZE = 8;
     private ArrayList<double[]> tree = new ArrayList<>();
     private ArrayList<String> treeLabels = new ArrayList<>();
     private Database db;
-    private Relation<LabelList> labelListRelation;
+    private Relation<LabelList> listRelation;
     private Relation<DoubleVector> vectors;
 
     /**
@@ -55,7 +56,7 @@ public class ELKIRStarTree {
     }
 
     public String getRecordName(DoubleDBIDListIter res) {
-        return String.valueOf(labelListRelation.get(res));
+        return String.valueOf(listRelation.get(res));
     }
 
     public void initialize() {
@@ -71,7 +72,7 @@ public class ELKIRStarTree {
         db.initialize();
 
         vectors = db.getRelation(TypeUtil.DOUBLE_VECTOR_FIELD);
-        labelListRelation = db.getRelation(TypeUtil.STRING);
+        listRelation = db.getRelation(TypeUtil.STRING);
 
     }
 
@@ -98,6 +99,6 @@ public class ELKIRStarTree {
     }
 
     private int getPageSize() {
-        return tree.size() * (8 + 8 + treeLabels.get(0).length());
+        return tree.size() * ((DOUBLE_SIZE * 2) + treeLabels.get(0).length());
     }
 }
