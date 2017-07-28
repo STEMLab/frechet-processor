@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 public class Exporter {
 
     private String outputDirectory;
+
     public Exporter(String outputDirectory) {
         this.outputDirectory = outputDirectory;
     }

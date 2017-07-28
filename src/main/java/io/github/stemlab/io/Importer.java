@@ -31,7 +31,7 @@ public class Importer {
         } catch (NoSuchFileException e) {
             new CustomException("Dataset not found");
         } catch (IOException e) {
-            e.printStackTrace();
+            new CustomException("IO exception on dataset import: " + e.getMessage());
         }
         index.initialize();
     }
@@ -43,16 +43,16 @@ public class Importer {
                         if (!e.isEmpty() && !e.equals(null)) {
                             String lines[] = e.split("\\s+");
                             if (lines.length != 2)
-                                new CustomException("Query Line doesn't have two properties");
+                                new CustomException("Query line doesn't have two properties");
 
-                            Trajectory q_tr = new Trajectory();
-                            q_tr.setName(lines[0]);
-                            q_tr.setCoordinates(getCoordinateList(lines[0]));
+                            Trajectory trajectory = new Trajectory();
+                            trajectory.setName(lines[0]);
+                            trajectory.setCoordinates(getCoordinateList(lines[0]));
                             double dist = Double.parseDouble(lines[1]);
 
-                            Query tq = new Query(q_tr, dist);
+                            Query query = new Query(trajectory, dist);
 
-                            list.add(tq);
+                            list.add(query);
                         }
                     }
             );
@@ -60,7 +60,7 @@ public class Importer {
         } catch (NoSuchFileException e) {
             new CustomException("Query file not found");
         } catch (IOException e) {
-            e.printStackTrace();
+            new CustomException("IO exception on query file import: " + e.getMessage());
         }
         return list;
     }
@@ -87,7 +87,7 @@ public class Importer {
         } catch (NoSuchFileException e) {
             new CustomException("File not found : \"" + s + "\"");
         } catch (IOException e) {
-            e.printStackTrace();
+            new CustomException("IO exception on coordinates import: " + e.getMessage());
         }
         return list;
     }

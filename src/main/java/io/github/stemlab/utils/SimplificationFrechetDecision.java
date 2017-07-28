@@ -34,7 +34,6 @@ public class SimplificationFrechetDecision {
 
     /**
      * Decide whether trajectory is sure in out of result.
-     *
      */
     public static boolean isFiltered(Trajectory simple, Trajectory trajectory, double dist, double q_max_E) {
         return FrechetDistance.decisionDP(simple, DouglasPeucker.getReduced(trajectory, q_max_E),
@@ -43,6 +42,7 @@ public class SimplificationFrechetDecision {
 
     /**
      * First, decide whether discrete Frechet Distance is lower than parameter, if not check real Frechet Distance.
+     *
      * @param q
      * @param t
      * @return

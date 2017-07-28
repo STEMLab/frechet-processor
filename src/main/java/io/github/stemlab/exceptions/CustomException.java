@@ -1,8 +1,6 @@
 package io.github.stemlab.exceptions;
 
-/**
- * Created by azamat on 17. 4. 27.
- */
+
 public class CustomException {
     /**
      * Display message in console and stop execution

@@ -12,7 +12,6 @@ import java.time.Duration;
 import java.time.Instant;
 
 
-//change class name to new project name
 public class FrechetProcessorLauncher {
 
     public static void main(String[] args) throws IOException {
