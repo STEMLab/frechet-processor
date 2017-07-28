@@ -20,30 +20,18 @@ public class StraightSimpleFrechetDecision {
         return false;
     }
 
-    public static boolean isResult(Trajectory simple_query, Trajectory trajectory, double dist) {
-        double modified_dist_2 = dist - 1 * dist * StraightForward.Epsilon * StraightForward.Constant;
-        if (DiscreteFrechetDistance.decision(simple_query, trajectory, modified_dist_2)) {
 
-    /**
-     * Decide whether trajectory is sure in result by using simplification.
-     */
     public static boolean isResult(Trajectory simpleQuery, Trajectory trajectory, double distance) {
-        double modifiedDistance = distance - (1 * distance * StraightForward.Epslion * StraightForward.Constant);
+        double modifiedDistance = distance - (1 * distance * StraightForward.EPSILON * StraightForward.CONSTANT);
         if (DiscreteFrechetDistance.decision(simpleQuery, trajectory, modifiedDistance)) {
             return true;
-        } else {
-            return FrechetDistance.decision(simple_query, trajectory, modified_dist_2);
         } else {
             return FrechetDistance.decision(simpleQuery, trajectory, modifiedDistance);
         }
     }
 
-    /**
-     * Decide whether simpleTrajectory is sure in out of resultl
-     * .
-     */
     public static boolean isFiltered(Trajectory simpleQuery, Trajectory simpleTrajectory, double distance) {
-        double modifiedDistance = distance + (2 * distance * StraightForward.Epslion * StraightForward.Constant);
+        double modifiedDistance = distance + (2 * distance * StraightForward.EPSILON * StraightForward.CONSTANT);
         return FrechetDistance.decision(simpleQuery, simpleTrajectory, modifiedDistance);
     }
 
