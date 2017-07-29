@@ -2,6 +2,9 @@ import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDList;
 import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDListIter;
 import io.github.stemlab.data.impl.TestIndexImpl;
 import io.github.stemlab.io.Importer;
+import io.github.stemlab.logic.DiscreteFrechet;
+import io.github.stemlab.logic.RealFrechet;
+import io.github.stemlab.logic.StraightForwardSimplification;
 import io.github.stemlab.model.Coordinate;
 import io.github.stemlab.model.Query;
 import io.github.stemlab.model.Trajectory;
@@ -32,35 +35,35 @@ public class SimplificationTest {
 
             DoubleDBIDList result = tree.rStarTree.search(new double[]{start.getPointX(), start.getPointY()}, dist);
 
-            Trajectory simple = StraightForward.getReduced(query.getTrajectory(), dist);
+            Trajectory simple = StraightForwardSimplification.getReduced(query.getTrajectory(), dist);
             q.setSimplified(simple);
             for (DoubleDBIDListIter x = result.iter(); x.valid(); x.advance()) {
                 Trajectory trajectory = tree.holder.get(tree.rStarTree.getRecordName(x));
                 Coordinate last = trajectory.getCoordinates().get(trajectory.getCoordinates().size() - 1);
                 if (EuclideanDistance.distance(last, end) <= dist) {
                     Trajectory simple_query = query.getTrajectory().getSimplified();
-                    Trajectory simple_trajectory = StraightForward.getReduced(trajectory, query.getDistance());
-                    double modified_dist = dist + 2 * dist * StraightForward.EPSILON * StraightForward.CONSTANT;
-                    double modified_dist2 = dist - 1 * dist * StraightForward.EPSILON * StraightForward.CONSTANT;
-                    if (DiscreteFrechetDistance.decision(simple_query, trajectory, modified_dist2)){
-                        if (FrechetDistance.decision(q, trajectory, dist)) {
+                    Trajectory simple_trajectory = StraightForwardSimplification.getReduced(trajectory, query.getDistance());
+                    double modified_dist = dist + 2 * dist * StraightForwardSimplification.EPSILON * StraightForwardSimplification.CONSTANT;
+                    double modified_dist2 = dist - 1 * dist * StraightForwardSimplification.EPSILON * StraightForwardSimplification.CONSTANT;
+                    if (DiscreteFrechet.decision(simple_query, trajectory, modified_dist2)){
+                        if (RealFrechet.decision(q, trajectory, dist)) {
 
                         } else {
-                            System.out.println("DiscreteFrechetDistance is Result wrong");
+                            System.out.println("DiscreteFrechet is Result wrong");
                         }
                     }
-                    if (!FrechetDistance.decision(simple_query, simple_trajectory, modified_dist)){
-                        if (!FrechetDistance.decision(q, trajectory, dist)) {
+                    if (!RealFrechet.decision(simple_query, simple_trajectory, modified_dist)){
+                        if (!RealFrechet.decision(q, trajectory, dist)) {
 
                         } else {
                             System.out.println("wrong");
                         }
                     }
-                    if (FrechetDistance.decision(simple_query, trajectory, modified_dist2) ){
-                        if (FrechetDistance.decision(q, trajectory, dist)) {
+                    if (RealFrechet.decision(simple_query, trajectory, modified_dist2) ){
+                        if (RealFrechet.decision(q, trajectory, dist)) {
 
                         } else {
-                            System.out.println("FrechetDistance is Result wrong");
+                            System.out.println("RealFrechet is Result wrong");
                         }
                     }
 

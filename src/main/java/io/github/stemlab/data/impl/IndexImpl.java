@@ -8,8 +8,8 @@ import io.github.stemlab.model.Coordinate;
 import io.github.stemlab.model.Query;
 import io.github.stemlab.model.Trajectory;
 import io.github.stemlab.utils.EuclideanDistance;
-import io.github.stemlab.utils.StraightForward;
-import io.github.stemlab.utils.StraightSimpleFrechetDecision;
+import io.github.stemlab.logic.StraightForwardSimplification;
+import io.github.stemlab.logic.FrechetDecision;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -52,13 +52,13 @@ public class IndexImpl implements Index {
         DoubleDBIDList result = tree.search(new double[]{start.getPointX(), start.getPointY()}, dist);
 
         HashSet<String> resultSet = new LinkedHashSet<>();
-        query.getTrajectory().setSimplified(StraightForward.getReduced(query.getTrajectory(), dist));
+        query.getTrajectory().setSimplified(StraightForwardSimplification.getReduced(query.getTrajectory(), dist));
 
         for (DoubleDBIDListIter x = result.iter(); x.valid(); x.advance()) {
             Trajectory trajectory = this.holder.get(tree.getRecordName(x));
             Coordinate last = trajectory.getCoordinates().get(trajectory.getCoordinates().size() - 1);
             if (EuclideanDistance.distance(last, end) <= dist) {
-                if (StraightSimpleFrechetDecision.decisionIsInResult(query, trajectory)) {
+                if (FrechetDecision.decisionIsInResult(query, trajectory)) {
                     resultSet.add(trajectory.getName());
                 }
             }

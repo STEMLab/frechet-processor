@@ -1,14 +1,15 @@
-package io.github.stemlab.utils;
+package io.github.stemlab.logic;
 
 import io.github.stemlab.model.Coordinate;
 import io.github.stemlab.model.Trajectory;
+import io.github.stemlab.utils.EuclideanDistance;
 
 import java.util.List;
 
 /**
  * Created by stem-dong-li on 17. 7. 5.
  */
-public class FrechetDistance {
+public class RealFrechet {
     /**
      * Decision Problem : Determine whether Frechet Distance between two trajectories <= distance.
      */

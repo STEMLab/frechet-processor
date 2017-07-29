@@ -1,9 +1,9 @@
 package io.github.stemlab.utils;
 
+import io.github.stemlab.logic.DiscreteFrechet;
+import io.github.stemlab.logic.RealFrechet;
 import io.github.stemlab.model.Query;
 import io.github.stemlab.model.Trajectory;
-
-import java.util.HashSet;
 
 public class DouglasSimpleDecision {
 
@@ -29,7 +29,7 @@ public class DouglasSimpleDecision {
      */
     public static boolean isResult(Query query, Trajectory trajectory, double q_max_E) {
         if (query.getDistance() - q_max_E >= 0) {
-            return DiscreteFrechetDistance.decision(query.getTrajectory(),
+            return DiscreteFrechet.decision(query.getTrajectory(),
                     trajectory.getSimplified(), query.getDistance() - q_max_E);
         } else
             return false;
@@ -42,7 +42,7 @@ public class DouglasSimpleDecision {
 
     public static boolean isFiltered(Trajectory simple, Trajectory trajectory, double dist, double maxEpsilon) {
         trajectory.setSimplified(DouglasPeucker.getReduced(trajectory, maxEpsilon));
-        return FrechetDistance.decision(simple, trajectory.getSimplified(),
+        return RealFrechet.decision(simple, trajectory.getSimplified(),
                 dist + maxEpsilon * 2);
     }
 
@@ -53,10 +53,10 @@ public class DouglasSimpleDecision {
      * @return
      */
     public static boolean isTrajectoryInQueryRange(Query query, Trajectory trajectory) {
-        if (DiscreteFrechetDistance.decision(query.getTrajectory(), trajectory, query.getDistance())) {
+        if (DiscreteFrechet.decision(query.getTrajectory(), trajectory, query.getDistance())) {
             return true;
         } else
-            return FrechetDistance.decision(query.getTrajectory(), trajectory, query.getDistance());
+            return RealFrechet.decision(query.getTrajectory(), trajectory, query.getDistance());
     }
 
 }
