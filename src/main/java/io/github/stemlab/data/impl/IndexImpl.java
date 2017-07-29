@@ -4,12 +4,12 @@ import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDList;
 import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDListIter;
 import io.github.stemlab.data.Index;
 import io.github.stemlab.data.elki.ELKIRStarTree;
+import io.github.stemlab.logic.FrechetDecision;
 import io.github.stemlab.logic.StraightForwardSimplification;
 import io.github.stemlab.model.Coordinate;
 import io.github.stemlab.model.Query;
 import io.github.stemlab.model.Trajectory;
 import io.github.stemlab.utils.EuclideanDistance;
-import io.github.stemlab.logic.FrechetDecision;
 
 import java.util.HashMap;
 import java.util.HashSet;
