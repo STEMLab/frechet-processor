@@ -72,10 +72,8 @@ public class DiscreteFrechet {
         }
 
         for (int i = 1; i < p_size + 1; i++) {
-
             for (int j = 1; j < q_size + 1; j++) {
                 if ((map[i][j - 1] || map[i - 1][j]) && (EuclideanDistance.distance(p_coordinates.get(i), q_coordinates.get(j)) <= dist)) {
-
                     map[i][j] = true;
                 } else
                     map[i][j] = false;
