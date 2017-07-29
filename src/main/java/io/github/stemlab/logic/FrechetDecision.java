@@ -7,25 +7,20 @@ import io.github.stemlab.model.Trajectory;
  * Created by dong on 2017. 7. 28..
  */
 public class FrechetDecision {
-    public static boolean decisionIsInResult(Query query, Trajectory trajectory) {
+    public static boolean isResult(Query query, Trajectory trajectory) {
         Trajectory simplifiedQuery = query.getTrajectory().getSimplified();
-        //Trajectory simplifiedTrajectory = StraightForwardSimplification.getReduced(trajectory, query.getDistance());
-        //if (FrechetDecision.isFiltered(simplifiedQuery, simplifiedTrajectory, query.getDistance())) { // Decide whether simple_trajectory is sure in out of result.
-        if (FrechetDecision.isResult(simplifiedQuery, trajectory, query.getDistance())) { // Decide whether trajectory is sure in result by using simplification.
+        Trajectory simplifiedTrajectory = StraightForwardSimplification.getReduced(trajectory, query.getDistance());
+        if (isAbsoluteResult(simplifiedQuery, simplifiedTrajectory, query.getDistance())) { // Decide whether trajectory is sure in result by using simplification.
             return true;
-        } else if (FrechetDecision.isTrajectoryInQueryRange(query, trajectory)) { // Decide whether frechet distance is lower than query distance.
+        } else if (isTrajectoryInQueryRange(query, trajectory)) { // Decide whether frechet distance is lower than query distance.
             return true;
         }
-        else{
-
-        }
-        // }
         return false;
     }
 
 
-    public static boolean isResult(Trajectory simpleQuery, Trajectory trajectory, double distance) {
-        double modifiedDistance = distance - (2 * distance * StraightForwardSimplification.EPSILON * StraightForwardSimplification.CONSTANT);
+    public static boolean isAbsoluteResult(Trajectory simpleQuery, Trajectory trajectory, double distance) {
+        double modifiedDistance = distance - (2 * distance * StraightForwardSimplification.EPSILON);
         if (DiscreteFrechet.decision(simpleQuery, trajectory, modifiedDistance)) {
             return true;
         } else {

@@ -4,12 +4,12 @@ import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDList;
 import de.lmu.ifi.dbs.elki.database.ids.DoubleDBIDListIter;
 import io.github.stemlab.data.Index;
 import io.github.stemlab.data.elki.ELKIRStarTree;
+import io.github.stemlab.logic.FrechetDecision;
 import io.github.stemlab.logic.StraightForwardSimplification;
 import io.github.stemlab.model.Coordinate;
 import io.github.stemlab.model.Query;
 import io.github.stemlab.model.Trajectory;
 import io.github.stemlab.utils.EuclideanDistance;
-import io.github.stemlab.logic.FrechetDecision;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -86,7 +86,7 @@ public class TestIndexImpl implements Index{
 //                }
                 Trajectory simplifiedQuery = query.getTrajectory().getSimplified();
                 Trajectory simplifiedTra = StraightForwardSimplification.getReduced(trajectory, dist);
-                if (FrechetDecision.isResult(simplifiedQuery, simplifiedTra, query.getDistance())) { // Decide whether trajectory is sure in result by using simplification.
+                if (FrechetDecision.isAbsoluteResult(simplifiedQuery, simplifiedTra, query.getDistance())) { // Decide whether trajectory is sure in result by using simplification.
                     isResult++;
                     resultSet.add(trajectory.getName());
                 } else if (FrechetDecision.isTrajectoryInQueryRange(query, trajectory)) { // Decide whether frechet distance is lower than query distance.

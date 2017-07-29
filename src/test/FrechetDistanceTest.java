@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Just simple test class. If algorithm changed, run it to check result validity.
  */
-public class AlgorithmValidityTest {
+public class FrechetDistanceTest {
 
     private static String TEST_DATA_SET_PATH = "src/test/data/dataset.txt";
     private static String TEST_QUERY_PATH = "src/test/data/queries.txt";
@@ -30,7 +30,6 @@ public class AlgorithmValidityTest {
 
         manager.makeStructure(TEST_DATA_SET_PATH);
         List<HashSet<String>> result = manager.processQueryAndGetResult(TEST_QUERY_PATH);
-
 
         System.out.println("\n");
         for (int i = 0; i < result.size(); i++) {
